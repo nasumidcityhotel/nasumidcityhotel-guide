@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>よくあるご質問 | 那須ミッドシティホテル</title>
+  <script>
+    // 即時言語判定 (FOUC防止)
+    (function () {
+      const savedLang = localStorage.getItem('preferredLanguage');
+      const userLang = savedLang || (navigator.language.startsWith('ja') ? 'ja' : 'en');
+      if (userLang === 'en') {
+        document.documentElement.classList.add('lang-en');
+      }
+    })();
+  </script>
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --accent-color: #8e44ad;
+      --bg-color: #f8f9fa;
+      --card-bg: #ffffff;
+      --text-main: #333333;
+      --text-muted: #666666;
+      --border-color: #e0e0e0;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding-bottom: 40px;
+    }
+
+    header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+    }
+
+    /* 言語切り替えボタン */
+    .lang-switch {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      display: flex;
+      gap: 5px;
+    }
+
+    .lang-btn {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 1px solid white;
+      padding: 5px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: var(--transition);
+    }
+
+    .lang-btn.active {
+      background: white;
+      color: var(--primary-color);
+      font-weight: bold;
+    }
+
+    .lang-btn:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* 検索・フィルターエリア */
+    .controls {
+      background: var(--card-bg);
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .controls {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .input-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: bold;
+    }
+
+    input,
+    select {
+      padding: 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 1rem;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.1);
+    }
+
+    .result-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding: 0 4px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    #clearBtn {
+      background: none;
+      border: none;
+      color: var(--accent-color);
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 4px;
+    }
+
+    /* FAQ リスト */
+    .faq {
+      background: var(--card-bg);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      transition: var(--transition);
+    }
+
+    .faq:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    summary {
+      padding: 20px;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: bold;
+      position: relative;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: "+";
+      position: absolute;
+      right: 20px;
+      font-size: 1.5rem;
+      color: var(--accent-color);
+      transition: var(--transition);
+    }
+
+    details[open] summary::after {
+      content: "−";
+      transform: rotate(180deg);
+    }
+
+    .badge {
+      background: var(--primary-color);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      white-space: nowrap;
+    }
+
+    .q {
+      flex-grow: 1;
+    }
+
+    .a {
+      padding: 0 20px 20px 20px;
+      border-top: 1px solid var(--border-color);
+      background-color: #fafbfc;
+    }
+
+    .a p {
+      padding-top: 15px;
+      color: var(--text-main);
+    }
+
+    .source {
+      margin-top: 20px;
+      padding-top: 15px;
+      border-top: 1px dashed var(--border-color);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .pill {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    a.pill {
+      background: #f0f0f0;
+      padding: 4px 12px;
+      border-radius: 20px;
+      text-decoration: none;
+      color: var(--primary-color);
+      transition: var(--transition);
+      border: 1px solid transparent;
+    }
+
+    a.pill:hover {
+      background: var(--accent-color);
+      color: white;
+    }
+
+    .notice {
+      background: white;
+      padding: 40px;
+      text-align: center;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      color: var(--text-muted);
+    }
+
+    .footer-info {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* 言語別表示制御 */
+    [lang="en"] .lang-ja,
+    [lang="ja"] .lang-en,
+    html.lang-en .lang-ja,
+    html:not(.lang-en) .lang-en {
+      display: none !important;
+    }
+
+    html.lang-en .lang-en {
+      display: block !important;
+    }
+
+    html:not(.lang-en) .lang-ja {
+      display: block !important;
+    }
+
+    /* 適切なインライン表示のため */
+    html.lang-en span.lang-en {
+      display: inline !important;
+    }
+
+    html:not(.lang-en) span.lang-ja {
+      display: inline !important;
+    }
+  </style>
+  <script id="faq-jsonld" type="application/ld+json"></script>
+</head>
+
+<body>
+
+  <header>
+    <div class="lang-switch">
+      <button class="lang-btn" id="btnJa" onclick="setLanguage('ja')">日本語</button>
+      <button class="lang-btn" id="btnEn" onclick="setLanguage('en')">English</button>
+    </div>
+    <h1 class="lang-ja">よくあるご質問</h1>
+    <h1 class="lang-en">FAQ</h1>
+    <p class="lang-ja">那須ミッドシティホテルへのご宿泊に関するFAQ</p>
+    <p class="lang-en">Frequently Asked Questions about staying at Nasu Midcity Hotel</p>
+  </header>
+
+  <div class="container">
+    <div class="controls">
+      <div class="input-group">
+        <label for="searchInput" id="searchLabelJa" class="lang-ja">キーワードで検索</label>
+        <label for="searchInput" id="searchLabelEn" class="lang-en">Search by keyword</label>
+        <input type="text" id="searchInput" placeholder="例：Wi-Fi, 駐車場, 朝食">
+      </div>
+      <div class="input-group">
+        <label for="categorySelect" id="categoryLabelJa" class="lang-ja">カテゴリで絞り込み</label>
+        <label for="categorySelect" id="categoryLabelEn" class="lang-en">Filter by category</label>
+        <select id="categorySelect">
+          <!-- JSで動的に追加されます -->
+        </select>
+      </div>
+    </div>
+
+    <div class="result-bar">
+      <span class="lang-ja">該当件数: <strong id="resultCountJa">0</strong> 件</span>
+      <span class="lang-en">Results: <strong id="resultCountEn">0</strong> items</span>
+      <button id="clearBtnJa" class="lang-ja">検索をクリア</button>
+      <button id="clearBtnEn" class="lang-en">Clear search</button>
+    </div>
+
+    <div id="faqList">
+      <!-- JSで動的に追加されます -->
+    </div>
+
+    <div class="footer-info">
+      <span class="lang-ja">最終更新日: <span id="lastUpdatedJa"></span></span>
+      <span class="lang-en">Last Updated: <span id="lastUpdatedEn"></span></span>
+    </div>
+  </div>
+
+
+  <script>
+    // -------------------------------
+    // 言語設定管理
+    // -------------------------------
+    let currentLang = 'ja';
+
+    const translations = {
+      ja: {
+        title: "よくあるご質問 | 那須ミッドシティホテル",
+        searchPlaceholder: "例：Wi-Fi, 駐車場, 朝食",
+        allCategories: "すべてのカテゴリ",
+        noResults: "該当するQ&Aが見つかりませんでした。キーワードを変えてお試しください。",
+        sourceLabel: "出典：",
+        nearbyOnsen: "近隣日帰り温泉ガイド"
+      },
+      en: {
+        title: "FAQ | Nasu Midcity Hotel",
+        searchPlaceholder: "e.g. Wi-Fi, Parking, Breakfast",
+        allCategories: "All Categories",
+        noResults: "No matching Q&A found. Please try different keywords.",
+        sourceLabel: "Source:",
+        nearbyOnsen: "Nearby Day-trip Hot Spring Guide"
+      }
+    };
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      if (lang === 'en') {
+        document.documentElement.classList.add('lang-en');
+      } else {
+        document.documentElement.classList.remove('lang-en');
+      }
+      document.documentElement.setAttribute('lang', lang);
+      localStorage.setItem('preferredLanguage', lang);
+
+      // タイトル更新
+      document.title = translations[lang].title;
+
+      // ボタンの活性状態
+      document.getElementById('btnJa').classList.toggle('active', lang === 'ja');
+      document.getElementById('btnEn').classList.toggle('active', lang === 'en');
+
+      // プレースホルダー更新
+      document.getElementById('searchInput').placeholder = translations[lang].searchPlaceholder;
+
+      // カテゴリとリストの再描画
+      buildCategoryOptions();
+      update();
+    }
+
+    // -------------------------------
+    // FAQデータ
+    // -------------------------------
+    const qaData = [
+      {
+        id: "checkin-checkout",
+        category: { ja: "滞在・チェックアウト", en: "Stay & Check-out" },
+        q: { ja: "チェックアウトは何時ですか？", en: "What time is check-out?" },
+        a: {
+          ja: ["チェックアウトは 11:00 です。", "延長をご希望の場合はフロントまでお問い合わせください（追加料金がかかります）。"],
+          en: ["Check-out is at 11:00 AM.", "Please contact the front desk if you wish to extend your stay (additional charges apply)."]
+        },
+        sources: []
+      },
+      {
+        id: "front-desk-call",
+        category: { ja: "ルームサービス・連絡", en: "Room Service & Contact" },
+        q: { ja: "フロントへの連絡方法を教えてください。", en: "How can I contact the front desk?" },
+        a: {
+          ja: ["お部屋の電話機より「フロント（内線：9番）」へおかけください。"],
+          en: ["Please dial '9' (front desk extension) from your room phone."]
+        },
+        sources: []
+      },
+      {
+        id: "wifi",
+        category: { ja: "客室・アメニティ", en: "Rooms & Amenities" },
+        q: { ja: "Wi‑Fi（インターネット）は使えますか？", en: "Is Wi‑Fi available?" },
+        a: {
+          ja: ["全客室でWi‑Fi、および有線LANが無料で利用可能です。", "有線LANケーブルは客室内に備え付けております。"],
+          en: ["Complimentary Wi‑Fi and wired LAN are available in all guest rooms.", "A LAN cable is provided in your room."]
+        },
+        sources: []
+      },
+      {
+        id: "amenities",
+        category: { ja: "客室・アメニティ", en: "Rooms & Amenities" },
+        q: { ja: "アメニティや貸出備品は何がありますか？", en: "What amenities and rental equipment are available?" },
+        a: {
+          ja: ["客室にはパジャマ、タオル、ドライヤー、加湿機能付き空気清浄機などを用意しております。", "追加の枕、毛布、アイロン、なども貸出可能です（フロントまでご連絡ください）。"],
+          en: ["Rooms are equipped with pajamas, towels, a hair dryer, and an air purifier with a humidifying function.", "Additional pillows, blankets, irons, etc., are also available for rent (please contact the front desk)."]
+        },
+        sources: []
+      },
+      {
+        id: "air-conditioner",
+        category: { ja: "客室・アメニティ", en: "Rooms & Amenities" },
+        q: { ja: "空調（冷暖房）の調整はどうすればよいですか？", en: "How do I adjust the air conditioning (heating/cooling)?" },
+        a: {
+          ja: ["お部屋の壁側にあるコントローラーで操作いただけます。", "季節により全館一括管理での切り替えとなる場合がございます。詳細はフロントまでお問い合わせください。"],
+          en: ["You can operate it using the controller on the wall in your room.", "Depending on the season, the system may be managed centrally for the entire building. Please contact the front desk for details."]
+        },
+        sources: []
+      },
+      {
+        id: "ice-microwave",
+        category: { ja: "館内施設", en: "Hotel Facilities" },
+        q: { ja: "製氷機や電子レンジはどこにありますか？", en: "Where are the ice machine and microwave?" },
+        a: {
+          ja: ["館内の１Fフロア（自動販売機コーナー）に設置しております。", "製氷機は角氷の自動販売機です（無料）。"],
+          en: ["They are located on the 1st floor (vending machine corner).", "The ice machine is a vending machine for ice cubes (500g for 100 yen)."]
+        },
+        sources: []
+      },
+      {
+        id: "room-cleaning",
+        category: { ja: "滞在・チェックアウト", en: "Stay & Check-out" },
+        q: { ja: "連泊中の部屋の清掃はどのようになりますか？", en: "How does room cleaning work during consecutive stays?" },
+        a: {
+          ja: ["午前中からお昼過ぎにかけて順次清掃にお伺いいたします。", "清掃が不要な場合は「起こさないでください」のカードをドアノブにお掛けください。"],
+          en: ["Cleaning is performed sequentially from morning until early afternoon.", "If you do not require cleaning, please hang the 'Do Not Disturb' card on your doorknob."]
+        },
+        sources: []
+      },
+      {
+        id: "breakfast",
+        category: { ja: "お食事", en: "Dining" },
+        q: { ja: "朝食の時間は？", en: "What time is breakfast?" },
+        a: {
+          ja: ["朝食は 6:45〜9:30（最終入場 9:15）にて、場所は1階レストランにてご用意しております。"],
+          en: ["Breakfast is served from 6:45 to 9:30 AM (last entry 9:15 AM) at the 1st-floor restaurant."]
+        },
+        sources: []
+      },
+      {
+        id: "restaurant-dinner",
+        category: { ja: "お食事", en: "Dining" },
+        q: { ja: "夕食はホテル内で食べられますか？", en: "Can I have dinner at the hotel?" },
+        a: {
+          ja: ["１Fレストランにて 17:30〜21:00（ラストオーダー20:00）でご用意しております。", "日によって満席の場合もございますので、事前にお電話でのご確認をおすすめします。"],
+          en: ["Dinner is available at the 1st-floor restaurant from 5:30 to 9:00 PM (last order 8:00 PM).", "The restaurant may be full on some days, so we recommend calling in advance to check availability."]
+        },
+        sources: []
+      },
+      {
+        id: "cafe",
+        category: { ja: "館内施設", en: "Hotel Facilities" },
+        q: { ja: "ロビーのフリードリンクは何時までですか？", en: "Until what time is the free drink service in the lobby?" },
+        a: {
+          ja: ["ロビーでのセルフカフェサービスは 15:00〜22:00 および 朝 6:00〜9:00 の間、無料でご利用いただけます。", "お部屋への持ち込みも可能です。"],
+          en: ["The self-service cafe in the lobby is available free of charge from 3:00 to 10:00 PM and 6:00 to 9:00 AM.", "You may also take drinks to your room."]
+        },
+        sources: []
+      },
+      {
+        id: "vending-machine",
+        category: { ja: "館内施設", en: "Hotel Facilities" },
+        q: { ja: "自動販売機はありますか？", en: "Are there vending machines?" },
+        a: {
+          ja: ["ソフトドリンクの自動販売機をご用意しております。"],
+          en: ["Vending machines for soft drinks are available."]
+        },
+        sources: []
+      },
+      {
+        id: "public-bath",
+        category: { ja: "館内施設", en: "Hotel Facilities" },
+        q: { ja: "ホテル内に大浴場はありますか？ 日帰り入浴（温泉）はやっていますか？", en: "Is there a large public bath in the hotel? Do you offer day-trip hot spring access?" },
+        a: {
+          ja: [
+            "大変申し訳ございません、ご用意致しておりません。",
+            "ホテル周辺に、入浴施設がございますのでよろしければ下記のURLをクリックしてください。",
+            "<a href='https://sage-rolypoly-96be1c.netlify.app/' style='display: flex; justify-content: space-between; align-items: center; background: white; border: 2px solid #007aff; border-radius: 12px; padding: 15px; text-decoration: none; color: #333; font-weight: bold; width: 100%; box-shadow: 0 4px 0 #007aff; box-sizing: border-box;'><span style='font-size: 0.9rem; word-break: break-all;'>近隣日帰り温泉ガイド</span><span style='color: #007aff; margin-left: 10px;'>＞</span></a>"
+          ],
+          en: [
+            "We apologize, but we do not have a large public bath on-site.",
+            "There are bathing facilities near the hotel. Please click the URL below for more information.",
+            "<a href='https://sage-rolypoly-96be1c.netlify.app/' style='display: flex; justify-content: space-between; align-items: center; background: white; border: 2px solid #007aff; border-radius: 12px; padding: 15px; text-decoration: none; color: #333; font-weight: bold; width: 100%; box-shadow: 0 4px 0 #007aff; box-sizing: border-box;'><span style='font-size: 0.9rem; word-break: break-all;'>Nearby Day-trip Hot Spring Guide</span><span style='color: #007aff; margin-left: 10px;'>＞</span></a>"
+          ]
+        },
+        sources: []
+      },
+      {
+        id: "convenience-store",
+        category: { ja: "周辺情報", en: "Neighborhood Info" },
+        q: { ja: "一番近いコンビニはどこですか？", en: "Where is the nearest convenience store?" },
+        a: {
+          ja: ["ホテル正面玄関を出てすぐのところに「セブンイレブン」がございます。"],
+          en: ["There is a '7-Eleven' right outside the hotel's main entrance."]
+        },
+        sources: []
+      },
+      {
+        id: "parking",
+        category: { ja: "周辺情報", en: "Neighborhood Info" },
+        q: { ja: "滞在中に車での外出は可能ですか？", en: "Can I go out by car during my stay?" },
+        a: {
+          ja: ["可能です。フロントにてお手続きが必要な場合がございますので、お出かけ前にフロントスタッフへお声がけください。"],
+          en: ["Yes, you can. Some procedures may be required at the front desk, so please speak to our staff before leaving."]
+        },
+        sources: []
+      },
+      {
+        id: "luggage",
+        category: { ja: "滞在・チェックアウト", en: "Stay & Check-out" },
+        q: { ja: "チェックアウト後に荷物を預けられますか？", en: "Can I leave my luggage after checking out?" },
+        a: {
+          ja: ["はい、フロントにて無料でお預かりいたします。当日中のお引き取りをお願いいたします。"],
+          en: ["Yes, we can store it for free at the front desk. Please pick up your luggage by the end of the day."]
+        },
+        sources: []
+      },
+      {
+        id: "laundry",
+        category: { ja: "館内施設", en: "Hotel Facilities" },
+        q: { ja: "コインランドリーはありますか？", en: "Is there a coin-operated laundry?" },
+        a: {
+          ja: ["１Fに洗濯機乾燥機一体型を設置しています（有料）。洗剤はフロントにて販売しております。"],
+          en: ["A combined drum-type washer and dryer is available on the 1st floor (paid). Detergent is sold at the front desk."]
+        },
+        sources: []
+      },
+      {
+        id: "massage",
+        category: { ja: "館内施設", en: "Hotel Facilities" },
+        q: { ja: "マッサージはお願いできますか？", en: "Can I request a massage?" },
+        a: {
+          ja: ["ホテル指定のマッサージは現在休業中のため、大変恐れ入りますが、ご手配は出来かねます。", "なお、お客様ご自身の手配によるマッサージ等の業者など、ご宿泊者以外の客室への出入りはお断りさせていただいております。"],
+          en: ["The hotel-designated massage service is currently suspended, so unfortunately, we cannot arrange it.", "Please note that external massage providers or other non-guests are not allowed to enter guest rooms."]
+        },
+        sources: []
+      },
+      {
+        id: "nasu-sightseeing-hub",
+        category: { ja: "周辺情報", en: "Neighborhood Info" },
+        q: { ja: "那須観光に便利ですか？", en: "Is it convenient for Nasu sightseeing?" },
+        a: {
+          ja: ["当ホテルは那須塩原駅前の「那須地域のハブホテル」として、那須高原・塩原温泉・大田原の3方面へのアクセスに非常に便利です。", "連泊して毎日異なるエリアへ観光に出かける拠点として最適です。"],
+          en: ["As a 'Hub Hotel' located in front of Nasu-Shiobara Station, we offer excellent access to the Nasu Highlands, Shiobara Onsen, and Ohtawara areas.", "Our hotel is an ideal base for multi-day trips, allowing you to explore different areas each day."]
+        },
+        sources: [
+          {
+            label: { ja: "那須地域観光ガイド", en: "Nasu Area Sightseeing Guide" },
+            url: "https://nasu-area-guide.netlify.app/"
+          }
+        ]
+      },
+      {
+        id: "shiobara-onsen-access",
+        category: { ja: "周辺情報", en: "Neighborhood Info" },
+        q: { ja: "塩原温泉の後に戻りやすいですか？", en: "Is it easy to return after Shiobara Onsen?" },
+        a: {
+          ja: ["はい、塩原温泉エリアからはお車やバスで約45〜50分ほどで戻ることが可能です。", "昼間に塩原の紅葉や滝を楽しみ、夜は駅前の当ホテルでゆっくりお休みいただくというスケジュールも人気です。"],
+          en: ["Yes, you can return from the Shiobara Onsen area in about 45 to 50 minutes by car or bus.", "It is a popular choice to enjoy the autumn leaves or waterfalls in Shiobara during the day and then relax at our station-front hotel at night."]
+        },
+        sources: [
+          {
+            label: { ja: "近隣日帰り温泉ガイド", en: "Nearby Day-trip Hot Spring Guide" },
+            url: "https://nasu-onsen-guide.netlify.app/"
+          }
+        ]
+      },
+      {
+        id: "no-car-access",
+        category: { ja: "周辺情報", en: "Neighborhood Info" },
+        q: { ja: "車なしでも利用できますか？", en: "Can I use the hotel without a car?" },
+        a: {
+          ja: ["はい、那須塩原駅（西口）から徒歩圏内にあり、公共交通機関でのご利用に最適です。", "駅からは各観光地への路線バスやタクシー、レンタカーもすぐに見つかります。また、ホテルの目の前にはコンビニ（セブンイレブン）もあり便利です。"],
+          en: ["Yes, we are within walking distance of Nasu-Shiobara Station (West Exit), making us ideal for those using public transport.", "Local buses to various sightseeing spots, taxis, and rental cars are all available near the station. There is also a 7-Eleven convenience store right in front of the hotel."]
+        },
+        sources: [
+          {
+            label: { ja: "那須地域観光ガイド", en: "Nasu Area Sightseeing Guide" },
+            url: "https://nasu-area-guide.netlify.app/"
+          }
+        ]
+      },
+      {
+        id: "sightseeing-business-balance",
+        category: { ja: "滞在・チェックアウト", en: "Stay & Check-out" },
+        q: { ja: "連泊で観光と出張を両立できますか？", en: "Can I balance sightseeing and business during consecutive stays?" },
+        a: {
+          ja: ["はい、全室Wi-Fi完備でデスクも備えておりますので、テレワークや出張にも対応可能です。", "お仕事の合間に近隣の日帰り温泉でリフレッシュしたり、休日は那須観光を楽しんだりと、ワーケーションのような滞在もおすすめです。"],
+          en: ["Yes, all rooms are equipped with Wi-Fi and a desk, suitable for teleworking or business trips.", "We recommend a 'workation' style stay where you can refresh at a nearby day-trip hot spring between work tasks and enjoy Nasu sightseeing on your days off."]
+        },
+        sources: [
+          {
+            label: { ja: "近隣日帰り温泉ガイド", en: "Nearby Day-trip Hot Spring Guide" },
+            url: "https://nasu-onsen-guide.netlify.app/"
+          }
+        ]
+      }
+    ];
+
+    // -------------------------------
+    // 表示ロジック
+    // -------------------------------
+    const $faqList = document.getElementById("faqList");
+    const $searchInput = document.getElementById("searchInput");
+    const $categorySelect = document.getElementById("categorySelect");
+    const $clearBtnJa = document.getElementById("clearBtnJa");
+    const $clearBtnEn = document.getElementById("clearBtnEn");
+    const $resultCountJa = document.getElementById("resultCountJa");
+    const $resultCountEn = document.getElementById("resultCountEn");
+    const $lastUpdatedJa = document.getElementById("lastUpdatedJa");
+    const $lastUpdatedEn = document.getElementById("lastUpdatedEn");
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function uniqueCategories(data) {
+      return [...new Set(data.map(x => x.category[currentLang]))].sort((a, b) => a.localeCompare(b, currentLang));
+    }
+
+    function buildCategoryOptions() {
+      const previousValue = $categorySelect.value;
+      $categorySelect.innerHTML = "";
+
+      const allOpt = document.createElement("option");
+      allOpt.value = "all";
+      allOpt.textContent = translations[currentLang].allCategories;
+      $categorySelect.appendChild(allOpt);
+
+      const cats = uniqueCategories(qaData);
+      for (const c of cats) {
+        const opt = document.createElement("option");
+        opt.value = c;
+        opt.textContent = c;
+        $categorySelect.appendChild(opt);
+      }
+
+      // もし前の選択が有効なら戻す（翻訳後の値でマッチするかは微妙だが）
+      if (previousValue !== "all") {
+        // 実際には言語切り替え時に選択をリセットする方が安全
+        $categorySelect.value = "all";
+      }
+    }
+
+    function matches(item, keyword, category) {
+      const kw = keyword.trim().toLowerCase();
+      const itemCat = item.category[currentLang];
+      const inCategory = (category === "all") || (itemCat === category);
+      if (!inCategory) return false;
+      if (!kw) return true;
+
+      const itemQ = item.q[currentLang];
+      const itemA = item.a[currentLang] || [];
+      const itemSources = (item.sources || []).map(s => s.label[currentLang]);
+
+      const hay = [
+        itemCat,
+        itemQ,
+        ...itemA,
+        ...itemSources
+      ].join(" ").toLowerCase();
+
+      return hay.includes(kw);
+    }
+
+    function renderFaq(list) {
+      $faqList.innerHTML = "";
+
+      if (list.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "notice";
+        empty.textContent = translations[currentLang].noResults;
+        $faqList.appendChild(empty);
+        return;
+      }
+
+      for (const item of list) {
+        const details = document.createElement("details");
+        details.className = "faq";
+        details.id = item.id;
+
+        const summary = document.createElement("summary");
+        summary.innerHTML = `
+      <span class="badge">${escapeHtml(item.category[currentLang])}</span>
+      <div class="q">
+        <p>${escapeHtml(item.q[currentLang])}</p>
+      </div>
+    `;
+
+        const answer = document.createElement("div");
+        answer.className = "a";
+        // HTMLが含まれる場合があるので、エスケープせずに出力する可能性があるが
+        // ここでは安全のために a タグ以外は考慮しないか、もしくはそのまま入れる
+        answer.innerHTML = (item.a[currentLang] || []).map(p => `<p>${p}</p>`).join("");
+
+        const source = document.createElement("div");
+        source.className = "source";
+        if (item.sources && item.sources.length > 0) {
+          source.innerHTML = `
+          <span class="pill">${translations[currentLang].sourceLabel}</span>
+          ${(item.sources || []).map(s => {
+            return `<a class="pill" href="${escapeHtml(s.url)}" style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 12px 15px; background: white; border: 2px solid #007aff; border-radius: 12px; text-decoration: none; color: #333; font-weight: bold; margin-top: 10px; box-shadow: 0 4px 0 #007aff; box-sizing: border-box;"><span style="flex: 1;">${escapeHtml(s.label[currentLang])}</span><span style="color: #007aff; margin-left: 10px;">＞</span></a>`;
+          }).join("")}
+        `;
+        } else {
+          source.style.display = "none";
+        }
+
+        answer.appendChild(source);
+        details.appendChild(summary);
+        details.appendChild(answer);
+        $faqList.appendChild(details);
+      }
+    }
+
+    function update() {
+      const keyword = $searchInput.value || "";
+      const category = $categorySelect.value || "all";
+      const filtered = qaData.filter(item => matches(item, keyword, category));
+      $resultCountJa.textContent = String(filtered.length);
+      $resultCountEn.textContent = String(filtered.length);
+      renderFaq(filtered);
+
+      buildJsonLd(qaData);
+    }
+
+    function buildJsonLd(allData) {
+      const top = allData.slice(0, 10);
+      const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": top.map(x => ({
+          "@type": "Question",
+          "name": x.q[currentLang],
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": (x.a[currentLang] || []).join("\n").replace(/<[^>]*>?/gm, '') // HTMLタグを除去
+          }
+        }))
+      };
+      const el = document.getElementById("faq-jsonld");
+      el.textContent = JSON.stringify(jsonLd, null, 2);
+    }
+
+    function setLastUpdated() {
+      const d = new Date();
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth() + 1).padStart(2, "0");
+      const dd = String(d.getDate()).padStart(2, "0");
+      const dateStr = `${yyyy}-${mm}-${dd}`;
+      $lastUpdatedJa.textContent = dateStr;
+      $lastUpdatedEn.textContent = dateStr;
+    }
+
+    // イベント
+    $searchInput.addEventListener("input", () => update());
+    $categorySelect.addEventListener("change", () => update());
+
+    const clearHandler = () => {
+      $searchInput.value = "";
+      $categorySelect.value = "all";
+      update();
+    };
+    $clearBtnJa.addEventListener("click", clearHandler);
+    $clearBtnEn.addEventListener("click", clearHandler);
+
+    // 初期化
+    (function init() {
+      // 保存された設定またはブラウザ言語の取得
+      const savedLang = localStorage.getItem('preferredLanguage');
+      const browserLang = navigator.language.startsWith('ja') ? 'ja' : 'en';
+      const initialLang = savedLang || browserLang;
+
+      setLanguage(initialLang);
+      setLastUpdated();
+    })();
+  </script>
+
+</body>
+
+</html>

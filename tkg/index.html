@@ -1,0 +1,1303 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="那須ミッドシティホテルの卵かけごはん - 那須御養卵を使った特別な朝食体験">
+    <title>特別な卵かけごはん | 那須ミッドシティホテル</title>
+    
+    <style>
+        /* リセットとベーススタイル */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-gold: #D4AF37;
+            --dark-gold: #B8941E;
+            --light-gold: #F4E4B3;
+            --deep-brown: #2C1810;
+            --warm-beige: #F5F1E8;
+            --rich-red: #8B2500;
+            --text-dark: #1a1a1a;
+            --shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', YuGothic, Meiryo, sans-serif;
+            line-height: 1.8;
+            color: var(--text-dark);
+            background-color: var(--warm-beige);
+            overflow-x: hidden;
+        }
+        
+        /* ヘッダー */
+        .header {
+            position: relative;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--deep-brown) 0%, #4A2C1E 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('tamagod.webp'); /* 指定がないため暫定的にtamagodを使用、または適切な背景画像に変更可能 */
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 30px;
+            filter: brightness(0) invert(1);
+        }
+        
+        .main-title {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 300;
+            margin-bottom: 20px;
+            letter-spacing: 0.1em;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        
+        .main-title span {
+            color: var(--primary-gold);
+            font-weight: 600;
+        }
+        
+        .subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            margin-bottom: 15px;
+            letter-spacing: 0.2em;
+            font-weight: 300;
+        }
+        
+        .tagline {
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+            color: var(--light-gold);
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            animation: float 2s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, 0); }
+            50% { transform: translate(-50%, 10px); }
+        }
+        
+        /* セクション共通スタイル */
+        .section {
+            padding: 100px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--deep-brown);
+            font-weight: 300;
+            letter-spacing: 0.15em;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: var(--primary-gold);
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            margin-bottom: 60px;
+            letter-spacing: 0.3em;
+            font-weight: 300;
+        }
+        
+        /* コンセプトセクション */
+        .concept {
+            background-color: white;
+            text-align: center;
+        }
+        
+        .concept-text {
+            max-width: 800px;
+            margin: 0 auto 60px;
+            font-size: 1.1rem;
+            line-height: 2.2;
+            color: #333;
+        }
+        
+        .concept-pillars {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+        
+        .pillar-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 4px solid var(--primary-gold);
+        }
+        
+        .pillar-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+        
+        .pillar-title {
+            font-size: 1.3rem;
+            color: var(--primary-gold);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .pillar-description {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #555;
+        }
+        
+        /* 卵のラインナップ */
+        .eggs-lineup {
+            background: linear-gradient(to bottom, var(--warm-beige), white);
+        }
+        
+        .eggs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+        
+        .egg-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+        
+        .egg-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .egg-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .egg-content {
+            padding: 30px;
+        }
+        
+        .egg-name {
+            font-size: 1.5rem;
+            color: var(--deep-brown);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .egg-subtitle {
+            font-size: 0.9rem;
+            color: var(--primary-gold);
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+        
+        .egg-features {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+        
+        .egg-features li {
+            padding: 8px 0;
+            font-size: 0.95rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .egg-features li::before {
+            content: '✓ ';
+            color: var(--primary-gold);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        /* TKGステーション */
+        .tkg-station {
+            background: white;
+        }
+        
+        .station-feature {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+            align-items: center;
+            margin-bottom: 80px;
+        }
+        
+        .station-feature:nth-child(even) {
+            direction: rtl;
+        }
+        
+        .station-feature:nth-child(even) > * {
+            direction: ltr;
+        }
+        
+        .station-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+        
+        .station-content h3 {
+            font-size: 1.8rem;
+            color: var(--deep-brown);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .station-content p {
+            font-size: 1.05rem;
+            line-height: 2;
+            color: #444;
+        }
+        
+        .highlight-box {
+            background: var(--light-gold);
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 30px;
+            border-left: 5px solid var(--primary-gold);
+        }
+        
+        .highlight-box strong {
+            color: var(--rich-red);
+            font-size: 1.1rem;
+        }
+        
+        /* トッピングギャラリー */
+        .toppings {
+            background: var(--warm-beige);
+        }
+        
+        .toppings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+        
+        .topping-item {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .topping-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .topping-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-gold);
+        }
+        
+        .topping-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--deep-brown);
+        }
+        
+        /* ストーリーセクション */
+        .story {
+            background: white;
+            position: relative;
+        }
+        
+        .story::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 300px;
+            background: linear-gradient(to bottom, rgba(212, 175, 55, 0.1), transparent);
+        }
+        
+        .story-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .timeline {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 1fr 50px 1fr;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .timeline-content {
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+        
+        .timeline-content h3 {
+            font-size: 1.5rem;
+            color: var(--primary-gold);
+            margin-bottom: 15px;
+        }
+        
+        .timeline-dot {
+            width: 20px;
+            height: 20px;
+            background: var(--primary-gold);
+            border-radius: 50%;
+            margin: 30px auto;
+            position: relative;
+        }
+        
+        .timeline-dot::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--primary-gold);
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+        
+        /* 体験セクション */
+        .experience {
+            background: linear-gradient(135deg, var(--deep-brown), #5A3C2E);
+            color: white;
+        }
+        
+        .experience .section-title,
+        .experience .section-subtitle {
+            color: white;
+        }
+        
+        .experience-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+        
+        .experience-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .experience-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .experience-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .experience-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--primary-gold);
+        }
+        
+        .experience-card p {
+            font-size: 1rem;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+        
+        /* アクセス・予約セクション */
+        .booking {
+            background: white;
+            text-align: center;
+        }
+        
+        .hotel-info {
+            max-width: 800px;
+            margin: 0 auto 50px;
+            padding: 40px;
+            background: var(--warm-beige);
+            border-radius: 15px;
+        }
+        
+        .hotel-info h3 {
+            font-size: 1.8rem;
+            color: var(--deep-brown);
+            margin-bottom: 30px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: left;
+            margin-bottom: 30px;
+        }
+        
+        .info-item {
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+        }
+        
+        .info-label {
+            font-size: 0.9rem;
+            color: var(--primary-gold);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .info-value {
+            font-size: 1rem;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        
+        .cta-button {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            padding: 15px 30px !important;
+            background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold)) !important;
+            color: white !important;
+            text-decoration: none !important;
+            font-size: 1.2rem !important;
+            font-weight: 600 !important;
+            border-radius: 50px !important;
+            transition: all 0.3s ease !important;
+            box-shadow: var(--shadow) !important;
+            letter-spacing: 0.1em !important;
+            width: fit-content !important;
+            min-width: 250px !important;
+            margin: 0 auto !important;
+        }
+        
+        .cta-button .arrow-span {
+            margin-left: 15px !important;
+            font-size: 1.2rem !important;
+        }
+
+        /* 外部リンク用リファレンススタイル */
+        .external-link-ref {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            width: 100% !important;
+            padding: 15px 20px !important;
+            background-color: #fff !important;
+            border: 2px solid #007aff !important;
+            border-radius: 15px !important;
+            text-decoration: none !important;
+            color: #333 !important;
+            font-weight: bold !important;
+            box-shadow: 0 4px 0 #007aff !important;
+            margin-top: 15px !important;
+            box-sizing: border-box !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .external-link-ref:hover {
+            background: #f0f7ff !important;
+            transform: translateY(2px) !important;
+            box-shadow: 0 2px 0 #007aff !important;
+        }
+
+        .external-link-ref .arrow-span {
+            color: #007aff !important;
+            margin-left: 10px !important;
+            font-size: 1.2rem !important;
+        }
+        
+        /* フッター */
+        .footer {
+            background: var(--deep-brown);
+            color: white;
+            padding: 60px 5% 30px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-logo {
+            width: 200px;
+            height: auto;
+            margin-bottom: 30px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 0.95rem;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-gold);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background: var(--primary-gold);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* レスポンシブ対応 */
+        @media (max-width: 768px) {
+            .section {
+                padding: 60px 5%;
+            }
+            
+            .main-title {
+                font-size: clamp(2rem, 10vw, 3.5rem);
+                white-space: nowrap;
+            }
+
+            .concept-text {
+                font-size: 1rem;
+                line-height: 1.8;
+                word-break: keep-all;
+                overflow-wrap: break-word;
+            }
+            
+            .timeline-item {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline-dot {
+                display: none;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* アニメーション */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        /* 言語切り替え */
+        .lang-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 5px;
+            border-radius: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 5px;
+            backdrop-filter: blur(5px);
+            border: 1px solid var(--primary-gold);
+        }
+
+        .lang-btn {
+            border: none;
+            background: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: var(--text-dark);
+        }
+
+        .lang-btn.active {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        /* 言語表示制御 */
+        body.lang-en .ja { display: none !important; }
+        body.lang-ja .en { display: none !important; }
+
+        /* 英数字フォント調整 */
+        body.lang-en {
+            font-family: 'Outfit', 'Helvetica Neue', Arial, sans-serif;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="lang-toggle">
+        <button class="lang-btn" onclick="setLanguage('ja')" id="btn-ja">日本語</button>
+        <button class="lang-btn" onclick="setLanguage('en')" id="btn-en">English</button>
+    </div>
+
+    <!-- ヘッダー -->
+    <header class="header">
+        <div class="header-content fade-in-up">
+            <p style="font-size: 1.1rem; letter-spacing: 0.3em; margin-bottom: 5px; opacity: 0.8; font-weight: 300;">
+                <span class="ja">那須ミッドシティホテル</span>
+                <span class="en">Nasu Midcity Hotel</span>
+            </p>
+            <h1 class="main-title">
+                <span class="ja">特別な<span>卵かけごはん</span></span>
+                <span class="en">The Ultimate <span>TKG</span></span>
+            </h1>
+            <p class="subtitle">
+                <span class="ja">那須TKG殿堂 - 特別な一杯、朝の儀式</span>
+                <span class="en">Nasu TKG Hall of Fame - The Ultimate Bowl</span>
+            </p>
+            <p class="tagline">
+                <span class="ja">那須御養卵で叶える、忘れられない朝食体験</span>
+                <span class="en">Unforgettable Breakfast with Nasu Goyoran Eggs</span>
+            </p>
+        </div>
+        <div class="scroll-indicator">
+            <span class="ja">スクロール</span>
+            <span class="en">SCROLL</span>
+        </div>
+    </header>
+
+    <!-- コンセプトセクション -->
+    <section class="section concept">
+        <h2 class="section-title">
+            <span class="ja">ブランドコンセプト</span>
+            <span class="en">Brand Concept</span>
+        </h2>
+        <p class="section-subtitle">BRAND CONCEPT</p>
+        
+        <div class="concept-text">
+            <p class="ja">
+                朝, 目覚めた時に最初に想う「あの卵かけごはん」―<br>
+                那須ミッドシティホテルが贈る特別なTKG体験は、<br>
+                70年の歴史を持つ稲見商店の「那須御養卵」<br>
+                との出会いから始まります。
+            </p>
+            <p class="en">
+                The TKG you think of first thing when you wake up in the morning.<br>
+                Nasu Midcity Hotel's ultimate TKG experience begins with<br>
+                the discovery of "Nasu Goyoran" eggs from Inami Shoten,<br>
+                which has a proud 70-year history.
+            </p>
+        </div>
+        
+        <div class="concept-pillars">
+            <div class="pillar-card">
+                <h3 class="pillar-title">Choose Your Journey</h3>
+                <p class="pillar-description">
+                    <span class="ja">3種類の卵×専用醤油×約4～5種類のトッピング。<br>あなただけの組み合わせで、無限の可能性を追求できます。</span>
+                    <span class="en">3 types of eggs × special soy sauce × 4-5 toppings.<br>Pursue infinite possibilities with your own unique combination.</span>
+                </p>
+            </div>
+            
+            <div class="pillar-card">
+                <h3 class="pillar-title">Farm to Table in 24h</h3>
+                <p class="pillar-description">
+                    <span class="ja">地元農場から24時間以内に届く究極の鮮度。<br>「ぷっくり」とした黄身と白身が、卵の本来の美味しさを物語ります。</span>
+                    <span class="en">Ultimate freshness delivered within 24 hours from local farms.<br>Plump yolks and whites reveal the true flavor of the eggs.</span>
+                </p>
+            </div>
+
+            <div class="pillar-card">
+                <h3 class="pillar-title">Nasu Morning Ritual</h3>
+                <p class="pillar-description">
+                    <span class="ja">那須の朝食文化を体験する特別な時間。<br>炊き上げたごはんと特別な卵が織りなす、朝の儀式。</span>
+                    <span class="en">A special time to experience Nasu's breakfast culture.<br>A morning ritual of freshly cooked rice and supreme eggs.</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 卵のラインナップ -->
+    <section class="section eggs-lineup">
+        <h2 class="section-title">
+            <span class="ja">厳選された三種の宝石</span>
+            <span class="en">Three Selected Gems</span>
+        </h2>
+        <p class="section-subtitle">PREMIUM EGG LINEUP</p>
+        
+        <div class="eggs-grid">
+            <div class="egg-card">
+                <img src="shiratama.webp" alt="那須御養卵 白玉" class="egg-image">
+                <div class="egg-content">
+                    <h3 class="egg-name">
+                        <span class="ja">那須御養卵 白玉</span>
+                        <span class="en">Nasu Goyoran White</span>
+                    </h3>
+                    <p class="egg-subtitle">
+                        <span class="ja">「コクと甘味」が強く、卵特有の生臭さがないオリジナル卵！</span>
+                        <span class="en">Strong richness and sweetness without the typical egg smell!</span>
+                    </p>
+                    <div class="egg-description" style="font-size: 0.9rem; margin-bottom: 15px; color: #555;">
+                        <span class="ja">長年多くのシェフやパティシエから信頼を頂く当社一番の柱です。白玉は白い羽の鶏が産む白殻の卵で、赤玉と同じ指定配合飼料で育てられています。甘みが強く、味が濃いのが特徴です。</span>
+                        <span class="en">Our flagship egg, trusted by chefs and pastry artists for years. These white-shelled eggs are from white-feathered chickens raised on our special feed. They feature a strong sweetness and intense flavor.</span>
+                    </div>
+                    <ul class="egg-features">
+                        <li>
+                            <strong class="ja">美味しさの秘密：</strong><span class="ja">よもぎ粉末、木酢酸、ファフィア酵母など20種類以上をブレンドしたオリジナル飼料</span>
+                            <strong class="en">Secret:</strong><span class="en">Original feed blended with over 20 ingredients including mugwort powder and wood vinegar.</span>
+                        </li>
+                        <li>
+                            <strong class="ja">白玉の特徴：</strong><span class="ja">赤玉と同じ飼料で育てられ、品質はそのままにお求めいただきやすい価格を実現</span>
+                            <strong class="en">Character:</strong><span class="en">Raised on the same feed as Red Eggs, offering identical quality at a more accessible price.</span>
+                        </li>
+                    </ul>
+                    <div class="highlight-box">
+                        <strong class="ja">確かな品質：</strong><span class="ja">恵まれた環境とこだわりの餌から生まれた、毎日の食卓にも嬉しい那須のブランド卵</span>
+                        <strong class="en">Quality:</strong><span class="en">A Nasu brand egg born from a blessed environment and meticulous feed.</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="egg-card">
+                <img src="akadama.webp" alt="那須御養卵 赤玉" class="egg-image">
+                <div class="egg-content">
+                    <h3 class="egg-name">
+                        <span class="ja">那須御養卵 赤玉</span>
+                        <span class="en">Nasu Goyoran Red</span>
+                    </h3>
+                    <p class="egg-subtitle">
+                        <span class="ja">「コクと甘味」が強く、卵特有の生臭さがないオリジナル卵！</span>
+                        <span class="en">Richness and sweetness without the typical egg smell!</span>
+                    </p>
+                    <div class="egg-description" style="font-size: 0.9rem; margin-bottom: 15px; color: #555;">
+                        <span class="ja">当社の一番の柱として長年多くのシェフやパティシエから信頼を頂き、「那須御養卵使用」とメニューやPOPに記載されるブランド卵です。</span>
+                        <span class="en">A premium brand egg widely used by famous restaurants and featured in media, often highlighted specifically on high-end menus.</span>
+                    </div>
+                    <ul class="egg-features">
+                        <li>
+                            <strong class="ja">恵まれた環境：</strong><span class="ja">職人気質の生産者が、ゆったりとした鶏舎環境で大切に育てています</span>
+                            <strong class="en">Environment:</strong><span class="en">Carefully raised by expert producers in a spacious, stress-free coop environment.</span>
+                        </li>
+                        <li>
+                            <strong class="ja">赤玉の特性：</strong><span class="ja">鶏種の違いによる味の濃厚さが付加された、お料理のプロが支持する逸品</span>
+                            <strong class="en">Value:</strong><span class="en">Support by culinary pros for its added richness coming from the specific chicken breed.</span>
+                        </li>
+                    </ul>
+                    <div class="highlight-box">
+                        <strong class="ja">価値：</strong><span class="ja">恵まれた環境とこだわりの餌から生まれた、那須を代表するプレミアム卵</span>
+                        <strong class="en">Value:</strong><span class="en">A premium egg representing Nasu, born from meticulous care and a perfect environment.</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="egg-card">
+                <img src="sakura.webp" alt="那須御養卵 さくら" class="egg-image">
+                <div class="egg-content">
+                    <h3 class="egg-name">
+                        <span class="ja">那須御養卵 さくら</span>
+                        <span class="en">Nasu Goyoran Sakura</span>
+                    </h3>
+                    <p class="egg-subtitle">
+                        <span class="ja">〜純国産鶏「さくら」が産んだオリジナル卵〜</span>
+                        <span class="en">~ Original Eggs from Pure Japanese "Sakura" Chickens ~</span>
+                    </p>
+                    <div class="egg-description" style="font-size: 0.9rem; margin-bottom: 15px; color: #555;">
+                        <span class="ja">粘度が高く濃厚な味わいが特徴です。日本で唯一の「純国産鶏」が産むさくら色の卵は、鮮度が長持ちし、起泡性が高いため卵料理をふわふわに仕上げます。</span>
+                        <span class="en">Characterized by high viscosity and an intense flavor. These cherry-blossom colored eggs from Japanese chickens stay fresh longer and create fluffy dishes.</span>
+                    </div>
+                    <ul class="egg-features">
+                        <li>
+                            <strong class="ja">美味しさの秘密：</strong><span class="ja">地元大田原産の唐辛子を配合。カプサイシンが鶏の健康を支えます</span>
+                            <strong class="en">Secret:</strong><span class="en">Uses local Ohtawara chili peppers. Capsaicin supports the health of the chickens.</span>
+                        </li>
+                        <li>
+                            <strong class="ja">料理の質を高める：</strong><span class="ja">濃厚なコクとふわふわの食感。プロの料理人からも高く評価される逸品です</span>
+                            <strong class="en">Quality:</strong><span class="en">Rich flavor and fluffy texture. Highly evaluated by professional chefs for culinary excellence.</span>
+                        </li>
+                    </ul>
+                    <div class="highlight-box">
+                        <strong class="ja">特徴：</strong><span class="ja">地元の知恵（唐辛子）と北の恵み（ホタテ）が融合した、強く美しいさくら色の卵</span>
+                        <strong class="en">Character:</strong><span class="en">A fusion of local wisdom (chili) and northern bounty (scallop shells) in a beautiful Sakura shell.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TKGステーション -->
+    <section class="section tkg-station">
+        <h2 class="section-title">
+            <span class="ja">那須TKGステーション</span>
+            <span class="en">Nasu TKG Station</span>
+        </h2>
+        <p class="section-subtitle">ULTIMATE TKG EXPERIENCE</p>
+        
+        <div class="station-feature">
+            <img src="tamagod.webp" alt="卵の宝石箱ディスプレイ" class="station-image">
+            <div class="station-content">
+                <h3>
+                    <span class="ja">卵の宝石箱</span>
+                    <span class="en">Jewelry Box of Eggs</span>
+                </h3>
+                <p>
+                    <span class="ja">3種類の卵が、まるで宝石のように輝く。それぞれの卵の特徴を説明するエレガントなカードとともに、あなたの選択を待っています。</span>
+                    <span class="en">Three types of eggs shine like jewels. They await your choice, accompanied by elegant cards explaining their unique traits.</span>
+                </p>
+            </div>
+        </div>
+        
+        <div class="station-feature">
+            <img src="asagohan.webp" alt="土鍋で炊き上げるなすひかり" class="station-image">
+            <div class="station-content">
+                <h3>
+                    <span class="ja">炊きたてごはん</span>
+                    <span class="en">Freshly Cooked Rice</span>
+                </h3>
+                <p>
+                    <span class="ja">栃木県産米を丁寧に炊き上げます。ふっくらと炊き上がったごはんの艶と香りが、卵との完璧なハーモニーを約束します。</span>
+                    <span class="en">We carefully cook rice grown in Tochigi Prefecture. The lustrous sheen and rich aroma of the fluffy, perfectly cooked rice promise a perfect harmony with the eggs.</span>
+                </p>
+            </div>
+        </div>
+        
+        <div class="station-feature">
+            <img src="tamago3.webp" alt="専用醤油" class="station-image">
+            <div class="station-content">
+                <h3>
+                    <span class="ja">専用醤油</span>
+                    <span class="en">Specialty soy sauce</span>
+                </h3>
+                <p>
+                    <span class="ja">卵かけごはん専用に厳選された醤油をご用意。醤油が持つ個性が、卵とごはんの味わいを引き立てます。</span>
+                    <span class="en">We offer a specially selected soy sauce designed exclusively for tamago kake gohan. The unique character of this soy sauce enhances the flavors of the egg and rice.</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- トッピングギャラリー -->
+    <section class="section toppings">
+        <h2 class="section-title">
+            <span class="ja">約4～5種類のプレミアムトッピング</span>
+            <span class="en">4-5 Premium Toppings</span>
+        </h2>
+        <p class="section-subtitle">PREMIUM TOPPINGS</p>
+        
+        <div class="toppings-grid">
+            <div class="topping-item">
+                <img src="topping_negi.webp" alt="小ねぎ" class="topping-icon">
+                <p class="topping-name">
+                    <span class="ja">小ねぎ</span>
+                    <span class="en">Green Onion</span>
+                </p>
+            </div>
+            <div class="topping-item">
+                <img src="topping_katsuobushi.webp" alt="かつお節" class="topping-icon">
+                <p class="topping-name">
+                    <span class="ja">かつお節</span>
+                    <span class="en">Bonito Flakes</span>
+                </p>
+            </div>
+            <div class="topping-item">
+                <img src="topping_konbu.webp" alt="佃煮昆布" class="topping-icon">
+                <p class="topping-name">
+                    <span class="ja">佃煮昆布</span>
+                    <span class="en">Simmered Kelp</span>
+                </p>
+            </div>
+            <div class="topping-item">
+                <img src="topping_ganen.webp" alt="岩塩" class="topping-icon">
+                <p class="topping-name">
+                    <span class="ja">岩塩</span>
+                    <span class="en">Rock Salt</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ストーリーセクション -->
+    <section class="section story">
+        <h2 class="section-title">
+            <span class="ja">70年の想いを継ぐ物語</span>
+            <span class="en">A Story Spanning 70 Years</span>
+        </h2>
+        <p class="section-subtitle">OUR STORY</p>
+        
+        <div class="story-content">
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>
+                            <span class="ja">「御養」の由来</span>
+                            <span class="en">The Origin of "Goyoran"</span>
+                        </h3>
+                        <p>
+                            <span class="ja">「那須御養卵」の"御養"は、「大切に養う」「丁寧に育てる」という意味が込められています。地域名「那須」と組み合わせ、那須の豊かな自然環境で丁寧に育てられた高品質な卵であることを表現しています。</span>
+                            <span class="en">The word "Goyo" in "Nasu Goyoran" means "to nurture with care" or "to raise meticulously." Combined with the regional name "Nasu," it represents high-quality eggs raised in Nasu's rich natural environment.</span>
+                        </p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                    <div></div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div></div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>
+                            <span class="ja">稲見商店の歴史</span>
+                            <span class="en">History of Inami Shoten</span>
+                        </h3>
+                        <p>
+                            <span class="ja">70年の歴史を持つ稲見商店は、指定配合飼料、職人気質の生産者、ゆったりとした鶏舎環境にこだわり続けてきました。シェフやパティシエから長年支持され、「那須御養卵使用」と店舗で明記されるほどの信頼を獲得しています。</span>
+                            <span class="en">With 70 years of history, Inami Shoten has insisted on specialized feed, artisanal producers, and spacious coop environments. They have earned such trust that chefs often highlight "Nasu Goyoran used" on their menus.</span>
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>
+                            <span class="ja">24時間以内の鮮度</span>
+                            <span class="en">Freshness within 24 Hours</span>
+                        </h3>
+                        <p>
+                            <span class="ja">地元農場から24時間以内にホテルに届く究極の鮮度管理。この徹底した品質管理が、卵特有の生臭さが全くない、甘みとコクが強い味わいを生み出しています。</span>
+                            <span class="en">Ultimate freshness management, with eggs arriving from local farms within 24 hours. This thorough control creates a flavor with no fishy smell, only rich sweetness.</span>
+                        </p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 体験セクション -->
+    <section class="section experience">
+        <h2 class="section-title">
+            <span class="ja">究極の朝食体験</span>
+            <span class="en">Ultimate Breakfast Experience</span>
+        </h2>
+        <p class="section-subtitle">EXPERIENCE</p>
+        
+        <div class="experience-grid">
+            <div class="experience-card">
+                <span class="experience-icon">🎨</span>
+                <h3>TKG STUDIO</h3>
+                <p>
+                    <span class="ja">フォトジェニックなSNS用撮影ブースを完備。あなたの究極のTKGを美しく記録しましょう。</span>
+                    <span class="en">Equipped with a photogenic booth for social media. Capture your ultimate TKG beautifully.</span>
+                </p>
+            </div>
+            
+            <div class="experience-card">
+                <span class="experience-icon">👨‍🍳</span>
+                <h3>
+                    <span class="ja">TKGコンシェルジュ</span>
+                    <span class="en">TKG Concierge</span>
+                </h3>
+                <p>
+                    <span class="ja">卵と醤油、トッピングの最適な組み合わせをご提案。あなただけのレシピを一緒に作り上げます。</span>
+                    <span class="en">We suggest the best combinations of eggs, soy sauce, and toppings. Let's create your unique recipe together.</span>
+                </p>
+            </div>
+            
+
+            
+
+        </div>
+    </section>
+
+    <!-- アクセス・予約セクション -->
+    <section class="section booking">
+        <h2 class="section-title">
+            <span class="ja">ご予約・アクセス</span>
+            <span class="en">Reservation & Access</span>
+        </h2>
+        <p class="section-subtitle">RESERVATION & ACCESS</p>
+        
+        <div class="hotel-info">
+            <h3>
+                <span class="ja">那須ミッドシティホテル</span>
+                <span class="en">Nasu Midcity Hotel</span>
+            </h3>
+            
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">
+                        <span class="ja">住所</span>
+                        <span class="en">Address</span>
+                    </div>
+                    <div class="info-value">
+                        <span class="ja">栃木県那須塩原市（那須塩原駅から徒歩3分）</span>
+                        <span class="en">Nasushiobara, Tochigi (3-min walk from Nasushiobara Sta.)</span>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-label">
+                        <span class="ja">朝食時間</span>
+                        <span class="en">Hours</span>
+                    </div>
+                    <div class="info-value">6:45〜9:30<br>(Last Order 9:00)</div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-label">
+                        <span class="ja">料金</span>
+                        <span class="en">Price</span>
+                    </div>
+                    <div class="info-value">
+                        <span class="ja">朝食ビュッフェ無料（宿泊プランに含まれます）</span>
+                        <span class="en">Complimentary Buffet (Included in stay plans)</span>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-label">
+                        <span class="ja">駐車場</span>
+                        <span class="en">Parking</span>
+                    </div>
+                    <div class="info-value">
+                        <span class="ja">無料駐車場完備（予約不要）</span>
+                        <span class="en">Free Parking (No reservation needed)</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin: 40px 0;">
+                <img src="midcity.webp" alt="那須ミッドシティホテル外観" style="width: 100%; max-width: 600px; border-radius: 15px; box-shadow: var(--shadow);">
+            </div>
+            
+            <a href="https://www.nasu-midcity.com/" class="cta-button" target="_blank">
+                <span class="ja">ご予約はこちら</span><span class="en">Book Now</span>
+                <span class="arrow-span">＞</span>
+            </a>
+        </div>
+        
+        <div style="margin-top: 60px; padding: 30px; background: var(--light-gold); border-radius: 15px; max-width: 800px; margin-left: auto; margin-right: auto;">
+            <h3 style="font-size: 1.5rem; color: var(--deep-brown); margin-bottom: 20px;">
+                <span class="ja">お問い合わせ</span>
+                <span class="en">Inquiries</span>
+            </h3>
+            <p style="font-size: 1rem; line-height: 1.8; color: #333;">
+                <strong><span class="ja">那須御養卵について：</span><span class="en">About Nasu Goyoran:</span></strong><br>
+                <span class="ja">有限会社稲見商店</span><span class="en">Inami Shoten Co., Ltd.</span><br>
+                <a href="https://inamisyouten.jp/" target="_blank" class="external-link-ref">
+                    <span class="ja">稲見商店公式サイト</span><span class="en">Inami Shoten Official Site</span>
+                    <span class="arrow-span">＞</span>
+                </a>
+            </p>
+        </div>
+    </section>
+
+    <!-- フッター -->
+    <footer class="footer">
+        <div class="footer-content">
+            <img src="nasumid.webp" alt="那須ミッドシティホテル" class="footer-logo">
+            
+            <div class="footer-links">
+                <a href="https://www.nasu-midcity.com/about/"><span class="ja">ホテルの魅力</span><span class="en">Highlights</span></a>
+                <a href="https://www.nasu-midcity.com/room/"><span class="ja">客室</span><span class="en">Rooms</span></a>
+                <a href="https://www.nasu-midcity.com/restaurant/"><span class="ja">レストラン</span><span class="en">Restaurant</span></a>
+                <a href="https://www.nasu-midcity.com/access/"><span class="ja">交通アクセス</span><span class="en">Access</span></a>
+                <a href="https://www.nasu-midcity.com/plan/"><span class="ja">宿泊プラン</span><span class="en">Plans</span></a>
+            </div>
+            
+            <div class="social-links">
+                <a href="#" class="social-icon">
+                    <svg width="20" height="20" fill="white" viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                </a>
+                <a href="#" class="social-icon">
+                    <svg width="20" height="20" fill="white" viewBox="0 0 24 24">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                </a>
+                <a href="#" class="social-icon">
+                    <svg width="20" height="20" fill="white" viewBox="0 0 24 24">
+                        <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                    </svg>
+                </a>
+            </div>
+            
+            <p class="copyright">
+                &copy; 2026 Nasu Midcity Hotel All Rights Reserved.<br>
+                <span class="ja">那須御養卵は有限会社稲見商店の登録商標です。</span>
+                <span class="en">Nasu Goyoran is a registered trademark of Inami Shoten Co., Ltd.</span>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // 言語切り替え機能
+        function setLanguage(lang) {
+            document.body.className = 'lang-' + lang;
+            localStorage.setItem('preferred-lang', lang);
+            
+            // ボタンの活性化状態を更新
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn-' + lang).classList.add('active');
+            
+            // htmlタグのlang属性も更新
+            document.documentElement.lang = lang;
+
+            // タイトルと説明文の更新
+            const content = {
+                ja: {
+                    title: "特別な卵かけごはん | 那須ミッドシティホテル",
+                    desc: "那須ミッドシティホテルの卵かけごはん - 那須御養卵を使った特別な朝食体験"
+                },
+                en: {
+                    title: "The Ultimate TKG | Nasu Midcity Hotel",
+                    desc: "Nasu Midcity Hotel's TKG - The ultimate breakfast experience with Nasu Goyoran eggs."
+                }
+            };
+            document.title = content[lang].title;
+            const metaDesc = document.querySelector('meta[name="description"]');
+            if (metaDesc) metaDesc.content = content[lang].desc;
+        }
+
+        // 初期言語の設定
+        function initLanguage() {
+            const savedLang = localStorage.getItem('preferred-lang');
+            if (savedLang) {
+                setLanguage(savedLang);
+            } else {
+                const browserLang = navigator.language.split('-')[0];
+                const supportedLang = ['ja', 'en'].includes(browserLang) ? browserLang : 'ja';
+                setLanguage(supportedLang);
+            }
+        }
+
+        // 初期化実行
+        initLanguage();
+
+        // スムーススクロール
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // スクロールアニメーション
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in-up');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

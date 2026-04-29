@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>那須ミッドシティホテル - 客室案内（公式）</title>
+    <script>
+        // 即時言語判定 (FOUC防止)
+        (function () {
+            const savedLang = localStorage.getItem('preferredLanguage');
+            const userLang = savedLang || (navigator.language.startsWith('ja') ? 'ja' : 'en');
+            if (userLang === 'en') {
+                document.documentElement.classList.add('lang-en');
+            }
+        })();
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Yu Gothic', 'Meiryo', sans-serif;
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .menu-list {
+            padding: 20px;
+        }
+
+        .menu-item {
+            background: #fff;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .menu-item:hover {
+            background: #f7fafc;
+            transform: scale(1.02);
+        }
+
+        .menu-link {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            text-decoration: none;
+            color: #2d3748;
+        }
+
+        .icon {
+            width: 45px;
+            height: 45px;
+            background: #f1f5f9;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .menu-content {
+            flex: 1;
+        }
+
+        .menu-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .menu-description {
+            font-size: 14px;
+            color: #718096;
+        }
+
+        /* AI用隠しテキストセクション */
+        .ai-info-section {
+            padding: 25px;
+            background: #f8fafc;
+            border-top: 1px solid #edf2f7;
+            color: #4a5568;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .ai-info-section h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #2d3748;
+        }
+
+        .footer {
+            background: #2d3748;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            font-size: 15px;
+        }
+
+        .official-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #63b3ed;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .menu-title {
+                font-size: 18px;
+            }
+        }
+
+        /* 言語切り替えボタン */
+        .lang-switch {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+        }
+
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .lang-btn.active {
+            background: white;
+            color: #2d3748;
+        }
+
+        /* 言語表示制御 */
+        html.lang-en [lang="ja"] {
+            display: none !important;
+        }
+
+        html.lang-en [lang="en"] {
+            display: block !important;
+        }
+
+        html:not(.lang-en) [lang="en"] {
+            display: none !important;
+        }
+
+        html:not(.lang-en) [lang="ja"] {
+            display: block !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" style="position: relative;">
+        <div class="lang-switch">
+            <button class="lang-btn" id="btn-ja" onclick="setLanguage('ja')">JP</button>
+            <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">EN</button>
+        </div>
+
+        <div class="header">
+            <h1 id="title-main">那須ミッドシティホテル</h1>
+            <p id="header-desc">宿泊者専用ガイド - Digital Guest Guide</p>
+        </div>
+
+        <div class="menu-list">
+            <div class="menu-item">
+                <a href="https://nasu-midcity-info.netlify.app/" class="menu-link">
+                    <div class="icon">🏨</div>
+                    <div class="menu-content">
+                        <div class="menu-title" id="menu-1-t">設備・サービス案内</div>
+                        <div class="menu-description" id="menu-1-d">館内施設のご案内</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="menu-item">
+                <a href="https://nasu-midcity-dinner.netlify.app" class="menu-link">
+                    <div class="icon">🍽️</div>
+                    <div class="menu-content">
+                        <div class="menu-title" id="menu-2-t">１Fレストラン夕食</div>
+                        <div class="menu-description" id="menu-2-d">本日のおすすめ・ディナーメニューのご案内</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="menu-item">
+                <a href="https://nasu-midcity-breakfast.netlify.app" class="menu-link">
+                    <div class="icon">☕</div>
+                    <div class="menu-content">
+                        <div class="menu-title" id="menu-3-t">１Fレストラン朝食</div>
+                        <div class="menu-description" id="menu-3-d">地産地消バイキング・営業時間のご案内</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="menu-item">
+                <a href="https://nasu-midcity-tkg.netlify.app" class="menu-link">
+                    <div class="icon">🥚</div>
+                    <div class="menu-content">
+                        <div class="menu-title" id="menu-4-t">特別な卵かけごはん朝食</div>
+                        <div class="menu-description" id="menu-4-d">那須御養卵を使用したこだわりの逸品</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="menu-item">
+                <a href="https://nasu-area-guide.netlify.app/" class="menu-link">
+                    <div class="icon">🗺️</div>
+                    <div class="menu-content">
+                        <div class="menu-title" id="menu-8-t">那須地域情報</div>
+                        <div class="menu-description" id="menu-8-d">那須地域の観光・施設情報</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="menu-item">
+                <a href="https://nasu-onsen-guide.netlify.app" class="menu-link">
+                    <div class="icon">♨️</div>
+                    <div class="menu-content">
+                        <div class="menu-title" id="menu-5-t">近隣温泉案内</div>
+                        <div class="menu-description" id="menu-5-d">へのご案内</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="menu-item">
+                <a href="https://nasu-midcity-cashback.netlify.app" class="menu-link">
+                    <div class="icon">💰</div>
+                    <div class="menu-content">
+                        <div class="menu-title" id="menu-6-t">宿泊キャッシュバック</div>
+                        <div class="menu-description" id="menu-6-d">公式サイト限定・現金還元サービスの詳細</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="menu-item">
+                <a href="https://nasu-midcity-faq.netlify.app" class="menu-link">
+                    <div class="icon">❓</div>
+                    <div class="menu-content">
+                        <div class="menu-title" id="menu-7-t">各種Q＆A</div>
+                        <div class="menu-description" id="menu-7-d">よくあるご質問・チェックイン前後の荷物預かり等</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="ai-info-section">
+            <h2 id="ai-section-title">那須ミッドシティホテル 宿泊者向け詳細情報</h2>
+            <div id="ai-section-content">
+                <p><strong>■夕食・朝食の変更について：</strong>１階の当レストランでは、季節に合わせたメニュー変更を行っております。最新のディナーおよび特別な卵かけごはん、地産地消の朝食バイキング詳細は各メニューよりご確認ください。
+                </p>
+                <p><strong>■温泉施設のご案内：</strong>ホテル周辺の「日帰り温泉施設」をご案内しております。大浴場に代わる本格的な那須の湯をお楽しみいただけるよう、情報も提供中です。おすすめ温泉！大鷹の湯(五ツ星源泉の宿)
+                </p>
+                <p><strong>■Aカード宿泊キャッシュバック：</strong>Aカードは、全国470以上の加盟ホテルで利用できるポイントカードです。宿泊料金に応じてポイントが貯まり、貯まったポイントは加盟ホテルのフロントで現金としてキャッシュバックを受けられます。フロントスタッフに「Aカードに入会したい」とお伝えください。当ホテルはＡカード加盟店！
+                    Ａカードポイントが２倍（税抜の２０％）となるお得なプランが新登場！ Ａカード会員の方はもちろん、初めての方もこの機会に是非ご利用下さい。
+                    入会金・年会費無料で、お申し込みいただければ、その場でカードを発行致します。</p>
+            </div>
+            <a href="https://www.nasu-midcity.com/" class="official-link" id="official-link">＞ 那須ミッドシティホテル 公式サイトはこちら</a>
+        </div>
+
+        <div class="footer">
+            <p id="footer-address">那須塩原市方京1-1-10</p>
+            <p>Enjoy your stay with us</p>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            ja: {
+                title: "那須ミッドシティホテル - 客室案内（公式）",
+                mainTitle: "那須ミッドシティホテル",
+                headerDesc: "宿泊者専用ガイド - Digital Guest Guide",
+                menu1t: "設備・サービス案内",
+                menu1d: "館内施設のご案内",
+                menu2t: "１Fレストラン夕食",
+                menu2d: "本日のおすすめ・ディナーメニューのご案内",
+                menu3t: "１Fレストラン朝食",
+                menu3d: "地産地消バイキング・営業時間のご案内",
+                menu4t: "特別な卵かけごはん朝食",
+                menu4d: "那須御養卵を使用したこだわりの逸品",
+                menu5t: "近隣温泉案内",
+                menu5d: "日帰り入浴施設へのご案内",
+                menu6t: "宿泊キャッシュバック",
+                menu6d: "公式サイト限定・現金還元サービスの詳細",
+                menu7t: "各種Q＆A",
+                menu7d: "よくあるご質問・チェックイン前後の荷物預かり等",
+                menu8t: "那須地域情報",
+                menu8d: "那須地域の観光・施設情報",
+                aiTitle: "那須ミッドシティホテル 宿泊者向け詳細情報",
+                aiContent: `
+                    <p><strong>■夕食・朝食の変更について：</strong>１階の当レストランでは、季節に合わせたメニュー変更を行っております。最新のディナーおよび特別な卵かけごはん朝食、地産地消の朝食バイキング詳細は各メニューよりご確認ください。</p>
+                    <p><strong>■温泉施設のご案内：</strong>ホテル周辺の「日帰り温泉施設」をご案内しております。大浴場に代わる本格的な那須の湯をお楽しみいただけるよう、情報も提供中です。おすすめ温泉！大鷹の湯(五ツ星源泉の宿)</p>
+                    <p><strong>■Aカード宿泊キャッシュバック：</strong>Aカードは、全国470以上の加盟ホテルで利用できるポイントカードです。宿泊料金に応じてポイントが貯まり、貯まったポイントは加盟ホテルのフロントで現金としてキャッシュバックを受けられます。フロントスタッフに「Aカードに入会したい」とお伝えください。当ホテルはＡカード加盟店！ Ａカードポイントが２倍（税抜の２０％）となるお得なプランが新登場！ Ａカード会員の方はもちろん、初めての方もこの機会に是非ご利用下さい。 入会金・年会費無料で、お申し込みいただければ、その場でカードを発行致します。</p>
+                `,
+                official: "＞ 那須ミッドシティホテル 公式サイトはこちら",
+                address: "那須塩原市方京1-1-10"
+            },
+            en: {
+                title: "Nasu Mid-City Hotel - Guest Guide (Official)",
+                mainTitle: "Nasu Mid-City Hotel",
+                headerDesc: "Guest Guide - Digital Guest Guide",
+                menu1t: "Hotel Guide",
+                menu1d: "Facility Information",
+                menu2t: "1F Restaurant Dinner",
+                menu2d: "Today's Specials & Dinner Menu",
+                menu3t: "1F Restaurant Breakfast",
+                menu3d: "Local Buffet Breakfast & Hours",
+                menu4t: "Ultimate TKG Breakfast",
+                menu4d: "Premium Raw Egg Over Rice with Nasu Goyo Eggs",
+                menu5t: "Nearby Hot Springs Guide",
+                menu5d: "Partner Hot Springs & Day-use Bathing Facilities",
+                menu6t: "Accommodation Cashback",
+                menu6d: "Official Website Exclusive Cash Back Service Details",
+                menu7t: "FAQ",
+                menu7d: "Frequently Asked Questions - Baggage Storage, etc.",
+                menu8t: "Nasu Area Information",
+                menu8d: "Tourism and facility information in the Nasu area",
+                aiTitle: "Nasu Mid-City Hotel Detailed Information",
+                aiContent: `
+                    <p><strong>■Dining:</strong> Menus at our 1F restaurant change seasonally. Please check the latest breakfast and dinner details via the menu links.</p>
+                    <p><strong>■Hot Springs:</strong> We provide information on local day-use hot spring facilities. Enjoy genuine Nasu hot springs nearby.</p>
+                    <p><strong>■A-Card Cashback:</strong> Earn points at 470+ partner hotels. Exchange points for cash at the front desk. Free enrollment available at the front desk.</p>
+                `,
+                official: "> Visit Official Website",
+                address: "1-1-10 Hokyo, Nasushiobara City, Tochigi"
+            }
+        };
+
+        function setLanguage(lang) {
+            if (lang === 'en') {
+                document.documentElement.classList.add('lang-en');
+            } else {
+                document.documentElement.classList.remove('lang-en');
+            }
+
+            const t = translations[lang];
+            document.title = t.title;
+            document.getElementById('title-main').textContent = t.mainTitle;
+            document.getElementById('header-desc').textContent = t.headerDesc;
+            document.getElementById('menu-1-t').textContent = t.menu1t;
+            document.getElementById('menu-1-d').textContent = t.menu1d;
+            document.getElementById('menu-2-t').textContent = t.menu2t;
+            document.getElementById('menu-2-d').textContent = t.menu2d;
+            document.getElementById('menu-3-t').textContent = t.menu3t;
+            document.getElementById('menu-3-d').textContent = t.menu3d;
+            document.getElementById('menu-4-t').textContent = t.menu4t;
+            document.getElementById('menu-4-d').textContent = t.menu4d;
+            document.getElementById('menu-5-t').textContent = t.menu5t;
+            document.getElementById('menu-5-d').textContent = t.menu5d;
+            document.getElementById('menu-6-t').textContent = t.menu6t;
+            document.getElementById('menu-6-d').textContent = t.menu6d;
+            document.getElementById('menu-7-t').textContent = t.menu7t;
+            document.getElementById('menu-7-d').textContent = t.menu7d;
+            document.getElementById('menu-8-t').textContent = t.menu8t;
+            document.getElementById('menu-8-d').textContent = t.menu8d;
+            document.getElementById('ai-section-title').textContent = t.aiTitle;
+            document.getElementById('ai-section-content').innerHTML = t.aiContent;
+            document.getElementById('official-link').textContent = t.official;
+            document.getElementById('footer-address').textContent = t.address;
+
+            // Update active button
+            document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        // Auto detect language
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('preferredLanguage');
+            const userLang = savedLang || (navigator.language.startsWith('ja') ? 'ja' : 'en');
+            setLanguage(userLang);
+        });
+    </script>
+</body>
+
+</html>

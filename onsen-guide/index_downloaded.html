@@ -1,0 +1,2054 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>��횥ߥåɥ��ƥ��ۥƥ� ���O�Վ�����Ȫ������</title>
+    <script>
+        // ���r���Z�ж� (FOUC��ֹ)
+        (function() {
+            const savedLang = localStorage.getItem('preferredLanguage');
+            const userLang = savedLang || (navigator.language.startsWith('ja') ? 'ja' : 'en');
+            if (userLang === 'en') {
+                document.documentElement.classList.add('lang-en');
+            }
+        })();
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('onsen.webp') center/cover no-repeat;
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 400px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .catchcopy {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 30px 0 20px;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.95;
+        }
+
+        .section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 4px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .onsen-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 6px solid #ff6b6b;
+        }
+
+        .onsen-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .onsen-card.premium {
+            border-left-color: #ffd700;
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+        }
+
+        .onsen-card.new {
+            border-left-color: #00b894;
+            background: linear-gradient(135deg, #dfe6e9 0%, #b2bec3 100%);
+        }
+
+        .onsen-name {
+            font-size: 1.8rem;
+            color: #2d3436;
+            margin-bottom: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .badge-new {
+            background: #00b894;
+            color: white;
+        }
+
+        .badge-premium {
+            background: #ffd700;
+            color: #2d3436;
+        }
+
+        .badge-secret {
+            background: #6c5ce7;
+            color: white;
+        }
+
+        .badge-recommend {
+            background: #ff7675;
+            color: white;
+        }
+
+        .onsen-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .info-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .info-box h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-box p, .info-box ul {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .info-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info-box ul li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .info-box ul li:before {
+            content: "?";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .highlights {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .highlights h4 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .highlights ul {
+            list-style: none;
+        }
+
+        .highlights ul li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .highlights ul li:before {
+            content: "?";
+            position: absolute;
+            left: 0;
+        }
+
+        .contact-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .contact-info p {
+            margin: 5px 0;
+            color: #2d3436;
+        }
+
+        .contact-info a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        .recommendation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .recommendation-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .recommendation-card:hover {
+            transform: scale(1.05);
+        }
+
+        .recommendation-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .recommendation-card p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .faq-item {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+        }
+
+        .faq-item h4 {
+            color: #2d3436;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .faq-item p {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .tips-list {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .tips-list h3 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .tips-list ol {
+            padding-left: 25px;
+        }
+
+        .tips-list li {
+            padding: 10px 0;
+            font-size: 1.1rem;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+            margin-top: 40px;
+        }
+
+        footer p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .distance-badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .catchcopy {
+                font-size: 1.3rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .section {
+                padding: 25px;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .onsen-name {
+                font-size: 1.4rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .recommendation-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .area-label {
+            display: inline-block;
+            background: #ff6b6b;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #667eea;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .scroll-top:hover {
+            transform: scale(1.1);
+        }
+
+        .url-link {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            background: #fff !important;
+            color: #333 !important;
+            padding: 15px 20px !important;
+            border: 2px solid #007aff !important;
+            border-radius: 15px !important;
+            text-decoration: none !important;
+            margin-top: 15px !important;
+            transition: all 0.2s ease !important;
+            width: 100% !important;
+            font-weight: bold !important;
+            box-shadow: 0 4px 0 #007aff !important;
+            box-sizing: border-box !important;
+        }
+
+        .url-link:hover {
+            background: #f0f7ff !important;
+            transform: translateY(2px) !important;
+            box-shadow: 0 2px 0 #007aff !important;
+        }
+
+        .url-link .arrow-span {
+            color: #007aff !important;
+            margin-left: 10px !important;
+            font-size: 1.2rem !important;
+        }
+
+        /* �����ܥ��� */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 10000;
+            background: white;
+            color: #667eea;
+            padding: 12px 24px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            font-weight: bold;
+            font-size: 1rem;
+            border: 2px solid transparent;
+        }
+
+        /* CSS������ʸӡ */
+        .back-button::before {
+            content: '';
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-top: 3px solid #667eea;
+            border-left: 3px solid #667eea;
+            transform: rotate(-45deg);
+            margin-right: 10px;
+            transition: border-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .back-button:hover::before {
+            border-color: white;
+        }
+
+            @media (max-width: 768px) {
+                .back-button {
+                    top: 15px;
+                    left: 15px;
+                    padding: 10px 18px;
+                    font-size: 0.9rem;
+                }
+                .back-button::before {
+                    width: 8px;
+                    height: 8px;
+                    border-width: 2px;
+                    margin-right: 6px;
+                }
+            }
+
+            /* ���Z�Ф��椨 */
+            .lang-switch {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 10000;
+                background: rgba(255, 255, 255, 0.9);
+                padding: 5px;
+                border-radius: 30px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+                display: flex;
+                gap: 5px;
+            }
+
+            .lang-btn {
+                border: none;
+                background: transparent;
+                padding: 8px 15px;
+                border-radius: 20px;
+                cursor: pointer;
+                font-weight: bold;
+                transition: all 0.3s ease;
+                font-size: 0.9rem;
+                color: #667eea;
+            }
+
+            .lang-btn.active {
+                background: #667eea;
+                color: white;
+            }
+
+            /* ���Z��ʾ���� */
+            [lang="en"] { display: none !important; }
+            
+            html.lang-en [lang="ja"] { display: none !important; }
+            html.lang-en [lang="en"] { display: block !important; }
+            html.lang-en span[lang="en"], html.lang-en strong[lang="en"], html.lang-en a[lang="en"] { display: inline !important; }
+            
+            /* �ǥե�����(ja) */
+            html:not(.lang-en) [lang="en"] { display: none !important; }
+            html:not(.lang-en) [lang="ja"] { display: block !important; }
+            html:not(.lang-en) span[lang="ja"], html:not(.lang-en) strong[lang="ja"], html:not(.lang-en) a[lang="ja"] { display: inline !important; }
+
+            @media (max-width: 768px) {
+                .lang-switch {
+                    top: 10px;
+                    right: 10px;
+                }
+                .lang-btn {
+                    padding: 5px 10px;
+                    font-size: 0.8rem;
+                }
+            }
+            </style>
+</head>
+<body>
+    <!-- ���Z�Ф��椨�����å� -->
+    <div class="lang-switch">
+        <button class="lang-btn active" onclick="setLanguage('ja')" id="btn-ja">�ձ��Z</button>
+        <button class="lang-btn" onclick="setLanguage('en')" id="btn-en">English</button>
+    </div>
+
+    <a href="https://clever-sunflower-d62c93.netlify.app/" class="back-button" title="�ۥƥ�TOP�ؑ���">
+        <span lang="ja">����</span>
+        <span lang="en">Back</span>
+    </a>
+    <div class="container">
+        <header>
+            <h1 lang="ja">?? ��횥ߥåɥ��ƥ��ۥƥ� ���O�Վ�����Ȫ������</h1>
+            <h1 lang="en">?? Nasu Mid-City Hotel Nearby Day-Trip Hot Spring Guide</h1>
+            <div class="catchcopy" lang="ja">���k���ۥƥ뤫�顢����?�cԭ�������ᤰ���ء�</div>
+            <div class="catchcopy" lang="en">��From the Station Hotel to the Famous Waters of Nasu & Shiobara��</div>
+            <div class="subtitle">
+                <div lang="ja">
+                    ��횥ߥåɥ��ƥ��ۥƥ��Ͽ��ҥ��˥åȥХ��ΤߤǤ�����<br>
+                    ���η֡����x�΂����N�����Վ�����Ȫ�ᤰ���򤪘S���ߤ���������<br>
+                    ܇�Ǥ鷺��5�֤���ʩ�O���顢������ԴȪ�θ߼���Ȫ��<br>
+                    �sʷ�����؜��ޤǡ����ʤ���Ȫ���Y�����᰸�������ޤ���
+                </div>
+                <div lang="en">
+                    Nasu Mid-City Hotel features in-room modular baths only, <br>
+                    but we invite you to enjoy the variety of unique nearby day-trip hot springs instead. <br>
+                    From new facilities just 5 minutes away by car, to 5-star premium springs, <br>
+                    and historic hidden hot springs, we offer a diverse range of onsen experiences.
+                </div>
+            </div>
+        </header>
+
+        <!-- A. �k�����ꥢ -->
+        <div class="section">
+            <h2 class="section-title">
+                <span lang="ja">?? A. �k�����ꥢ(܇5-15��)</span>
+                <span lang="en">?? A. Station Area (5-15 min drive)</span>
+            </h2>
+            <div class="area-label">
+                <span lang="ja">? ��ȥ��ꥢ</span>
+                <span lang="en">? Top Priority Area</span>
+            </div>
+
+            <!-- 1. �����Μ� -->
+            <div class="onsen-card premium">
+                <div class="onsen-name">
+                    <span lang="ja">1. �����Μ�(������ԴȪ����)</span>
+                    <span lang="en">1. Ootaka-no-Yu (5-Star Spring Inn)</span>
+                    <span class="badge badge-recommend">
+                        <span lang="ja">?? ��������</span>
+                        <span lang="en">?? Recommended</span>
+                    </span>
+                    <span class="badge badge-premium">
+                        <span lang="ja">? �߼���Ȫ</span>
+                        <span lang="en">? Premium Onsen</span>
+                    </span>
+                </div>
+                <img src="onsen1.webp" alt="�����Μ�" class="onsen-image">
+                <span class="distance-badge">
+                    <span lang="ja">?? ܇�Ǽs10��</span>
+                    <span lang="en">?? Approx. 10 min drive</span>
+                </span>
+
+                <div class="info-grid">
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">��������</span><span lang="en">Access</span></h4>
+                        <ul lang="ja">
+                            <li>?? ܇�Ǽs10��</li>
+                            <li>?? ��횉cԭ�k/������Ұ�k���饿�����`15��</li>
+                            <li>?? �|����?������Ұ�cԭIC����5��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>?? Approx. 10 min by car</li>
+                            <li>?? 15 min by taxi from Nasu-shiobara/Nishi-nasuno Station</li>
+                            <li>?? 5 min from Nishi-nasuno-shiobara IC (Tohoku Expy)</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>? <span lang="ja">�ӘI�r�g</span><span lang="en">Hours</span></h4>
+                        <ul lang="ja">
+                            <li>���β�: 10:00��14:00(���K�ܸ�13:00)</li>
+                            <li>ҹ�β�: 18:00��21:00(���K�ܸ�20:00)</li>
+                            <li>��ҹ�β����޲��Ͷ����r�ݘI(Ҫ��ǰ�_�J)</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>Day: 10:00 AM �C 2:00 PM (Last entry 1:00 PM)</li>
+                            <li>Night: 6:00 PM �C 9:00 PM (Last entry 8:00 PM)</li>
+                            <li>*Night hours may be closed during peak hotel occupancy (please check in advance).</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">�Ͻ�</span><span lang="en">Fees</span></h4>
+                        <p><strong lang="ja">ƽ��:</strong><strong lang="en">Weekdays:</strong></p>
+                        <ul lang="ja">
+                            <li>����: 800��</li>
+                            <li>Сѧ��: 500��</li>
+                            <li>�׃�: 200��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>Adult: 800 yen</li>
+                            <li>Elementary: 500 yen</li>
+                            <li>Infant: 200 yen</li>
+                        </ul>
+                        <p><strong lang="ja">����ף:</strong><strong lang="en">Weekends/Holidays:</strong></p>
+                        <ul lang="ja">
+                            <li>����: 1,000��</li>
+                            <li>Сѧ��: 600��</li>
+                            <li>�׃�: 200��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>Adult: 1,000 yen</li>
+                            <li>Elementary: 600 yen</li>
+                            <li>Infant: 200 yen</li>
+                        </ul>
+                        <p><strong lang="ja">�J��¶���L��:</strong><strong lang="en">Private Bath:</strong></p>
+                        <ul lang="ja">
+                            <li>45��2��5,000��(׷��1��1,000�ҡ����T4��)</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>45 min / 2 persons: 5,000 yen (Add. person: +1,000 yen / Max 4)</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">Ȫ�|?�؏�</span><span lang="en">Spring Quality & Features</span></h4>
+                        <ul lang="ja">
+                            <li>�ʥȥꥦ��-�c����?̿��ˮ�؉c��Ȫ</li>
+                            <li>ԴȪ�¶�: 59.1��</li>
+                            <li>�v��ɫ(����ɫ)�Τˤ��ꜫ</li>
+                            <li>��Һ�Τ褦�˥ȥ��ȥ��Ȥ���������(���`��Ȫ)</li>
+                            <li>? ������ԴȪ(���ڤ鷺��1%�������u��)</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>Sodium-chloride, hydrogen carbonate spring</li>
+                            <li>Source Temp: 59.1��C</li>
+                            <li>Green tea-colored (brownish) cloudy water</li>
+                            <li>Smooth, lotion-like texture (Moor spring)</li>
+                            <li>? 5-Star Source (Highest rating, held by only 1% in Japan)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlights">
+                    <h4>? <span lang="ja">���������ݥ�����</span><span lang="en">Highlights</span></h4>
+                    <ul lang="ja">
+                        <li>�ץ����J����������ԴȪ�����߼�Ȫ�|</li>
+                        <li>��ȫԴȪ��������(��ˮ?����?ѭ�h?�����ʤ�)</li>
+                        <li>һ�ˤ����ꚰ��1���åȥ����N���ʜ���</li>
+                        <li>�Ŵ����ޥ��åɺ��ФΡ������Μ���</li>
+                        <li>�s8,000ƺ�Ύڴ��ʷ��ؤˁФ��؜���냇���</li>
+                        <li>�J��¶���L�Τ��Վ������ÿ���</li>
+                    </ul>
+                    <ul lang="en">
+                        <li>Top-grade spring quality recognized by professionals</li>
+                        <li>100% natural flow (no dilution, heating, circulation, or disinfection)</li>
+                        <li>Abundant flow rate: approx. 1L per minute per person</li>
+                        <li>"Skin-beautifying bath" containing ancient somatids</li>
+                        <li>Atmospheric hidden spring setting on a vast 26,000 m2 site</li>
+                        <li>Private open-air baths available for day-trip users</li>
+                    </ul>
+                </div>
+
+                <div class="contact-info">
+                    <p lang="ja">?? TEL: <a href="tel:0287-36-6802">0287-36-6802</a> / <a href="tel:0120-27-1126">0120-27-1126</a>(���s����)</p>
+                    <p lang="en">?? TEL: <a href="tel:0287-36-6802">0287-36-6802</a> / <a href="tel:0120-27-1126">0120-27-1126</a> (Reservation)</p>
+                    <p lang="ja">? �ܸ�: 9:00��21:00</p>
+                    <p lang="en">? Reception: 9:00 AM �C 9:00 PM</p>
+                    <p lang="ja">?? ס��: ��ľ�h��횉cԭ�о���548-350</p>
+                    <p lang="en">?? Address: 548-350 Iguchi, Nasu-shiobara City, Tochigi</p>
+                    <p lang="ja">??? �v܇��: 50̨(�o��)</p>
+                    <p lang="en">??? Parking: 50 slots (Free)</p>
+                    <a href="https://www.ootakanoyu.com/" style="text-decoration: none; color: inherit; width: 100%; padding: 20px; background-color: #fff; border: 2px solid #007aff; border-radius: 15px; font-size: 17px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 0 #007aff; margin-top: 15px; box-sizing: border-box;">
+                        <span lang="ja">?? ��ʽ�����Ȥ�Ҋ��</span>
+                        <span lang="en">?? Visit Official Website</span>
+                        <span style="color: #007aff; margin-left: 10px; flex-shrink: 0;">��</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 2. ǧ������Ȫ -->
+            <div class="onsen-card">
+                <div class="onsen-name">
+                    <span lang="ja">2. ǧ������Ȫ</span>
+                    <span lang="en">2. Senbonmatsu Onsen</span>
+                    <span class="badge badge-recommend">
+                        <span lang="ja">?? ��������</span>
+                        <span lang="en">?? Recommended</span>
+                    </span>
+                </div>
+                <img src="onsen2.webp" alt="ǧ������Ȫ" class="onsen-image">
+                <span class="distance-badge">
+                    <span lang="ja">?? ܇�Ǽs15��</span>
+                    <span lang="en">?? Approx. 15 min drive</span>
+                </span>
+
+                <div class="info-grid">
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">��������</span><span lang="en">Access</span></h4>
+                        <ul lang="ja">
+                            <li>?? ܇�Ǽs15��</li>
+                            <li>��횉cԭ��ǧ����799(ǧ����������)</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>?? Approx. 15 min drive</li>
+                            <li>799 Senbonmatsu, Nasu-shiobara (Inside Senbonmatsu Ranch)</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>? <span lang="ja">�ӘI�r�g</span><span lang="en">Hours</span></h4>
+                        <ul lang="ja">
+                            <li>13:00��23:00(���K�ܸ�22:30)</li>
+                            <li>������: �o��(�o�������ƥʥ󥹕r������)</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>1:00 PM �C 11:00 PM (Last entry 10:30 PM)</li>
+                            <li>Closed: Open daily (except for emergency maintenance)</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">�Ͻ�</span><span lang="en">Fees</span></h4>
+                        <p><strong lang="ja">ƽ��:</strong><strong lang="en">Weekdays:</strong></p>
+                        <ul lang="ja">
+                            <li>����: 700��</li>
+                            <li>Сѧ��: 250��</li>
+                            <li>δ��ѧ��: �o��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>Adult: 700 yen</li>
+                            <li>Elementary: 250 yen</li>
+                            <li>Pre-school: Free</li>
+                        </ul>
+                        <p><strong lang="ja">����ף:</strong><strong lang="en">Weekends/Holidays:</strong></p>
+                        <ul lang="ja">
+                            <li>����: 800��</li>
+                            <li>Сѧ��: 300��</li>
+                            <li>δ��ѧ��: �o��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>Adult: 800 yen</li>
+                            <li>Elementary: 300 yen</li>
+                            <li>Pre-school: Free</li>
+                        </ul>
+                        <p><strong lang="ja">����ȯ:</strong><strong lang="en">Multi-use Ticket:</strong></p>
+                        <ul lang="ja">
+                            <li>10�ط�6,000��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>6,000 yen for 10 entries</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">Ȫ�|?�؏�</span><span lang="en">Spring Quality & Features</span></h4>
+                        <ul lang="ja">
+                            <li>�����Μ�(���륫����)</li>
+                            <li>ֲ����������Ȼ��Ȫ</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>Skin-beautifying bath (Alkaline)</li>
+                            <li>Plant-derived natural hot spring</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlights">
+                    <h4>? <span lang="ja">���������ݥ�����</span><span lang="en">Highlights</span></h4>
+                    <ul lang="ja">
+                        <li>23�r�ޤǆӘI��ҹ�W���ޤ����ÿ���</li>
+                        <li>ǧ���������ڤ��L������Ȫ</li>
+                        <li>�����½K�����ˤ��Ԥä���</li>
+                        <li>���������θߤ����륫��Ȫ</li>
+                    </ul>
+                    <ul lang="en">
+                        <li>Open until 11:00 PM, great for late-night use</li>
+                        <li>A hidden gem inside Senbonmatsu Ranch</li>
+                        <li>Perfect for relaxation after work</li>
+                        <li>High alkaline content for skin-beautifying effects</li>
+                    </ul>
+                </div>
+
+                <div class="contact-info">
+                    <p lang="ja">?? TEL: <a href="tel:0287-36-1025">0287-36-1025</a></p>
+                    <p lang="en">?? TEL: <a href="tel:0287-36-1025">0287-36-1025</a></p>
+                    <p lang="ja">?? ס��: ��ľ�h��횉cԭ��ǧ����799</p>
+                    <p lang="en">?? Address: 799 Senbonmatsu, Nasu-shiobara City, Tochigi</p>
+                    <a href="https://www.senbonmatsu.com/onsen/" style="text-decoration: none; color: inherit; width: 100%; padding: 20px; background-color: #fff; border: 2px solid #007aff; border-radius: 15px; font-size: 17px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 0 #007aff; margin-top: 15px; box-sizing: border-box;">
+                        <span lang="ja">?? ��ʽ�����Ȥ�Ҋ��</span>
+                        <span lang="en">?? Visit Official Website</span>
+                        <span style="color: #007aff; margin-left: 10px; flex-shrink: 0;">��</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 3. ��횉cԭ�kǰ��Ȫ -->
+            <div class="onsen-card new">
+                <div class="onsen-name">
+                    <span lang="ja">3. ��횉cԭ�kǰ��Ȫ</span>
+                    <span lang="en">3. Nasu-shiobara Ekimae Onsen</span>
+                    <span class="badge badge-new">?? NEW</span>
+                </div>
+                <span class="distance-badge">
+                    <span lang="ja">?? ܇�Ǽs5��(2.3km)</span>
+                    <span lang="en">?? Approx. 5 min drive (2.3km)</span>
+                </span>
+
+                <div class="info-grid">
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">��������</span><span lang="en">Access</span></h4>
+                        <ul lang="ja">
+                            <li>?? ܇�Ǽs5��(2.3km)</li>
+                            <li>?? ͽ�i26��</li>
+                            <li>?? �Х�ͣ����ɼ�ϡ�����ͽ�i2��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>?? Approx. 5 min drive (2.3km)</li>
+                            <li>?? 26 min walk</li>
+                            <li>?? 2 min walk from "Karasugi Minami" bus stop</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>? <span lang="ja">�ӘI�r�g</span><span lang="en">Hours</span></h4>
+                        <ul lang="ja">
+                            <li>ƽ��: 13:00��21:00(�ܸ��K��20:00)</li>
+                            <li>������: ��3������</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>Weekdays: 1:00 PM �C 9:00 PM (Last entry 8:00 PM)</li>
+                            <li>Closed: 3rd Tuesday</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">�Ͻ�</span><span lang="en">Fees</span></h4>
+                        <ul lang="ja">
+                            <li>����: 1,000��</li>
+                            <li>С��: 500��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>Adult: 1,000 yen</li>
+                            <li>Child: 500 yen</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">Ȫ�|?�؏�</span><span lang="en">Spring Quality & Features</span></h4>
+                        <ul lang="ja">
+                            <li>���������ɥ����`��ɫ��ԴȪ��������</li>
+                            <li>�ڜ�?¶���L��?������?ˮ�L������</li>
+                            <li>2020���_�I���¤���ʩ�O</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>100% natural flow with emerald green water</li>
+                            <li>Indoor/outdoor baths, sauna, and cold plunge</li>
+                            <li>Modern facility opened in 2020</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlights">
+                    <h4>? <span lang="ja">���������ݥ�����</span><span lang="en">Highlights</span></h4>
+                    <ul lang="ja">
+                        <li>�ۥƥ뤫������������Ȫʩ�O</li>
+                        <li>����ɫ����������ɫ</li>
+                        <li>�¤������坍���O��</li>
+                        <li>�����ʸ����ǥ��ե��å���</li>
+                    </ul>
+                    <ul lang="en">
+                        <li>Closest hot spring facility from the hotel</li>
+                        <li>Beautiful jade-colored water</li>
+                        <li>New and clean facilities</li>
+                        <li>Refresh yourself in the sauna</li>
+                    </ul>
+                </div>
+
+                <div class="contact-info">
+                    <p lang="ja">?? TEL: <a href="tel:0287-65-1126">0287-65-1126</a></p>
+                    <p lang="en">?? TEL: <a href="tel:0287-65-1126">0287-65-1126</a></p>
+                    <p lang="ja">?? ס��: ��ľ�h��횉cԭ����ɼ�֕�����41</p>
+                    <p lang="en">?? Address: 41 Sonebayashi, Karasugi, Nasu-shiobara City, Tochigi</p>
+                    <p lang="ja"><strong>��ʽ�۩`���ک`�����ʤ��ΤǤ��{�٤���������</strong></p>
+                    <p lang="en"><strong>No official website available (Please search online).</strong></p>
+                </div>
+            </div>
+
+            <!-- 4. �ߤ��������_ �ʻ��Μ� -->
+            <div class="onsen-card">
+                <div class="onsen-name">
+                    <span lang="ja">4. �ߤ��������_ �ʻ��Μ�</span>
+                    <span lang="en">4. Mikaeri-no-Sato Saika-no-Yu</span>
+                </div>
+                <span class="distance-badge">
+                    <span lang="ja">?? ܇�Ǽs10-15��</span>
+                    <span lang="en">?? Approx. 10-15 min drive</span>
+                </span>
+
+                <div class="info-grid">
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">��������</span><span lang="en">Access</span></h4>
+                        <ul lang="ja">
+                            <li>?? ܇�Ǽs10-15��</li>
+                            <li>?? JR��횉cԭ�k����JR�Х��cԭ��Ȫ�Ф�23�֡����ߤ��ȴ��������ڡ���܇ͽ�i3��</li>
+                            <li>?? �|����������Ұ�cԭIC��������400�ŽU��7km?13��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>?? Approx. 10-15 min drive</li>
+                            <li>?? 23 min by JR Bus toward Shiobara Onsen from Nasu-shiobara Station, 3 min walk from "Momijidani Otsuribashi"</li>
+                            <li>?? 7km (13 min) from Nishi-nasuno-shiobara IC via Rt 400</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>? <span lang="ja">�ӘI�r�g</span><span lang="en">Hours</span></h4>
+                        <ul lang="ja">
+                            <li>10:00��21:00(���K���^20:30)</li>
+                            <li>������: ��3ˮ����+������(ҪHP�_�J)</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>10:00 AM �C 9:00 PM (Last entry 8:30 PM)</li>
+                            <li>Closed: 3rd Wednesday + irregular (check website)</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">�Ͻ�</span><span lang="en">Fees</span></h4>
+                        <ul lang="ja">
+                            <li>����(��ѧ������): 700��</li>
+                            <li>�ӹ�(3�r��Сѧ��): 400��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>Adult (13+): 700 yen</li>
+                            <li>Child (3-12): 400 yen</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">Ȫ�|?�؏�</span><span lang="en">Spring Quality & Features</span></h4>
+                        <ul lang="ja">
+                            <li>�ʥȥꥦ��-�c����Ȫ(�͏��������륫���Ը���Ȫ)</li>
+                            <li>pH��: 8.8(���륫����)</li>
+                            <li>����: ���Uʹ������ʹ���v��ʹ����ʮ�硢���}Ӳ���ʤ�</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>Sodium-chloride spring (Hypotonic weak alkaline)</li>
+                            <li>pH: 8.8 (Alkaline)</li>
+                            <li>Benefits: Neuralgia, muscle pain, joint pain, stiff shoulders, etc.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlights">
+                    <h4>? <span lang="ja">���������ݥ�����</span><span lang="en">Highlights</span></h4>
+                    <ul lang="ja">
+                        <li>ɽ�K�ߤ������ʤ�����ԡ�Ǥ���¶���L��</li>
+                        <li>����������</li>
+                        <li>���ߤ��ȴ������������Q���ȥ��åȤǘS������</li>
+                        <li>���륫���Ԥ������Μ�</li>
+                    </ul>
+                    <ul lang="en">
+                        <li>Open-air bath with mountain views</li>
+                        <li>Sauna available</li>
+                        <li>Located near Momijidani suspension bridge, great for sightseeing</li>
+                        <li>Alkaline water for skin beautifying</li>
+                    </ul>
+                </div>
+
+                <div class="contact-info">
+                    <p lang="ja">?? TEL: <a href="tel:0287-34-1126">0287-34-1126</a></p>
+                    <p lang="en">?? TEL: <a href="tel:0287-34-1126">0287-34-1126</a></p>
+                    <p lang="ja">?? ס��: ��ľ�h��횉cԭ���v��1425-211</p>
+                    <p lang="en">?? Address: 1425-211 Sekiya, Nasu-shiobara City, Tochigi</p>
+                    <p lang="ja">??? �v܇��: 70-100̨(�o��)</p>
+                    <p lang="en">??? Parking: 70-100 slots (Free)</p>
+                    <a href="http://www.mikaerinosato.jp/" style="text-decoration: none; color: inherit; width: 100%; padding: 20px; background-color: #fff; border: 2px solid #007aff; border-radius: 15px; font-size: 17px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 0 #007aff; margin-top: 15px; box-sizing: border-box;">
+                        <span lang="ja">?? ��ʽ�����Ȥ�Ҋ��</span>
+                        <span lang="en">?? Visit Official Website</span>
+                        <span style="color: #007aff; margin-left: 10px; flex-shrink: 0;">��</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 5. «Ұ��Ȫ -->
+            <div class="onsen-card">
+                <div class="onsen-name">
+                    <span lang="ja">5. «Ұ��Ȫ</span>
+                    <span lang="en">5. Ashino Onsen</span>
+                </div>
+                <span class="distance-badge">
+                    <span lang="ja">?? ܇�Ǽs20��</span>
+                    <span lang="en">?? Approx. 20 min drive</span>
+                </span>
+
+                <div class="info-grid">
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">��������</span><span lang="en">Access</span></h4>
+                        <ul lang="ja">
+                            <li>?? ܇�Ǽs20��</li>
+                            <li>��횉cԭ�k�����s20km</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>?? Approx. 20 min drive</li>
+                            <li>Approx. 20km from Nasu-shiobara Station</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>? <span lang="ja">�ӘI�r�g</span><span lang="en">Hours</span></h4>
+                        <ul lang="ja">
+                            <li>Ҫ�_�J</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>Please check in advance</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlights">
+                    <h4>? <span lang="ja">���������ݥ�����</span><span lang="en">Highlights</span></h4>
+                    <ul lang="ja">
+                        <li>�����Վ�����Ȫʩ�O</li>
+                        <li>���g�����O��</li>
+                    </ul>
+                    <ul lang="en">
+                        <li>Large day-trip hot spring facility</li>
+                        <li>Well-equipped facilities</li>
+                    </ul>
+                </div>
+
+                <div class="contact-info">
+                    <p>
+                        <span lang="ja">?? ��횉cԭ���ꥢ</span>
+                        <span lang="en">?? Nasu-shiobara Area</span>
+                    </p>
+                    <a href="https://www.asinoonsen.co.jp/" style="text-decoration: none; color: inherit; width: 100%; padding: 20px; background-color: #fff; border: 2px solid #007aff; border-radius: 15px; font-size: 17px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 0 #007aff; margin-top: 15px; box-sizing: border-box;">
+                        <span lang="ja">?? ��ʽ�����Ȥ�Ҋ��</span>
+                        <span lang="en">?? Visit Official Website</span>
+                        <span style="color: #007aff; margin-left: 10px; flex-shrink: 0;">��</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- B. ��횥��ꥢ -->
+        <div class="section">
+            <h2 class="section-title">
+                <span lang="ja">??? B. ��횥��ꥢ(܇30-40��)</span>
+                <span lang="en">??? B. Nasu Area (30-40 min drive)</span>
+            </h2>
+
+            <!-- 6. ¹�Μ� -->
+            <div class="onsen-card">
+                <div class="onsen-name">
+                    <span lang="ja">6. ¹�Μ�(������ȪԪ��)</span>
+                    <span lang="en">6. Shika-no-Yu (Nasu Onsen Motoyu)</span>
+                </div>
+                <span class="distance-badge">
+                    <span lang="ja">?? ܇�Ǽs35��</span>
+                    <span lang="en">?? Approx. 35 min drive</span>
+                </span>
+
+                <div class="info-grid">
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">��������</span><span lang="en">Access</span></h4>
+                        <ul lang="ja">
+                            <li>?? ܇�Ǽs35��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>?? Approx. 35 min drive</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>? <span lang="ja">�ӘI�r�g</span><span lang="en">Hours</span></h4>
+                        <ul lang="ja">
+                            <li>8:00��18:00(11�¡�3�¤ϡ�17:00)</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>8:00 AM �C 6:00 PM (until 5:00 PM Nov�CMar)</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">�Ͻ�</span><span lang="en">Fees</span></h4>
+                        <ul lang="ja">
+                            <li>����: 500��</li>
+                            <li>Сѧ��: 300��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>Adult: 500 yen</li>
+                            <li>Elementary: 300 yen</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">Ȫ�|?�؏�</span><span lang="en">Spring Quality & Features</span></h4>
+                        <ul lang="ja">
+                            <li>����Ȫ(�ם��ˤ��ꜫ)</li>
+                            <li>�s1,300���Κsʷ���F��Ԫ��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>Sulfur spring (Milky white water)</li>
+                            <li>Historic "Motoyu" with approx. 1,300 years of history</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlights">
+                    <h4>? <span lang="ja">���������ݥ�����</span><span lang="en">Highlights</span></h4>
+                    <ul lang="ja">
+                        <li>���������ߤΚsʷ��������</li>
+                        <li>������Ȫ�k���ε�</li>
+                        <li>�������Ƥ������Ȱם��Μ�</li>
+                    </ul>
+                    <ul lang="en">
+                        <li>Best value for a historic famous spring</li>
+                        <li>Birthplace of Nasu Onsen</li>
+                        <li>Strong sulfur aroma and milky white water</li>
+                    </ul>
+                </div>
+
+                <div class="contact-info">
+                    <p>
+                        <span lang="ja">?? �������</span>
+                        <span lang="en">?? Yumoto, Nasu Town</span>
+                    </p>
+                    <a href="http://www.shikanoyu.jp/" style="text-decoration: none; color: inherit; width: 100%; padding: 20px; background-color: #fff; border: 2px solid #007aff; border-radius: 15px; font-size: 17px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 0 #007aff; margin-top: 15px; box-sizing: border-box;">
+                        <span lang="ja">?? ��ʽ�����Ȥ�Ҋ��</span>
+                        <span lang="en">?? Visit Official Website</span>
+                        <span style="color: #007aff; margin-left: 10px; flex-shrink: 0;">��</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 7. ������Ȫ���^ -->
+            <div class="onsen-card">
+                <div class="onsen-name">
+                    <span lang="ja">7. ������Ȫ���^</span>
+                    <span lang="en">7. Omaru Onsen Ryokan</span>
+                    <span class="badge badge-secret">
+                        <span lang="ja">�؜�</span>
+                        <span lang="en">Hidden Spring</span>
+                    </span>
+                </div>
+                <span class="distance-badge">
+                    <span lang="ja">?? ܇�Ǽs40��</span>
+                    <span lang="en">?? Approx. 40 min drive</span>
+                </span>
+
+                <div class="info-grid">
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">��������</span><span lang="en">Access</span></h4>
+                        <ul lang="ja">
+                            <li>?? ܇�Ǽs40��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>?? Approx. 40 min drive</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>? <span lang="ja">�ӘI�r�g</span><span lang="en">Hours</span></h4>
+                        <ul lang="ja">
+                            <li>11:30��15:00(���K�ܸ�14:30)</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>11:30 AM �C 3:00 PM (Last entry 2:30 PM)</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">�Ͻ�</span><span lang="en">Fees</span></h4>
+                        <ul lang="ja">
+                            <li>����: 1,000��</li>
+                            <li>Сѧ��: 700��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>Adult: 1,000 yen</li>
+                            <li>Elementary: 700 yen</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">Ȫ�|?�؏�</span><span lang="en">Spring Quality & Features</span></h4>
+                        <ul lang="ja">
+                            <li>����Ȫ</li>
+                            <li>�˸�1,300m���؜�</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>Sulfur spring</li>
+                            <li>Hidden spring at 1,300m altitude</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlights">
+                    <h4>? <span lang="ja">���������ݥ�����</span><span lang="en">Highlights</span></h4>
+                    <ul lang="ja">
+                        <li>���Μ�¶���L�Τ��~��</li>
+                        <li>����Ȼ���Ф�Ұ���L��</li>
+                        <li>�����Ĥ��؜����Y</li>
+                    </ul>
+                    <ul lang="en">
+                        <li>Stunning "River Bath" open-air pool</li>
+                        <li>Outdoor bathing in pure nature</li>
+                        <li>Authentic hidden spring experience</li>
+                    </ul>
+                </div>
+
+                <div class="contact-info">
+                    <p>
+                        <span lang="ja">?? �������</span>
+                        <span lang="en">?? Yumoto, Nasu Town</span>
+                    </p>
+                    <a href="https://www.omaru.co.jp/" style="text-decoration: none; color: inherit; width: 100%; padding: 20px; background-color: #fff; border: 2px solid #007aff; border-radius: 15px; font-size: 17px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 0 #007aff; margin-top: 15px; box-sizing: border-box;">
+                        <span lang="ja">?? ��ʽ�����Ȥ�Ҋ��</span>
+                        <span lang="en">?? Visit Official Website</span>
+                        <span style="color: #007aff; margin-left: 10px; flex-shrink: 0;">��</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 8. ����Ȫ���^ -->
+            <div class="onsen-card">
+                <div class="onsen-name">
+                    <span lang="ja">8. ����Ȫ���^</span>
+                    <span lang="en">8. Kita Onsen Ryokan</span>
+                    <span class="badge badge-secret">
+                        <span lang="ja">�؜�?ӳ��������</span>
+                        <span lang="en">Hidden Spring / Movie Location</span>
+                    </span>
+                </div>
+                <span class="distance-badge">
+                    <span lang="ja">?? ܇�Ǽs50��</span>
+                    <span lang="en">?? Approx. 50 min drive</span>
+                </span>
+
+                <div class="info-grid">
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">��������</span><span lang="en">Access</span></h4>
+                        <ul lang="ja">
+                            <li>?? ܇�Ǽs50��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>?? Approx. 50 min drive</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>? <span lang="ja">�ӘI�r�g</span><span lang="en">Hours</span></h4>
+                        <ul lang="ja">
+                            <li>8:30��17:30</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>8:30 AM �C 5:30 PM</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">�Ͻ�</span><span lang="en">Fees</span></h4>
+                        <ul lang="ja">
+                            <li>����: 700��</li>
+                            <li>�ӹ�: 400��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>Adult: 700 yen</li>
+                            <li>Child: 400 yen</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">Ȫ�|?�؏�</span><span lang="en">Spring Quality & Features</span></h4>
+                        <ul lang="ja">
+                            <li>�칷��Ȫ</li>
+                            <li>ӳ�����ƥ��ޥ�?���ޥ���������</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>Tengu Onsen</li>
+                            <li>Filming location for the movie "Thermae Romae"</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlights">
+                    <h4>? <span lang="ja">���������ݥ�����</span><span lang="en">Highlights</span></h4>
+                    <ul lang="ja">
+                        <li>ӳ���ե������L���}��</li>
+                        <li>�����r���Μ��Έ���냇���</li>
+                        <li>�칷���h�βФ��؜�</li>
+                    </ul>
+                    <ul lang="en">
+                        <li>A must-visit for movie fans</li>
+                        <li>Edo-period hot spring resort atmosphere</li>
+                        <li>Hidden spring with Tengu legends</li>
+                    </ul>
+                </div>
+
+                <div class="contact-info">
+                    <p>
+                        <span lang="ja">?? �������</span>
+                        <span lang="en">?? Yumoto, Nasu Town</span>
+                    </p>
+                    <a href="http://www.kitaonsen.com/" style="text-decoration: none; color: inherit; width: 100%; padding: 20px; background-color: #fff; border: 2px solid #007aff; border-radius: 15px; font-size: 17px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 0 #007aff; margin-top: 15px; box-sizing: border-box;">
+                        <span lang="ja">?? ��ʽ�����Ȥ�Ҋ��</span>
+                        <span lang="en">?? Visit Official Website</span>
+                        <span style="color: #007aff; margin-left: 10px; flex-shrink: 0;">��</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 9. С¹�Μ� -->
+            <div class="onsen-card">
+                <div class="onsen-name">
+                    <span lang="ja">9. С¹�Μ�</span>
+                    <span lang="en">9. Kojika-no-Yu</span>
+                </div>
+                <span class="distance-badge">
+                    <span lang="ja">?? ܇�Ǽs35��</span>
+                    <span lang="en">?? Approx. 35 min drive</span>
+                </span>
+
+                <div class="info-grid">
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">��������</span><span lang="en">Access</span></h4>
+                        <ul lang="ja">
+                            <li>?? ܇�Ǽs35��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>?? Approx. 35 min drive</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>? <span lang="ja">�ӘI�r�g</span><span lang="en">Hours</span></h4>
+                        <ul lang="ja">
+                            <li>9:00��21:00</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>9:00 AM �C 9:00 PM</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">�Ͻ�</span><span lang="en">Fees</span></h4>
+                        <ul lang="ja">
+                            <li>����: 500��</li>
+                            <li>�ӹ�: 300��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>Adult: 500 yen</li>
+                            <li>Child: 300 yen</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">Ȫ�|?�؏�</span><span lang="en">Spring Quality & Features</span></h4>
+                        <ul lang="ja">
+                            <li>¹�Μ�ԴȪ</li>
+                            <li>¹�Μ���ͬ��ԴȪ��ʹ��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>Shika-no-Yu Source</li>
+                            <li>Uses the same spring source as Shika-no-Yu</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlights">
+                    <h4>? <span lang="ja">���������ݥ�����</span><span lang="en">Highlights</span></h4>
+                    <ul lang="ja">
+                        <li>����������</li>
+                        <li>ҹ21�r�ޤǆӘI</li>
+                        <li>¹�Μ������դ��Ƥ��뤳�Ȥ��त</li>
+                    </ul>
+                    <ul lang="en">
+                        <li>Excellent value</li>
+                        <li>Open until 9:00 PM</li>
+                        <li>Often less crowded than Shika-no-Yu</li>
+                    </ul>
+                </div>
+
+                <div class="contact-info">
+                    <p>
+                        <span lang="ja">?? �������</span>
+                        <span lang="en">?? Yumoto, Nasu Town</span>
+                    </p>
+                    <p>
+                        <strong lang="ja">��ʽ�۩`���ک`�����ʤ��ΤǤ��{�٤���������</strong>
+                        <strong lang="en">No official website available (Please search online).</strong>
+                    </p>
+                </div>
+            </div>
+
+            <!-- 10. ����������Ȫ -->
+            <div class="onsen-card">
+                <div class="onsen-name">
+                    <span lang="ja">10. ����������Ȫ</span>
+                    <span lang="en">10. Kin-chan Onsen</span>
+                </div>
+                <span class="distance-badge">
+                    <span lang="ja">?? ܇�Ǽs40��</span>
+                    <span lang="en">?? Approx. 40 min drive</span>
+                </span>
+
+                <div class="info-grid">
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">��������</span><span lang="en">Access</span></h4>
+                        <ul lang="ja">
+                            <li>?? ܇�Ǽs40��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>?? Approx. 40 min drive</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>? <span lang="ja">�ӘI�r�g</span><span lang="en">Hours</span></h4>
+                        <ul lang="ja">
+                            <li>���β�: 11:30��16:00</li>
+                            <li>ҹ�β�: 17:00��21:00</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>Day: 11:30 AM �C 4:00 PM</li>
+                            <li>Night: 5:00 PM �C 9:00 PM</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">�Ͻ�</span><span lang="en">Fees</span></h4>
+                        <ul lang="ja">
+                            <li>��: ����800��</li>
+                            <li>ҹ: ����650��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>Day: Adult 800 yen</li>
+                            <li>Night: Adult 650 yen</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">Ȫ�|?�؏�</span><span lang="en">Spring Quality & Features</span></h4>
+                        <ul lang="ja">
+                            <li>�c����Ȫ</li>
+                            <li>ɭ���Фξ��Ť���Ȫ</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>Chloride spring</li>
+                            <li>Quiet hot spring in the forest</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlights">
+                    <h4>? <span lang="ja">���������ݥ�����</span><span lang="en">Highlights</span></h4>
+                    <ul lang="ja">
+                        <li>�����Ť���냇���</li>
+                        <li>ҹ�β�������</li>
+                    </ul>
+                    <ul lang="en">
+                        <li>Relaxing atmosphere</li>
+                        <li>Great value for the night session</li>
+                    </ul>
+                </div>
+
+                <div class="contact-info">
+                    <p>
+                        <span lang="ja">?? ������</span>
+                        <span lang="en">?? Nasu Town</span>
+                    </p>
+                    <a href="http://www.kinchan-onsen.com/" style="text-decoration: none; color: inherit; width: 100%; padding: 20px; background-color: #fff; border: 2px solid #007aff; border-radius: 15px; font-size: 17px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 0 #007aff; margin-top: 15px; box-sizing: border-box;">
+                        <span lang="ja">?? ��ʽ�����Ȥ�Ҋ��</span>
+                        <span lang="en">?? Visit Official Website</span>
+                        <span style="color: #007aff; margin-left: 10px; flex-shrink: 0;">��</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- C. �cԭ��Ȫ���ꥢ -->
+        <div class="section">
+            <h2 class="section-title">
+                <span lang="ja">?? C. �cԭ��Ȫ���ꥢ(܇35-50��)</span>
+                <span lang="en">?? C. Shiobara Onsen Area (35-50 min drive)</span>
+            </h2>
+
+            <!-- 11. �cԭ�����Ĥ��Μ� -->
+            <div class="onsen-card">
+                <div class="onsen-name">
+                    <span lang="ja">11. �cԭ�����Ĥ��Μ�</span>
+                    <span lang="en">11. Shiobara Akatsuki-no-Yu</span>
+                </div>
+                <span class="distance-badge">
+                    <span lang="ja">?? ܇�Ǽs40��</span>
+                    <span lang="en">?? Approx. 40 min drive</span>
+                </span>
+
+                <div class="info-grid">
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">��������</span><span lang="en">Access</span></h4>
+                        <ul lang="ja">
+                            <li>?? ܇�Ǽs40��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>?? Approx. 40 min drive</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>? <span lang="ja">�ӘI�r�g</span><span lang="en">Hours</span></h4>
+                        <ul lang="ja">
+                            <li>10:00��22:00</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>10:00 AM �C 10:00 PM</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">�Ͻ�</span><span lang="en">Fees</span></h4>
+                        <ul lang="ja">
+                            <li>ƽ��: ����800��</li>
+                            <li>����ף: ����1,000��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>Weekdays: Adult 800 yen</li>
+                            <li>Weekends/Holidays: Adult 1,000 yen</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">Ȫ�|?�؏�</span><span lang="en">Spring Quality & Features</span></h4>
+                        <ul lang="ja">
+                            <li>pH9.2�θߥ��륫��Ȫ</li>
+                            <li>������?�ש`������</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>High alkaline spring (pH 9.2)</li>
+                            <li>Sauna and swimming pool available</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlights">
+                    <h4>? <span lang="ja">���������ݥ�����</span><span lang="en">Highlights</span></h4>
+                    <ul lang="ja">
+                        <li>���������iȺ�θߥ��륫��Ȫ</li>
+                        <li>���g�����O��</li>
+                        <li>�����B���ˤ�������</li>
+                    </ul>
+                    <ul lang="en">
+                        <li>Excellent skin-beautifying effect</li>
+                        <li>Well-equipped facilities</li>
+                        <li>Recommended for families</li>
+                    </ul>
+                </div>
+
+                <div class="contact-info">
+                    <p>
+                        <span lang="ja">?? �cԭ��Ȫ</span>
+                        <span lang="en">?? Shiobara Onsen</span>
+                    </p>
+                    <a href="http://www.acatsuki.co.jp/shiobara/" style="text-decoration: none; color: inherit; width: 100%; padding: 20px; background-color: #fff; border: 2px solid #007aff; border-radius: 15px; font-size: 17px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 0 #007aff; margin-top: 15px; box-sizing: border-box;">
+                        <span lang="ja">?? ��ʽ�����Ȥ�Ҋ��</span>
+                        <span lang="en">?? Visit Official Website</span>
+                        <span style="color: #007aff; margin-left: 10px; flex-shrink: 0;">��</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 12. ���Úi���� -->
+            <div class="onsen-card">
+                <div class="onsen-name">
+                    <span lang="ja">12. ���Úi����(�㜫���@)</span>
+                    <span lang="en">12. Yuppo-no-Sato (Footbath Park)</span>
+                </div>
+                <span class="distance-badge">
+                    <span lang="ja">?? ܇�Ǽs45��</span>
+                    <span lang="en">?? Approx. 45 min drive</span>
+                </span>
+
+                <div class="info-grid">
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">��������</span><span lang="en">Access</span></h4>
+                        <ul lang="ja">
+                            <li>?? ܇�Ǽs45��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>?? Approx. 45 min drive</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>? <span lang="ja">�ӘI�r�g</span><span lang="en">Hours</span></h4>
+                        <ul lang="ja">
+                            <li>9:00��18:00</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>9:00 AM �C 6:00 PM</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">�Ͻ�</span><span lang="en">Fees</span></h4>
+                        <ul lang="ja">
+                            <li>����: 300��</li>
+                            <li>С��ѧ��: 200��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>Adult: 300 yen</li>
+                            <li>Elem/Junior High: 200 yen</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">Ȫ�|?�؏�</span><span lang="en">Spring Quality & Features</span></h4>
+                        <ul lang="ja">
+                            <li>�ձ����󼉤��㜫</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>One of the largest footbaths in Japan</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlights">
+                    <h4>? <span lang="ja">���������ݥ�����</span><span lang="en">Highlights</span></h4>
+                    <ul lang="ja">
+                        <li>���X�˘S�������㜫</li>
+                        <li>ɢ�ߤ����m</li>
+                        <li>���`���ʥ֥�</li>
+                    </ul>
+                    <ul lang="en">
+                        <li>Casual footbath enjoyment</li>
+                        <li>Perfect for a stroll</li>
+                        <li>Very reasonable prices</li>
+                    </ul>
+                </div>
+
+                <div class="contact-info">
+                    <p>
+                        <span lang="ja">?? �cԭ��Ȫ</span>
+                        <span lang="en">?? Shiobara Onsen</span>
+                    </p>
+                    <a href="http://www.yupponosato.com/" style="text-decoration: none; color: inherit; width: 100%; padding: 20px; background-color: #fff; border: 2px solid #007aff; border-radius: 15px; font-size: 17px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 0 #007aff; margin-top: 15px; box-sizing: border-box;">
+                        <span lang="ja">?? ��ʽ�����Ȥ�Ҋ��</span>
+                        <span lang="en">?? Visit Official Website</span>
+                        <span style="color: #007aff; margin-left: 10px; flex-shrink: 0;">��</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 13. �؜����� ԪȪ�^ -->
+            <div class="onsen-card">
+                <div class="onsen-name">
+                    <span lang="ja">13. �؜����� ԪȪ�^</span>
+                    <span lang="en">13. Gensen-kan (Hidden Spring Inn)</span>
+                    <span class="badge badge-secret">
+                        <span lang="ja">�؜�</span>
+                        <span lang="en">Hidden Spring</span>
+                    </span>
+                </div>
+                <span class="distance-badge">
+                    <span lang="ja">?? ܇�Ǽs50��</span>
+                    <span lang="en">?? Approx. 50 min drive</span>
+                </span>
+
+                <div class="info-grid">
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">��������</span><span lang="en">Access</span></h4>
+                        <ul lang="ja">
+                            <li>?? ܇�Ǽs50��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>?? Approx. 50 min drive</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>? <span lang="ja">�ӘI�r�g</span><span lang="en">Hours</span></h4>
+                        <ul lang="ja">
+                            <li>8:00��18:00</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>8:00 AM �C 6:00 PM</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">�Ͻ�</span><span lang="en">Fees</span></h4>
+                        <ul lang="ja">
+                            <li>����: 800��</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>Adult: 800 yen</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>?? <span lang="ja">Ȫ�|?�؏�</span><span lang="en">Spring Quality & Features</span></h4>
+                        <ul lang="ja">
+                            <li>�ˤ��ꜫ</li>
+                            <li>ɫ����������Ȫ(��?�v?�\)</li>
+                        </ul>
+                        <ul lang="en">
+                            <li>Cloudy water</li>
+                            <li>Color-changing springs (white, green, black)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlights">
+                    <h4>? <span lang="ja">���������ݥ�����</span><span lang="en">Highlights</span></h4>
+                    <ul lang="ja">
+                        <li>���صĤ�ɫ�������Μ�</li>
+                        <li>�����Ĥ��؜����Y</li>
+                        <li>��������Ȫ�ɷ�</li>
+                    </ul>
+                    <ul lang="en">
+                        <li>Mysterious color-changing waters</li>
+                        <li>Authentic hidden spring experience</li>
+                        <li>Rich mineral content</li>
+                    </ul>
+                </div>
+
+                <div class="contact-info">
+                    <p>
+                        <span lang="ja">?? �cԭ��Ȫ</span>
+                        <span lang="en">?? Shiobara Onsen</span>
+                    </p>
+                    <a href="http://www.gensenkan.com/" style="text-decoration: none; color: inherit; width: 100%; padding: 20px; background-color: #fff; border: 2px solid #007aff; border-radius: 15px; font-size: 17px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 0 #007aff; margin-top: 15px; box-sizing: border-box;">
+                        <span lang="ja">?? ��ʽ�����Ȥ�Ҋ��</span>
+                        <span lang="en">?? Visit Official Website</span>
+                        <span style="color: #007aff; margin-left: 10px; flex-shrink: 0;">��</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ���`���e�������� -->
+        <div class="section">
+            <h2 class="section-title">
+                <span lang="ja">?? ���`���e��������</span>
+                <span lang="en">?? Recommendations by Scene</span>
+            </h2>
+            <div class="recommendation-grid">
+                <div class="recommendation-card">
+                    <h3 lang="ja">?? ���߼�����Ȫ���Y</h3>
+                    <h3 lang="en">?? Premium Experience</h3>
+                    <p lang="ja">�� �����Μ�(܇10��)<br>������ԴȪ���ȥ��ȥ�������</p>
+                    <p lang="en">�� Ootaka-no-Yu (10 min drive)<br>5-star source, silky skin water</p>
+                </div>
+
+                <div class="recommendation-card">
+                    <h3 lang="ja">?? ܇�ǚ��X���Ф�������</h3>
+                    <h3 lang="en">?? Easy Access Nearby</h3>
+                    <p lang="ja">�� ��횉cԭ�kǰ��Ȫ(܇5��)<br>�����Μ�(܇10��)<br>�ʻ��Μ�(܇10-15��)</p>
+                    <p lang="en">�� Nasu-shiobara Ekimae (5 min)<br>Ootaka-no-Yu (10 min)<br>Saika-no-Yu (10-15 min)</p>
+                </div>
+
+                <div class="recommendation-card">
+                    <h3 lang="ja">?? ҹ�W���ޤ���ԡ������</h3>
+                    <h3 lang="en">?? Late Night Bathing</h3>
+                    <p lang="ja">�� ǧ������Ȫ(��23�r)<br>�����Μ� ҹ�β�(��21�r/Ҫ�_�J)</p>
+                    <p lang="en">�� Senbonmatsu (until 11 PM)<br>Ootaka-no-Yu (until 9 PM/check)</p>
+                </div>
+
+                <div class="recommendation-card">
+                    <h3 lang="ja">?? ��������ҕ</h3>
+                    <h3 lang="en">?? Best Value</h3>
+                    <p lang="ja">�� ¹�Μ�(500��)<br>С¹�Μ�(500��)</p>
+                    <p lang="en">�� Shika-no-Yu (500 yen)<br>Kojika-no-Yu (500 yen)</p>
+                </div>
+
+                <div class="recommendation-card">
+                    <h3 lang="ja">??? �؜�?�~����������</h3>
+                    <h3 lang="en">??? Hidden & Scenic</h3>
+                    <p lang="ja">�� ������Ȫ<br>����Ȫ<br>ԪȪ�^</p>
+                    <p lang="en">�� Omaru Onsen<br>Kita Onsen<br>Gensen-kan</p>
+                </div>
+
+                <div class="recommendation-card">
+                    <h3 lang="ja">??????????? �ե��ߥ��`�ˤ�������</h3>
+                    <h3 lang="en">??????????? For Families</h3>
+                    <p lang="ja">�� �cԭ�����Ĥ��Μ�(�ש`�븶)</p>
+                    <p lang="en">�� Shiobara Akatsuki-no-Yu (with pool)</p>
+                </div>
+
+                <div class="recommendation-card">
+                    <h3 lang="ja">?? ӳ��������Ѳ��</h3>
+                    <h3 lang="en">?? Movie Locations</h3>
+                    <p lang="ja">�� ����Ȫ<br>(�ƥ��ޥ�?���ޥ�)</p>
+                    <p lang="en">�� Kita Onsen<br>(Thermae Romae)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ������������ -->
+        <div class="section">
+            <h2 class="section-title">
+                <span lang="ja">?? ������������</span>
+                <span lang="en">?? Access Information</span>
+            </h2>
+            
+            <div class="info-box">
+                <h4>?? <span lang="ja">��܇�η�</span><span lang="en">By Car</span></h4>
+                <ul lang="ja">
+                    <li>����IC��������Ȫ��</li>
+                    <li>������Ұ�cԭIC��������Ȫ��</li>
+                    <li>�v܇�������ϸ�ʩ�O����</li>
+                </ul>
+                <ul lang="en">
+                    <li>Access each hot spring from Nasu IC</li>
+                    <li>Access each hot spring from Nishi-nasuno-shiobara IC</li>
+                    <li>Refer to each facility for parking details</li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <h4>?? <span lang="ja">������ͨ�C�v�η�</span><span lang="en">Public Transport</span></h4>
+                <p><strong lang="ja">��횷���:</strong><strong lang="en">Nasu Area:</strong></p>
+                <ul lang="ja">
+                    <li>�v�|�Х�����횥��`�ץ������Ф���</li>
+                </ul>
+                <ul lang="en">
+                    <li>Kanto Bus bound for "Nasu Ropeway"</li>
+                </ul>
+                <p><strong lang="ja">�cԭ����:</strong><strong lang="en">Shiobara Area:</strong></p>
+                <ul lang="ja">
+                    <li>JR�Х��v�|���cԭ��Ȫ�Х����`�ߥʥ��Ф���</li>
+                    <li>���ߤ��ȴ�����ͣ�ʤ�</li>
+                </ul>
+                <ul lang="en">
+                    <li>JR Bus Kanto bound for "Shiobara Onsen Bus Terminal"</li>
+                    <li>Stops at "Momijidani Otsuribashi", etc.</li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <h4>?? <span lang="ja">�������`</span><span lang="en">Taxi</span></h4>
+                <ul lang="ja">
+                    <li>��횉cԭ�k���ڥ������`�\����</li>
+                    <li>��Ҫ��Ȫ�ޤǤ�Ŀ���Ͻ��ϸ�ʩ�O����</li>
+                </ul>
+                <ul lang="en">
+                    <li>Taxi stand at Nasu-shiobara Station (West Exit)</li>
+                    <li>Refer to each facility for estimated fares</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <div class="section">
+            <h2 class="section-title">
+                <span lang="ja">? �褯�����|��(FAQ)</span>
+                <span lang="en">? Frequently Asked Questions (FAQ)</span>
+            </h2>
+
+            <div class="faq-item">
+                <h4 lang="ja">Q. ��Ȫ�ޤǤ���ӭ�Ϥ����ޤ���?</h4>
+                <h4 lang="en">Q. Is there a shuttle service to the hot springs?</h4>
+                <p lang="ja">A. ���ۥƥ뤫������ӭ�Ϥ������ޤ��󤬡��������`���Х����������ե����ȤǤ����ڤ������ޤ���</p>
+                <p lang="en">A. We do not provide shuttle services from the hotel, but our front desk can assist with taxi and bus information.</p>
+            </div>
+
+            <div class="faq-item">
+                <h4 lang="ja">Q. �Վ�����Ȫ�����s�ϱ�Ҫ�Ǥ���?</h4>
+                <h4 lang="en">Q. Is a reservation required for day-trip bathing?</h4>
+                <p lang="ja">A. ʩ�O�ˤ��ꮐ�ʤ��ޤ����ؤ��J���L�Τ�ҹ�β��������äΈ��Ϥ���ǰ�˸�ʩ�O�ؤ������Ϥ碌����������</p>
+                <p lang="en">A. It varies by facility. Please contact each facility in advance, especially for private baths or night use.</p>
+            </div>
+
+            <div class="faq-item">
+                <h4 lang="ja">Q. �������ϳֲΤ��٤��Ǥ���?</h4>
+                <h4 lang="en">Q. Should I bring my own towel?</h4>
+                <p lang="ja">A. �य��ʩ�O�ǥ�����؜�Ӥ������ޤ������ֲΤ����뤳�Ȥ򤪤����ᤷ�ޤ���</p>
+                <p lang="en">A. While many facilities sell towels, we recommend bringing your own.</p>
+            </div>
+
+            <div class="faq-item">
+                <h4 lang="ja">Q. ����Ȫ��ע������?</h4>
+                <h4 lang="en">Q. Are there any precautions for sulfur springs?</h4>
+                <p lang="ja">A. ���������������`�ω�ɫ���������Ԥ������ޤ����ޤ�����������������ԡ�ᤷ�ä���ϴ�������Ƥ���������</p>
+                <p lang="en">A. Metal jewelry may tarnish. Also, those with sensitive skin should rinse off thoroughly after bathing.</p>
+            </div>
+        </div>
+
+        <!-- ��Ȫ�ᤰ���Υ��� -->
+        <div class="section">
+            <div class="tips-list">
+                <h3 lang="ja">?? ��Ȫ�ᤰ���Υ���</h3>
+                <h3 lang="en">?? Tips for Hot Spring Touring</h3>
+                <ol lang="ja">
+                    <li><strong>�r�g��:</strong> ƽ����ǰ�Ф����^�Ŀդ��Ƥ��ޤ�</li>
+                    <li><strong>������:</strong> �ֲΤ���������</li>
+                    <li><strong>ˮ���a�o:</strong> ��ԡǰ����ʮ�֤�ˮ�֤�</li>
+                    <li><strong>�ӘI�r�g:</strong> �����ˤ������Ӥ���ʩ�O�⤢�뤿����ǰ�_�J��</li>
+                    <li><strong>����:</strong> �����ϵ�·״�r����ǰ�˴_�J</li>
+                </ol>
+                <ol lang="en">
+                    <li><strong>Timing:</strong> Weekday mornings are generally less crowded.</li>
+                    <li><strong>Towels:</strong> Bringing your own is recommended.</li>
+                    <li><strong>Hydration:</strong> Drink plenty of water before and after bathing.</li>
+                    <li><strong>Hours:</strong> Check in advance as hours may vary by season.</li>
+                    <li><strong>Weather:</strong> Check road conditions during the winter.</li>
+                </ol>
+            </div>
+        </div>
+
+        <footer>
+            <p lang="ja">���Υک`�����Ԙ�������?�cԭ��Ȫ�ᤰ���βο��ˤʤ����Ҥ��Ǥ���<br>
+            �ؔ�����Ȫ���Y�򤪘S���ߤ�������!</p>
+            <p lang="en">We hope this guide helps you with your Nasu/Shiobara hot spring tour.<br>
+            Enjoy a wonderful hot spring experience!</p>
+        </footer>
+    </div>
+
+    <div class="scroll-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
+        ��
+    </div>
+
+    <script>
+        // ���Z�����C��
+        function setLanguage(lang) {
+            if (lang === 'en') {
+                document.documentElement.classList.add('lang-en');
+            } else {
+                document.documentElement.classList.remove('lang-en');
+            }
+            
+            updateToggleButtons(lang);
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        function updateToggleButtons(lang) {
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                if ((lang === 'en' && btn.id === 'btn-en') || 
+                    (lang === 'ja' && btn.id === 'btn-ja')) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        // ���ڻ��I��
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('preferredLanguage');
+            const userLang = savedLang || (navigator.language.startsWith('ja') ? 'ja' : 'en');
+            setLanguage(userLang);
+
+            // �����`���������`��
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+
+        // �������`���ȥåץܥ����α�ʾ����
+        window.addEventListener('scroll', function() {
+            const scrollTop = document.querySelector('.scroll-top');
+            if (window.pageYOffset > 300) {
+                scrollTop.style.display = 'flex';
+            } else {
+                scrollTop.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
+

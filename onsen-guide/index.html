@@ -1,0 +1,1566 @@
+﻿<!DCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>那須ミッドシティホテル 日帰り温泉ガイド</title>
+<script>
+        // rZж (FUCֹ)
+        (function() {
+            const savedLang = localStorage.getItem('preferredLanguage');
+            const userLang = savedLang || (navigator.language.startsWith('ja') ? 'ja' : 'en');
+            if (userLang === 'en') {
+                document.documentElement.classList.add('lang-en');
+            }
+        })();
+    </script>
+<style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('onsen.webp') center/cover no-repeat;
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 400px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .catchcopy {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 30px 0 20px;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.95;
+        }
+
+        .section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 4px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .onsen-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 6px solid #ff6b6b;
+        }
+
+        .onsen-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .onsen-card.premium {
+            border-left-color: #ffd700;
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+        }
+
+        .onsen-card.new {
+            border-left-color: #00b894;
+            background: linear-gradient(135deg, #dfe6e9 0%, #b2bec3 100%);
+        }
+
+        .onsen-name {
+            font-size: 1.8rem;
+            color: #2d3436;
+            margin-bottom: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .badge-new {
+            background: #00b894;
+            color: white;
+        }
+
+        .badge-premium {
+            background: #ffd700;
+            color: #2d3436;
+        }
+
+        .badge-secret {
+            background: #6c5ce7;
+            color: white;
+        }
+
+        .badge-recommend {
+            background: #ff7675;
+            color: white;
+        }
+
+        .onsen-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .info-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .info-box h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-box p, .info-box ul {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .info-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info-box ul li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .info-box ul li:before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .highlights {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .highlights h4 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .highlights ul {
+            list-style: none;
+        }
+
+        .highlights ul li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .highlights ul li:before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+        }
+
+        .contact-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .contact-info p {
+            margin: 5px 0;
+            color: #2d3436;
+        }
+
+        .contact-info a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        .recommendation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .recommendation-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .recommendation-card:hover {
+            transform: scale(1.05);
+        }
+
+        .recommendation-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .recommendation-card p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .faq-item {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+        }
+
+        .faq-item h4 {
+            color: #2d3436;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .faq-item p {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .tips-list {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .tips-list h3 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .tips-list ol {
+            padding-left: 25px;
+        }
+
+        .tips-list li {
+            padding: 10px 0;
+            font-size: 1.1rem;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+            margin-top: 40px;
+        }
+
+        footer p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .distance-badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .catchcopy {
+                font-size: 1.3rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .section {
+                padding: 25px;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .onsen-name {
+                font-size: 1.4rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .recommendation-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .rental-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .rental-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 10px;
+            border-left: 3px solid #667eea;
+            font-size: 0.9rem;
+        }
+
+        .rental-item p {
+            margin: 2px 0 !important;
+            line-height: 1.5 !important;
+        }
+
+        .rental-item strong {
+            color: #2d3436;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .area-label {
+            display: inline-block;
+            background: #ff6b6b;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #667eea;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .scroll-top:hover {
+            transform: scale(1.1);
+        }
+
+        .url-link {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            background: #fff !important;
+            color: #333 !important;
+            padding: 15px 20px !important;
+            border: 2px solid #007aff !important;
+            border-radius: 15px !important;
+            text-decoration: none !important;
+            margin-top: 15px !important;
+            transition: all 0.2s ease !important;
+            width: 100% !important;
+            font-weight: bold !important;
+            box-shadow: 0 4px 0 #007aff !important;
+            box-sizing: border-box !important;
+        }
+
+        .url-link:hover {
+            background: #f0f7ff !important;
+            transform: translateY(2px) !important;
+            box-shadow: 0 2px 0 #007aff !important;
+        }
+
+        .url-link .arrow-span {
+            color: #007aff !important;
+            margin-left: 10px !important;
+            font-size: 1.2rem !important;
+        }
+
+        /* ܥ */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 10000;
+            background: white;
+            color: #667eea;
+            padding: 12px 24px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            font-weight: bold;
+            font-size: 1rem;
+            border: 2px solid transparent;
+        }
+
+        /* CSSʸӡ */
+        .back-button::before {
+            content: '';
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-top: 3px solid #667eea;
+            border-left: 3px solid #667eea;
+            transform: rotate(-45deg);
+            margin-right: 10px;
+            transition: border-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .back-button:hover::before {
+            border-color: white;
+        }
+
+            @media (max-width: 768px) {
+                .back-button {
+                    top: 15px;
+                    left: 15px;
+                    padding: 10px 18px;
+                    font-size: 0.9rem;
+                }
+                .back-button::before {
+                    width: 8px;
+                    height: 8px;
+                    border-width: 2px;
+                    margin-right: 6px;
+                }
+            }
+
+            /* ZФ椨 */
+            .lang-switch {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 10000;
+                background: rgba(255, 255, 255, 0.9);
+                padding: 5px;
+                border-radius: 30px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+                display: flex;
+                gap: 5px;
+            }
+
+            .lang-btn {
+                border: none;
+                background: transparent;
+                padding: 8px 15px;
+                border-radius: 20px;
+                cursor: pointer;
+                font-weight: bold;
+                transition: all 0.3s ease;
+                font-size: 0.9rem;
+                color: #667eea;
+            }
+
+            .lang-btn.active {
+                background: #667eea;
+                color: white;
+            }
+
+            /* Zʾ */
+            [lang="en"] { display: none !important; }
+            
+            html.lang-en [lang="ja"] { display: none !important; }
+            html.lang-en [lang="en"] { display: block !important; }
+            html.lang-en span[lang="en"], html.lang-en strong[lang="en"], html.lang-en a[lang="en"] { display: inline !important; }
+            
+            /* ǥե(ja) */
+            html:not(.lang-en) [lang="en"] { display: none !important; }
+            html:not(.lang-en) [lang="ja"] { display: block !important; }
+            html:not(.lang-en) span[lang="ja"], html:not(.lang-en) strong[lang="ja"], html:not(.lang-en) a[lang="ja"] { display: inline !important; }
+
+            @media (max-width: 768px) {
+                .lang-switch {
+                    top: 10px;
+                    right: 10px;
+                }
+                .lang-btn {
+                    padding: 5px 10px;
+                    font-size: 0.8rem;
+                }
+            }
+            </style>
+</head>
+<body>
+<!-- ZФ椨 -->
+
+
+
+<div class="lang-switch">
+    <button class="lang-btn active" id="btn-ja" onclick="setLanguage('ja')">日本語</button>
+    <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">English</button>
+</div>
+<a class="back-button" href="https://nasu-midcity-guide.netlify.app/" title="戻る">
+    <span lang="ja">戻る</span>
+    <span lang="en">Back</span>
+</a>
+
+<div class="container">
+    <header>
+        <h1 lang="ja">♨️ 那須ミッドシティホテル 近隣日帰り温泉ガイド</h1>
+        <h1 lang="en">♨️ Nasu Mid-City Hotel Nearby Day-Trip Hot Spring Guide</h1>
+        <div class="catchcopy" lang="ja">✨駅前ホテルから、那須・塩原の名湯めぐりへ。✨</div>
+        <div class="catchcopy" lang="en">✨From the Station Hotel to the Famous Waters of Nasu & Shiobara✨</div>
+        <div class="subtitle">
+            <div lang="ja">那須ミッドシティホテルは全室ユニットバスですが、<br>その分周辺には多様な日帰り温泉が充実しております。<br>駅チカの施設から五ツ星源泉、風情ある秘湯まで、<br>お客様のスタイルに合ったお気に入りの温泉を見つけてください。</div>
+            <div lang="en">
+                Nasu Mid-City Hotel features in-room modular baths only,<br>
+                but we invite you to enjoy the variety of unique nearby day-trip hot springs instead.<br>
+                From new facilities just 5 minutes away by car, to 5-star premium springs,<br>
+                and historic hidden hot springs, we offer a diverse range of onsen experiences.
+            </div>
+        </div>
+        <div class="nav-shortcuts" style="margin-top: 30px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+            <a href="#access" class="shortcut-btn" style="background: rgba(255, 255, 255, 0.2); border: 1px solid white; color: white; padding: 12px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; transition: all 0.3s ease; backdrop-filter: blur(5px);">
+                <span lang="ja">🚕 お車以外でお越しの方はこちら（タクシー・レンタカー）</span>
+                <span lang="en">🚕 For Visitors Not Using a Car (Taxi & Rental Car)</span>
+            </a>
+        </div>
+    </header>
+<div class="section"><h2 class="section-title"><span lang="ja">📍 A. 駅周辺エリア(車で5〜15分)</span><span lang="en">📍 A. Station Area (5-15 min drive)</span> <span class="badge badge-new" style="font-size:1rem;margin-left:10px;">⭐ おすすめエリア</span></h2>
+    <div class="onsen-card">
+        <div class="onsen-name">
+            <span lang="ja">1. 大鷹の湯 (五ツ星源泉の宿)</span>
+            <span lang="en">1. Ootaka-no-Yu (5-Star Spring Inn)</span>
+
+            <span class="badge badge-secret">
+                <span lang="ja">おすすめ</span>
+                <span lang="en">Recommended</span>
+            </span>
+
+        </div>
+        <span class="distance-badge">
+            <span lang="ja">📍 車で約10分</span>
+            <span lang="en">📍 Approx. 10 min drive</span>
+        </span>
+        <div class="info-grid">
+            <div class="info-box">
+                <h4><span lang="ja">🚗 アクセス</span><span lang="en">🚗 Access</span></h4>
+                <ul lang="ja"><li>車で約10分</li><li>那須塩原駅/西那須野駅からタクシー約15分</li></ul>
+                <ul lang="en"><li>Approx. 10 min drive</li><li>15 min by taxi from Nasu-shiobara Station</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">⏰ 営業時間</span><span lang="en">⏰ Hours</span></h4>
+                <ul lang="ja"><li>昼の部: 10:00～14:00 (最終受付13:00)</li><li>夜の部: 18:00～21:00 (最終受付20:00) ※要確認</li></ul>
+                <ul lang="en"><li>Day: 10:00 AM – 2:00 PM (Last entry 1:00 PM)</li><li>Night: 6:00 PM – 9:00 PM (Last entry 8:00 PM) *Check in advance</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">💰 料金</span><span lang="en">💰 Fees</span></h4>
+                <ul lang="ja"><li>大人: 1,000円</li><li>小学生: 600円</li><li>幼児: 200円</li><li>貸切風呂: 45分/2名 5,000円 (最大4名)</li></ul>
+                <ul lang="en"><li>Adult: 1,000 yen</li><li>Elementary: 600 yen</li><li>Infant: 200 yen</li><li>Private Bath: 45 min/2 persons 5,000 yen</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">♨️ 泉質・特徴</span><span lang="en">♨️ Spring Quality & Features</span></h4>
+                <ul lang="ja"><li>ナトリウム-塩化物・炭酸水素塩温泉</li><li>源泉温度: 59.1℃</li><li>茶褐色 (ウーロン茶色) のとろみあるモール泉</li></ul>
+                <ul lang="en"><li>Sodium-chloride, hydrogen carbonate spring</li><li>Source Temp: 59.1℃</li><li>Green tea-colored (brownish) cloudy water. Smooth, lotion-like texture.</li></ul>
+            </div>
+        </div>
+        <div class="highlights">
+            <h4><span lang="ja">✨ おすすめポイント</span><span lang="en">✨ Highlights</span></h4>
+            <ul lang="ja"><li>全国でも希少な「五ツ星源泉」100%源泉かけ流し</li><li>プロも絶賛する最高ランクの泉質</li><li>日帰りでも個室の貸切露天風呂が利用可能</li></ul>
+            <ul lang="en"><li>100% natural flow of 5-Star Source (held by only 1% in Japan)</li><li>Top-grade spring quality recognized by professionals</li><li>Private open-air baths available for day-trip users</li></ul>
+        </div>
+        <div class="contact-info">
+
+            <p lang="ja">📞 TEL: <a href="tel:0287-36-6802">0287-36-6802</a></p>
+            <p lang="en">📞 TEL: <a href="tel:0287-36-6802">0287-36-6802</a></p>
+
+            <p lang="ja">🏠 住所: 栃木県那須塩原市井口548-350</p>
+            <p lang="en">🏠 Address: 548-350 Iguchi, Nasu-shiobara City, Tochigi</p>
+
+            <a href="https://www.ootakanoyu.com/" class="url-link">
+                <span lang="ja">🌐 公式サイトを見る</span>
+                <span lang="en">🌐 Visit Official Website</span>
+                <span class="arrow-span">▶</span>
+            </a>
+
+        </div>
+    </div>
+
+    <div class="onsen-card">
+        <div class="onsen-name">
+            <span lang="ja">2. 千本松温泉</span>
+            <span lang="en">2. Senbonmatsu Onsen</span>
+
+        </div>
+        <span class="distance-badge">
+            <span lang="ja">📍 車で約15分</span>
+            <span lang="en">📍 Approx. 15 min drive</span>
+        </span>
+        <div class="info-grid">
+            <div class="info-box">
+                <h4><span lang="ja">🚗 アクセス</span><span lang="en">🚗 Access</span></h4>
+                <ul lang="ja"><li>車で約15分</li><li>千本松牧場内 (西那須野塩原IC降りてすぐ)</li></ul>
+                <ul lang="en"><li>Approx. 15 min drive</li><li>Inside Senbonmatsu Ranch (near Nishi-nasuno-shiobara IC)</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">⏰ 営業時間</span><span lang="en">⏰ Hours</span></h4>
+                <ul lang="ja"><li>13:00～23:00 (最終受付22:30)</li><li>定休日: なし (メンテナンス時除く)</li></ul>
+                <ul lang="en"><li>1:00 PM – 11:00 PM (Last entry 10:30 PM)</li><li>Open daily (except for maintenance)</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">💰 料金</span><span lang="en">💰 Fees</span></h4>
+                <ul lang="ja"><li>平日: 大人 700円、小学生 250円、未就学児 無料</li><li>土日祝: 大人 800円、小学生 300円、未就学児 無料</li><li>回数券(10回分): 6,000円</li></ul>
+                <ul lang="en"><li>Weekdays: Adult 700 yen, Elem 250 yen, Pre-school Free</li><li>Weekends/Holidays: Adult 800 yen, Elem 300 yen, Pre-school Free</li><li>Multi-use Ticket: 6,000 yen/10 entries</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">♨️ 泉質・特徴</span><span lang="en">♨️ Spring Quality & Features</span></h4>
+                <ul lang="ja"><li>アルカリ性の美肌の湯</li><li>植物由来の天然モール泉</li></ul>
+                <ul lang="en"><li>Alkaline skin-beautifying bath</li><li>Plant-derived natural hot spring</li></ul>
+            </div>
+        </div>
+        <div class="highlights">
+            <h4><span lang="ja">✨ おすすめポイント</span><span lang="en">✨ Highlights</span></h4>
+            <ul lang="ja"><li>夜23時まで営業しており遅めの利用に便利</li><li>千本松牧場内にある穴場的温泉</li><li>仕事終わりのリフレッシュに最適</li></ul>
+            <ul lang="en"><li>Open until 11:00 PM, great for late-night use</li><li>A hidden gem inside Senbonmatsu Ranch</li><li>Perfect for relaxation after work</li></ul>
+        </div>
+        <div class="contact-info">
+
+            <p lang="ja">📞 TEL: <a href="tel:0287-36-1025">0287-36-1025</a></p>
+            <p lang="en">📞 TEL: <a href="tel:0287-36-1025">0287-36-1025</a></p>
+
+            <p lang="ja">🏠 住所: 栃木県那須塩原市千本松799</p>
+            <p lang="en">🏠 Address: 799 Senbonmatsu, Nasu-shiobara City, Tochigi</p>
+
+            <a href="https://www.senbonmatsu.com/onsen/" class="url-link">
+                <span lang="ja">🌐 公式サイトを見る</span>
+                <span lang="en">🌐 Visit Official Website</span>
+                <span class="arrow-span">▶</span>
+            </a>
+
+        </div>
+    </div>
+
+    <div class="onsen-card new">
+        <div class="onsen-name">
+            <span lang="ja">3. 那須塩原駅前温泉</span>
+            <span lang="en">3. Nasu-shiobara Ekimae Onsen</span>
+
+            <span class="badge badge-new">
+                <span lang="ja">NEW</span>
+                <span lang="en">NEW</span>
+            </span>
+
+        </div>
+        <span class="distance-badge">
+            <span lang="ja">📍 車で約5分</span>
+            <span lang="en">📍 Approx. 5 min drive</span>
+        </span>
+        <div class="info-grid">
+            <div class="info-box">
+                <h4><span lang="ja">🚗 アクセス</span><span lang="en">🚗 Access</span></h4>
+                <ul lang="ja"><li>車で約5分 (2.3km)</li><li>徒歩約26分</li><li>バス停「唐杉南」から徒歩2分</li></ul>
+                <ul lang="en"><li>Approx. 5 min drive (2.3km)</li><li>26 min walk</li><li>2 min walk from 'Karasugi Minami' bus stop</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">⏰ 営業時間</span><span lang="en">⏰ Hours</span></h4>
+                <ul lang="ja"><li>平日: 13:00～21:00 (最終受付20:00)</li><li>定休日: 第3火曜日</li></ul>
+                <ul lang="en"><li>Weekdays: 1:00 PM – 9:00 PM (Last entry 8:00 PM)</li><li>Closed: 3rd Tuesday</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">💰 料金</span><span lang="en">💰 Fees</span></h4>
+                <ul lang="ja"><li>大人: 1,000円</li><li>子供: 500円</li></ul>
+                <ul lang="en"><li>Adult: 1,000 yen</li><li>Child: 500 yen</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">♨️ 泉質・特徴</span><span lang="en">♨️ Spring Quality & Features</span></h4>
+                <ul lang="ja"><li>エメラルドグリーンの源泉かけ流し</li><li>2020年オープンの新しい施設</li></ul>
+                <ul lang="en"><li>100% natural flow with emerald green water</li><li>Modern facility opened in 2020</li></ul>
+            </div>
+        </div>
+        <div class="highlights">
+            <h4><span lang="ja">✨ おすすめポイント</span><span lang="en">✨ Highlights</span></h4>
+            <ul lang="ja"><li>当ホテルから最も近い温泉施設</li><li>内湯・露天風呂・サウナ・水風呂を完備</li><li>新しくて清潔感のある施設</li></ul>
+            <ul lang="en"><li>Closest hot spring facility from the hotel</li><li>Indoor/outdoor baths, sauna, and cold plunge</li><li>New and clean facilities</li></ul>
+        </div>
+        <div class="contact-info">
+
+            <p lang="ja">📞 TEL: <a href="tel:0287-65-1126">0287-65-1126</a></p>
+            <p lang="en">📞 TEL: <a href="tel:0287-65-1126">0287-65-1126</a></p>
+
+            <p lang="ja">🏠 住所: 栃木県那須塩原市唐杉曽根林41</p>
+            <p lang="en">🏠 Address: 41 Sonebayashi, Karasugi, Nasu-shiobara City</p>
+
+            <p lang="ja"><strong>※公式サイト無し（ネット検索等でご確認ください）</strong></p>
+            <p lang="en"><strong>*No official website available. Please search online.</strong></p>
+
+        </div>
+    </div>
+
+    <div class="onsen-card">
+        <div class="onsen-name">
+            <span lang="ja">4. みかえりの郷 彩花の湯</span>
+            <span lang="en">4. Mikaeri-no-Sato Saika-no-Yu</span>
+
+        </div>
+        <span class="distance-badge">
+            <span lang="ja">📍 車で約10〜15分</span>
+            <span lang="en">📍 Approx. 10-15 min drive</span>
+        </span>
+        <div class="info-grid">
+            <div class="info-box">
+                <h4><span lang="ja">🚗 アクセス</span><span lang="en">🚗 Access</span></h4>
+                <ul lang="ja"><li>車で約10〜15分</li><li>もみじ谷大吊橋近く</li></ul>
+                <ul lang="en"><li>Approx. 10-15 min drive</li><li>Near Momijidani suspension bridge</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">⏰ 営業時間</span><span lang="en">⏰ Hours</span></h4>
+                <ul lang="ja"><li>10:00～21:00 (最終受付20:30)</li><li>定休: 第3水曜・不定休(要HP確認)</li></ul>
+                <ul lang="en"><li>10:00 AM – 9:00 PM (Last entry 8:30 PM)</li><li>Closed: 3rd Wednesday + irregular</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">💰 料金</span><span lang="en">💰 Fees</span></h4>
+                <ul lang="ja"><li>大人(中学生以上): 700円</li><li>小人(3歳～小学生): 400円</li></ul>
+                <ul lang="en"><li>Adult (13+): 700 yen</li><li>Child (3-12): 400 yen</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">♨️ 泉質・特徴</span><span lang="en">♨️ Spring Quality & Features</span></h4>
+                <ul lang="ja"><li>ナトリウム-塩化物温泉 (低張性 弱アルカリ性)</li><li>pH値: 8.8 (アルカリ性)</li></ul>
+                <ul lang="en"><li>Sodium-chloride spring (Hypotonic weak alkaline)</li><li>pH: 8.8 (Alkaline)</li></ul>
+            </div>
+        </div>
+        <div class="highlights">
+            <h4><span lang="ja">✨ おすすめポイント</span><span lang="en">✨ Highlights</span></h4>
+            <ul lang="ja"><li>山々を見渡せる絶景の露天風呂</li><li>もみじ谷大吊橋の近くで観光帰りに最適</li><li>サウナ完備</li></ul>
+            <ul lang="en"><li>Open-air bath with mountain views</li><li>Located near Momijidani suspension bridge</li><li>Sauna available</li></ul>
+        </div>
+        <div class="contact-info">
+
+            <p lang="ja">📞 TEL: <a href="tel:0287-34-1126">0287-34-1126</a></p>
+            <p lang="en">📞 TEL: <a href="tel:0287-34-1126">0287-34-1126</a></p>
+
+            <p lang="ja">🏠 住所: 栃木県那須塩原市関谷1425-211</p>
+            <p lang="en">🏠 Address: 1425-211 Sekiya, Nasu-shiobara City, Tochigi</p>
+
+            <a href="http://www.mikaerinosato.jp/" class="url-link">
+                <span lang="ja">🌐 公式サイトを見る</span>
+                <span lang="en">🌐 Visit Official Website</span>
+                <span class="arrow-span">▶</span>
+            </a>
+
+        </div>
+    </div>
+
+    <div class="onsen-card">
+        <div class="onsen-name">
+            <span lang="ja">5. 芦野温泉</span>
+            <span lang="en">5. Ashino Onsen</span>
+
+        </div>
+        <span class="distance-badge">
+            <span lang="ja">📍 車で約20分</span>
+            <span lang="en">📍 Approx. 20 min drive</span>
+        </span>
+        <div class="info-grid">
+            <div class="info-box">
+                <h4><span lang="ja">🚗 アクセス</span><span lang="en">🚗 Access</span></h4>
+                <ul lang="ja"><li>那須塩原駅より約20km</li></ul>
+                <ul lang="en"><li>Approx. 20km from Nasu-shiobara Station</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">⏰ 営業時間</span><span lang="en">⏰ Hours</span></h4>
+                <ul lang="ja"><li>事前に要確認</li></ul>
+                <ul lang="en"><li>Please check in advance</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">💰 料金</span><span lang="en">💰 Fees</span></h4>
+                <ul lang="ja"><li>施設にお問い合わせください</li></ul>
+                <ul lang="en"><li>Please check with the facility</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">♨️ 泉質・特徴</span><span lang="en">♨️ Spring Quality & Features</span></h4>
+                <ul lang="ja"><li>大型複合温泉施設</li></ul>
+                <ul lang="en"><li>Large natural hot spring complex</li></ul>
+            </div>
+        </div>
+        <div class="highlights">
+            <h4><span lang="ja">✨ おすすめポイント</span><span lang="en">✨ Highlights</span></h4>
+            <ul lang="ja"><li>人気の大型日帰り温泉</li><li>設備が充実しており長時間楽しめる</li></ul>
+            <ul lang="en"><li>Large day-trip hot spring facility</li><li>Well-equipped facilities for a long stay</li></ul>
+        </div>
+        <div class="contact-info">
+
+            <a href="https://www.asinoonsen.co.jp/" class="url-link">
+                <span lang="ja">🌐 公式サイトを見る</span>
+                <span lang="en">🌐 Visit Official Website</span>
+                <span class="arrow-span">▶</span>
+            </a>
+
+        </div>
+    </div>
+</div><div class="section"><h2 class="section-title"><span lang="ja">📍 B. 那須エリア(車で30〜40分)</span><span lang="en">📍 B. Nasu Area (30-40 min drive)</span></h2>
+    <div class="onsen-card">
+        <div class="onsen-name">
+            <span lang="ja">6. 鹿の湯 (那須温泉元湯)</span>
+            <span lang="en">6. Shika-no-Yu (Nasu Onsen Motoyu)</span>
+
+        </div>
+        <span class="distance-badge">
+            <span lang="ja">📍 車で約35分</span>
+            <span lang="en">📍 Approx. 35 min drive</span>
+        </span>
+        <div class="info-grid">
+            <div class="info-box">
+                <h4><span lang="ja">🚗 アクセス</span><span lang="en">🚗 Access</span></h4>
+                <ul lang="ja"><li>車で約35分</li></ul>
+                <ul lang="en"><li>Approx. 35 min drive</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">⏰ 営業時間</span><span lang="en">⏰ Hours</span></h4>
+                <ul lang="ja"><li>8:00～18:00 (11月～3月は17:00まで)</li></ul>
+                <ul lang="en"><li>8:00 AM – 6:00 PM (until 5:00 PM Nov–Mar)</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">💰 料金</span><span lang="en">💰 Fees</span></h4>
+                <ul lang="ja"><li>大人: 500円</li><li>小学生: 300円</li></ul>
+                <ul lang="en"><li>Adult: 500 yen</li><li>Elementary: 300 yen</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">♨️ 泉質・特徴</span><span lang="en">♨️ Spring Quality & Features</span></h4>
+                <ul lang="ja"><li>硫黄泉 (乳白色)</li><li>約1300年の歴史を持つ「元湯」</li></ul>
+                <ul lang="en"><li>Sulfur spring (Milky white water)</li><li>Historic 'Motoyu' with approx. 1,300 years of history</li></ul>
+            </div>
+        </div>
+        <div class="highlights">
+            <h4><span lang="ja">✨ おすすめポイント</span><span lang="en">✨ Highlights</span></h4>
+            <ul lang="ja"><li>那須温泉発祥の地</li><li>強い硫黄の香りと乳白色の濁り湯</li><li>歴史的名湯でありながら500円と高コスパ</li></ul>
+            <ul lang="en"><li>Birthplace of Nasu Onsen</li><li>Strong sulfur aroma and milky white water</li><li>Best value for a historic famous spring</li></ul>
+        </div>
+        <div class="contact-info">
+
+            <a href="http://www.shikanoyu.jp/" class="url-link">
+                <span lang="ja">🌐 公式サイトを見る</span>
+                <span lang="en">🌐 Visit Official Website</span>
+                <span class="arrow-span">▶</span>
+            </a>
+
+        </div>
+    </div>
+
+    <div class="onsen-card">
+        <div class="onsen-name">
+            <span lang="ja">7. 大丸温泉旅館</span>
+            <span lang="en">7. Omaru Onsen Ryokan</span>
+
+            <span class="badge badge-secret">
+                <span lang="ja">秘湯</span>
+                <span lang="en">Hidden Spring</span>
+            </span>
+
+        </div>
+        <span class="distance-badge">
+            <span lang="ja">📍 車で約40分</span>
+            <span lang="en">📍 Approx. 40 min drive</span>
+        </span>
+        <div class="info-grid">
+            <div class="info-box">
+                <h4><span lang="ja">🚗 アクセス</span><span lang="en">🚗 Access</span></h4>
+                <ul lang="ja"><li>車で約40分</li></ul>
+                <ul lang="en"><li>Approx. 40 min drive</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">⏰ 営業時間</span><span lang="en">⏰ Hours</span></h4>
+                <ul lang="ja"><li>11:30～15:00 (最終受付14:30)</li></ul>
+                <ul lang="en"><li>11:30 AM – 3:00 PM (Last entry 2:30 PM)</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">💰 料金</span><span lang="en">💰 Fees</span></h4>
+                <ul lang="ja"><li>大人: 1,000円</li><li>小学生: 700円</li></ul>
+                <ul lang="en"><li>Adult: 1,000 yen</li><li>Elementary: 700 yen</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">♨️ 泉質・特徴</span><span lang="en">♨️ Spring Quality & Features</span></h4>
+                <ul lang="ja"><li>硫黄泉</li><li>標高1300mに湧く秘湯</li></ul>
+                <ul lang="en"><li>Sulfur spring</li><li>Hidden spring at 1,300m altitude</li></ul>
+            </div>
+        </div>
+        <div class="highlights">
+            <h4><span lang="ja">✨ おすすめポイント</span><span lang="en">✨ Highlights</span></h4>
+            <ul lang="ja"><li>川そのものが巨大な露天風呂となっている「川の湯」</li><li>大自然の中のダイナミックな入浴</li><li>本格的な秘湯を味わえる</li></ul>
+            <ul lang="en"><li>Stunning 'River Bath' open-air pool</li><li>Outdoor bathing in pure nature</li><li>Authentic hidden spring experience</li></ul>
+        </div>
+        <div class="contact-info">
+
+            <a href="https://www.omaru.co.jp/" class="url-link">
+                <span lang="ja">🌐 公式サイトを見る</span>
+                <span lang="en">🌐 Visit Official Website</span>
+                <span class="arrow-span">▶</span>
+            </a>
+
+        </div>
+    </div>
+
+    <div class="onsen-card">
+        <div class="onsen-name">
+            <span lang="ja">8. 北温泉旅館</span>
+            <span lang="en">8. Kita Onsen Ryokan</span>
+
+            <span class="badge badge-secret">
+                <span lang="ja">秘湯・映画ロケ地</span>
+                <span lang="en">Hidden Spring / Movie Location</span>
+            </span>
+
+        </div>
+        <span class="distance-badge">
+            <span lang="ja">📍 車で約50分</span>
+            <span lang="en">📍 Approx. 50 min drive</span>
+        </span>
+        <div class="info-grid">
+            <div class="info-box">
+                <h4><span lang="ja">🚗 アクセス</span><span lang="en">🚗 Access</span></h4>
+                <ul lang="ja"><li>車で約50分</li></ul>
+                <ul lang="en"><li>Approx. 50 min drive</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">⏰ 営業時間</span><span lang="en">⏰ Hours</span></h4>
+                <ul lang="ja"><li>8:30～17:30</li></ul>
+                <ul lang="en"><li>8:30 AM – 5:30 PM</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">💰 料金</span><span lang="en">💰 Fees</span></h4>
+                <ul lang="ja"><li>大人: 700円</li><li>小人: 400円</li></ul>
+                <ul lang="en"><li>Adult: 700 yen</li><li>Child: 400 yen</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">♨️ 泉質・特徴</span><span lang="en">♨️ Spring Quality & Features</span></h4>
+                <ul lang="ja"><li>天狗の湯</li><li>温泉情緒あふれるレトロな雰囲気</li></ul>
+                <ul lang="en"><li>Tengu Onsen</li><li>Edo-period hot spring resort atmosphere</li></ul>
+            </div>
+        </div>
+        <div class="highlights">
+            <h4><span lang="ja">✨ おすすめポイント</span><span lang="en">✨ Highlights</span></h4>
+            <ul lang="ja"><li>映画「テルマエ・ロマエ」のロケ地</li><li>江戸時代のような風情が残る</li><li>天狗伝説が残る歴史ある湯</li></ul>
+            <ul lang="en"><li>Filming location for the movie 'Thermae Romae'</li><li>A must-visit for movie fans</li><li>Hidden spring with Tengu legends</li></ul>
+        </div>
+        <div class="contact-info">
+
+            <a href="http://www.kitaonsen.com/" class="url-link">
+                <span lang="ja">🌐 公式サイトを見る</span>
+                <span lang="en">🌐 Visit Official Website</span>
+                <span class="arrow-span">▶</span>
+            </a>
+
+        </div>
+    </div>
+
+    <div class="onsen-card">
+        <div class="onsen-name">
+            <span lang="ja">9. 小鹿の湯</span>
+            <span lang="en">9. Kojika-no-Yu</span>
+
+        </div>
+        <span class="distance-badge">
+            <span lang="ja">📍 車で約35分</span>
+            <span lang="en">📍 Approx. 35 min drive</span>
+        </span>
+        <div class="info-grid">
+            <div class="info-box">
+                <h4><span lang="ja">🚗 アクセス</span><span lang="en">🚗 Access</span></h4>
+                <ul lang="ja"><li>車で約35分</li></ul>
+                <ul lang="en"><li>Approx. 35 min drive</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">⏰ 営業時間</span><span lang="en">⏰ Hours</span></h4>
+                <ul lang="ja"><li>9:00～21:00</li></ul>
+                <ul lang="en"><li>9:00 AM – 9:00 PM</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">💰 料金</span><span lang="en">💰 Fees</span></h4>
+                <ul lang="ja"><li>大人: 500円</li><li>小人: 300円</li></ul>
+                <ul lang="en"><li>Adult: 500 yen</li><li>Child: 300 yen</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">♨️ 泉質・特徴</span><span lang="en">♨️ Spring Quality & Features</span></h4>
+                <ul lang="ja"><li>名湯「鹿の湯」と同じ源泉を使用</li></ul>
+                <ul lang="en"><li>Uses the same spring source as Shika-no-Yu</li></ul>
+            </div>
+        </div>
+        <div class="highlights">
+            <h4><span lang="ja">✨ おすすめポイント</span><span lang="en">✨ Highlights</span></h4>
+            <ul lang="ja"><li>夜21時まで営業</li><li>鹿の湯源泉を引きながら、比較的空いている穴場</li><li>500円で名湯を満喫できコスパ抜群</li></ul>
+            <ul lang="en"><li>Open until 9:00 PM</li><li>Often less crowded than Shika-no-Yu</li><li>Excellent value</li></ul>
+        </div>
+        <div class="contact-info">
+
+            <p lang="ja"><strong>※公式サイト無し（ネット検索等でご確認ください）</strong></p>
+            <p lang="en"><strong>*No official website available. Please search online.</strong></p>
+
+        </div>
+    </div>
+
+    <div class="onsen-card">
+        <div class="onsen-name">
+            <span lang="ja">10. 金ちゃん温泉</span>
+            <span lang="en">10. Kin-chan Onsen</span>
+
+        </div>
+        <span class="distance-badge">
+            <span lang="ja">📍 車で約40分</span>
+            <span lang="en">📍 Approx. 40 min drive</span>
+        </span>
+        <div class="info-grid">
+            <div class="info-box">
+                <h4><span lang="ja">🚗 アクセス</span><span lang="en">🚗 Access</span></h4>
+                <ul lang="ja"><li>車で約40分</li></ul>
+                <ul lang="en"><li>Approx. 40 min drive</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">⏰ 営業時間</span><span lang="en">⏰ Hours</span></h4>
+                <ul lang="ja"><li>昼の部: 11:30～16:00</li><li>夜の部: 17:00～21:00</li></ul>
+                <ul lang="en"><li>Day: 11:30 AM – 4:00 PM</li><li>Night: 5:00 PM – 9:00 PM</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">💰 料金</span><span lang="en">💰 Fees</span></h4>
+                <ul lang="ja"><li>昼: 大人 800円</li><li>夜: 大人 650円</li></ul>
+                <ul lang="en"><li>Day: Adult 800 yen</li><li>Night: Adult 650 yen</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">♨️ 泉質・特徴</span><span lang="en">♨️ Spring Quality & Features</span></h4>
+                <ul lang="ja"><li>塩化物泉</li><li>自然に囲まれた心安らぐ温泉</li></ul>
+                <ul lang="en"><li>Chloride spring</li><li>Quiet hot spring in the forest</li></ul>
+            </div>
+        </div>
+        <div class="highlights">
+            <h4><span lang="ja">✨ おすすめポイント</span><span lang="en">✨ Highlights</span></h4>
+            <ul lang="ja"><li>静かな森の中の露天風呂</li><li>夜のライトアップが人気（夜の部がお得）</li></ul>
+            <ul lang="en"><li>Relaxing atmosphere</li><li>Great value for the night session</li></ul>
+        </div>
+        <div class="contact-info">
+
+            <a href="http://www.kinchan-onsen.com/" class="url-link">
+                <span lang="ja">🌐 公式サイトを見る</span>
+                <span lang="en">🌐 Visit Official Website</span>
+                <span class="arrow-span">▶</span>
+            </a>
+
+        </div>
+    </div>
+</div><div class="section"><h2 class="section-title"><span lang="ja">📍 C. 塩原温泉エリア(車で35〜50分)</span><span lang="en">📍 C. Shiobara Onsen Area (35-50 min drive)</span></h2>
+    <div class="onsen-card">
+        <div class="onsen-name">
+            <span lang="ja">11. 塩原あかつきの湯</span>
+            <span lang="en">11. Shiobara Akatsuki-no-Yu</span>
+
+        </div>
+        <span class="distance-badge">
+            <span lang="ja">📍 車で約40分</span>
+            <span lang="en">📍 Approx. 40 min drive</span>
+        </span>
+        <div class="info-grid">
+            <div class="info-box">
+                <h4><span lang="ja">🚗 アクセス</span><span lang="en">🚗 Access</span></h4>
+                <ul lang="ja"><li>車で約40分</li></ul>
+                <ul lang="en"><li>Approx. 40 min drive</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">⏰ 営業時間</span><span lang="en">⏰ Hours</span></h4>
+                <ul lang="ja"><li>10:00～22:00</li></ul>
+                <ul lang="en"><li>10:00 AM – 10:00 PM</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">💰 料金</span><span lang="en">💰 Fees</span></h4>
+                <ul lang="ja"><li>平日: 大人 800円</li><li>土日祝: 大人 1,000円</li></ul>
+                <ul lang="en"><li>Weekdays: Adult 800 yen</li><li>Weekends/Holidays: Adult 1,000 yen</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">♨️ 泉質・特徴</span><span lang="en">♨️ Spring Quality & Features</span></h4>
+                <ul lang="ja"><li>高アルカリ性温泉 (pH 9.2)</li><li>サウナ・歩行湯プール有(水着着用)</li></ul>
+                <ul lang="en"><li>High alkaline spring (pH 9.2)</li><li>Sauna and swimming pool available</li></ul>
+            </div>
+        </div>
+        <div class="highlights">
+            <h4><span lang="ja">✨ おすすめポイント</span><span lang="en">✨ Highlights</span></h4>
+            <ul lang="ja"><li>抜群の美肌効果(pH 9.2)</li><li>設備が充実</li><li>プールがあるため家族連れにもおすすめ</li></ul>
+            <ul lang="en"><li>Excellent skin-beautifying effect</li><li>Well-equipped facilities</li><li>Recommended for families</li></ul>
+        </div>
+        <div class="contact-info">
+
+            <a href="http://www.acatsuki.co.jp/shiobara/" class="url-link">
+                <span lang="ja">🌐 公式サイトを見る</span>
+                <span lang="en">🌐 Visit Official Website</span>
+                <span class="arrow-span">▶</span>
+            </a>
+
+        </div>
+    </div>
+
+    <div class="onsen-card">
+        <div class="onsen-name">
+            <span lang="ja">12. 湯っ歩の里</span>
+            <span lang="en">12. Yuppo-no-Sato (Footbath Park)</span>
+
+        </div>
+        <span class="distance-badge">
+            <span lang="ja">📍 車で約45分</span>
+            <span lang="en">📍 Approx. 45 min drive</span>
+        </span>
+        <div class="info-grid">
+            <div class="info-box">
+                <h4><span lang="ja">🚗 アクセス</span><span lang="en">🚗 Access</span></h4>
+                <ul lang="ja"><li>車で約45分</li></ul>
+                <ul lang="en"><li>Approx. 45 min drive</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">⏰ 営業時間</span><span lang="en">⏰ Hours</span></h4>
+                <ul lang="ja"><li>9:00～18:00</li></ul>
+                <ul lang="en"><li>9:00 AM – 6:00 PM</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">💰 料金</span><span lang="en">💰 Fees</span></h4>
+                <ul lang="ja"><li>大人: 300円</li><li>小中学生: 200円</li></ul>
+                <ul lang="en"><li>Adult: 300 yen</li><li>Elem/Junior High: 200 yen</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">♨️ 泉質・特徴</span><span lang="en">♨️ Spring Quality & Features</span></h4>
+                <ul lang="ja"><li>日本最大級の足湯</li></ul>
+                <ul lang="en"><li>One of the largest footbaths in Japan</li></ul>
+            </div>
+        </div>
+        <div class="highlights">
+            <h4><span lang="ja">✨ おすすめポイント</span><span lang="en">✨ Highlights</span></h4>
+            <ul lang="ja"><li>気軽に足湯を楽しめる</li><li>温泉街の散策・休憩に最適</li><li>とてもリーズナブル</li></ul>
+            <ul lang="en"><li>Casual footbath enjoyment</li><li>Perfect for a stroll</li><li>Very reasonable prices</li></ul>
+        </div>
+        <div class="contact-info">
+
+            <a href="http://www.yupponosato.com/" class="url-link">
+                <span lang="ja">🌐 公式サイトを見る</span>
+                <span lang="en">🌐 Visit Official Website</span>
+                <span class="arrow-span">▶</span>
+            </a>
+
+        </div>
+    </div>
+
+    <div class="onsen-card">
+        <div class="onsen-name">
+            <span lang="ja">13. 源泉館 (秘湯の宿)</span>
+            <span lang="en">13. Gensen-kan (Hidden Spring Inn)</span>
+
+            <span class="badge badge-secret">
+                <span lang="ja">秘湯</span>
+                <span lang="en">Hidden Spring</span>
+            </span>
+
+        </div>
+        <span class="distance-badge">
+            <span lang="ja">📍 車で約50分</span>
+            <span lang="en">📍 Approx. 50 min drive</span>
+        </span>
+        <div class="info-grid">
+            <div class="info-box">
+                <h4><span lang="ja">🚗 アクセス</span><span lang="en">🚗 Access</span></h4>
+                <ul lang="ja"><li>車で約50分</li></ul>
+                <ul lang="en"><li>Approx. 50 min drive</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">⏰ 営業時間</span><span lang="en">⏰ Hours</span></h4>
+                <ul lang="ja"><li>8:00～18:00</li></ul>
+                <ul lang="en"><li>8:00 AM – 6:00 PM</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">💰 料金</span><span lang="en">💰 Fees</span></h4>
+                <ul lang="ja"><li>大人: 800円</li></ul>
+                <ul lang="en"><li>Adult: 800 yen</li></ul>
+            </div>
+            <div class="info-box">
+                <h4><span lang="ja">♨️ 泉質・特徴</span><span lang="en">♨️ Spring Quality & Features</span></h4>
+                <ul lang="ja"><li>濁り湯 (白・緑・黒に変化することも)</li></ul>
+                <ul lang="en"><li>Cloudy water (Color-changing springs)</li></ul>
+            </div>
+        </div>
+        <div class="highlights">
+            <h4><span lang="ja">✨ おすすめポイント</span><span lang="en">✨ Highlights</span></h4>
+            <ul lang="ja"><li>日によって色が変化する神秘的な温泉</li><li>本格的な秘湯体験</li><li>成分が非常に濃い温泉</li></ul>
+            <ul lang="en"><li>Mysterious color-changing waters</li><li>Authentic hidden spring experience</li><li>Rich mineral content</li></ul>
+        </div>
+        <div class="contact-info">
+
+            <a href="http://www.gensenkan.com/" class="url-link">
+                <span lang="ja">🌐 公式サイトを見る</span>
+                <span lang="en">🌐 Visit Official Website</span>
+                <span class="arrow-span">▶</span>
+            </a>
+
+        </div>
+    </div>
+</div>
+    <!-- Recommendations -->
+    <div class="section">
+        <h2 class="section-title">
+            <span lang="ja">✨ シーン別おすすめ</span>
+            <span lang="en">✨ Recommendations by Scene</span>
+        </h2>
+        <div class="recommendation-grid">
+            <div class="recommendation-card">
+                <h3 lang="ja">👑 プレミアムな体験</h3>
+                <h3 lang="en">👑 Premium Experience</h3>
+                <p lang="ja">大鷹の湯(車で10分)<br>五ツ星源泉・美容液のようなお湯</p>
+                <p lang="en">Ootaka-no-Yu (10 min drive)<br>5-star source, silky skin water</p>
+            </div>
+            <div class="recommendation-card">
+                <h3 lang="ja">🚗 近くで手軽に</h3>
+                <h3 lang="en">🚗 Easy Access Nearby</h3>
+                <p lang="ja">那須塩原駅前温泉(車5分)<br>大鷹の湯(車10分)<br>みかえりの郷 彩花の湯(車15分)</p>
+                <p lang="en">Nasu-shiobara Ekimae (5 min)<br>Ootaka-no-Yu (10 min)<br>Saika-no-Yu (15 min)</p>
+            </div>
+            <div class="recommendation-card">
+                <h3 lang="ja">🌙 夜遅くまで営業</h3>
+                <h3 lang="en">🌙 Late Night Bathing</h3>
+                <p lang="ja">千本松温泉(23時まで)<br>大鷹の湯(夜21時まで/要確認)</p>
+                <p lang="en">Senbonmatsu (until 11 PM)<br>Ootaka-no-Yu (until 9 PM/check)</p>
+            </div>
+            <div class="recommendation-card">
+                <h3 lang="ja">💰 コスパ重視</h3>
+                <h3 lang="en">💰 Best Value</h3>
+                <p lang="ja">鹿の湯 (500円)<br>小鹿の湯 (500円)</p>
+                <p lang="en">Shika-no-Yu (500 yen)<br>Kojika-no-Yu (500 yen)</p>
+            </div>
+            <div class="recommendation-card">
+                <h3 lang="ja">🌲 秘湯・絶景</h3>
+                <h3 lang="en">🌲 Hidden & Scenic</h3>
+                <p lang="ja">大丸温泉旅館<br>北温泉旅館<br>源泉館</p>
+                <p lang="en">Omaru Onsen<br>Kita Onsen<br>Gensen-kan</p>
+            </div>
+            <div class="recommendation-card">
+                <h3 lang="ja">👨‍👩‍👧‍👦 ファミリー向け</h3>
+                <h3 lang="en">👨‍👩‍👧‍👦 For Families</h3>
+                <p lang="ja">塩原あかつきの湯(歩行プールあり)</p>
+                <p lang="en">Shiobara Akatsuki-no-Yu (with pool)</p>
+            </div>
+            <div class="recommendation-card">
+                <h3 lang="ja">🎬 映画のロケ地</h3>
+                <h3 lang="en">🎬 Movie Locations</h3>
+                <p lang="ja">北温泉<br>(テルマエ・ロマエ)</p>
+                <p lang="en">Kita Onsen<br>(Thermae Romae)</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Access Info -->
+    <div class="section" id="access">
+        <h2 class="section-title">
+            <span lang="ja">🚉 お車以外でお越しの方へ</span>
+            <span lang="en">🚉 For Visitors Not Using a Car</span>
+        </h2>
+        
+        <div class="info-grid">
+            <!-- Taxi Info -->
+            <div class="info-box">
+                <h4>
+                    <span lang="ja">🚕 タクシーのご案内</span>
+                    <span lang="en">🚕 Taxi Information</span>
+                </h4>
+                <p lang="ja">
+                    那須塩原駅西口のタクシー乗り場は徒歩1〜2分の場所にあり、常時、数台のタクシーが待機しており、観光案内も対応します。
+                </p>
+                <p lang="en">
+                    The taxi stand at Nasu-Shiobara Station West Exit is just a 1-2 minute walk away. Several taxis are usually available at any time, and sightseeing tours are also available.
+                </p>
+                <div class="contact-info" style="margin-top: 15px;">
+                    <p><strong><span lang="ja">黒磯観光タクシー株式会社</span><span lang="en">Kuroiso Kanko Taxi</span></strong></p>
+
+                    <p>📞 <a href="tel:0287621526">0287-62-1526</a></p>
+                </div>
+                <div class="contact-info" style="margin-top: 15px;">
+                    <p><strong><span lang="ja">ファーストタクシーグループ塩原自動車</span><span lang="en">First Taxi Group Shiobara Jidosha</span></strong></p>
+                    <p lang="ja" style="font-size: 0.9rem; margin-bottom: 8px;">フリーダイヤル（通話料無料）</p>
+                    <p lang="en" style="font-size: 0.85rem; margin-bottom: 8px;">Toll-free number available</p>
+                    <p>📞 <a href="tel:0120818391">0120-818-391</a></p>
+                </div>
+            </div>
+
+            <!-- Rental Car Info -->
+            <div class="info-box">
+                <h4>
+                    <span lang="ja">🏎️ レンタカーのご案内</span>
+                    <span lang="en">🏎️ Car Rental Information</span>
+                </h4>
+                <p style="font-size: 0.9rem; color: #666; margin-bottom: 10px;">
+                    <span lang="ja">※すべてのレンタカー会社は那須塩原駅西口にございます。</span>
+                    <span lang="en">*All car rental companies are located at the Nasu-Shiobara Station West Exit.</span>
+                </p>
+                <div class="rental-grid">
+                    <div class="rental-item">
+                        <strong>トヨタレンタカー 那須塩原駅前店</strong>
+                        <p>📞 <a href="tel:0287653100">0287-65-3100</a></p>
+                    </div>
+                    <div class="rental-item">
+                        <strong>ニッポンレンタカー 那須塩原駅前営業所</strong>
+                        <p>📞 <a href="tel:05017122823">050-1712-2823</a></p>
+                    </div>
+                    <div class="rental-item">
+                        <strong>日産レンタカー 那須塩原駅前店</strong>
+                        <p>📞 <a href="tel:0287671523">0287-67-1523</a></p>
+                    </div>
+                    <div class="rental-item">
+                        <strong>JR駅レンタカー 那須塩原営業所</strong>
+                        <p>📞 <a href="tel:0287651680">0287-65-1680</a></p>
+                    </div>
+                    <div class="rental-item">
+                        <strong>ワンズレンタカー 那須塩原駅前店</strong>
+                        <p>📞 <a href="tel:0287738255">0287-73-8255</a></p>
+                    </div>
+                    <div class="rental-item">
+                        <strong>オリックスレンタカー 那須塩原駅前店</strong>
+                        <p>📞 <a href="tel:0287671543">0287-67-1543</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-box" style="margin-top: 25px; border-top: 1px solid #eee; padding-top: 25px;">
+            <h4><span lang="ja">🚌 公共交通機関 (バス)</span><span lang="en">🚌 Public Transport (Bus)</span></h4>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                <div>
+                    <p><strong lang="ja">那須エリア:</strong><strong lang="en">Nasu Area:</strong></p>
+                    <p lang="ja" style="font-size: 0.9rem;">関東自動車バス「那須ロープウェイ行き」等</p>
+                    <p lang="en" style="font-size: 0.85rem;">Kanto Bus bound for "Nasu Ropeway", etc.</p>
+                </div>
+                <div>
+                    <p><strong lang="ja">塩原エリア:</strong><strong lang="en">Shiobara Area:</strong></p>
+                    <p lang="ja" style="font-size: 0.9rem;">JRバス「塩原温泉バスターミナル行き」<br>「もみじ谷大吊橋」等で下車</p>
+                    <p lang="en" style="font-size: 0.85rem;">JR Bus Kanto bound for "Shiobara Onsen Bus Terminal"<br>Stop at "Momijidani Otsuribashi", etc.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="section">
+        <h2 class="section-title">
+            <span lang="ja">❓ よくあるご質問(FAQ)</span>
+            <span lang="en">❓ Frequently Asked Questions (FAQ)</span>
+        </h2>
+        <div class="faq-item">
+            <h4 lang="ja">Q. 温泉までの送迎はありますか？</h4>
+            <h4 lang="en">Q. Is there a shuttle service to the hot springs?</h4>
+            <p lang="ja">A. ホテルからの送迎はございませんが、フロントにてタクシーやバスのご案内をしております。</p>
+            <p lang="en">A. We do not provide shuttle services from the hotel, but our front desk can assist with taxi and bus information.</p>
+        </div>
+        <div class="faq-item">
+            <h4 lang="ja">Q. 日帰り入浴に予約は必要ですか？</h4>
+            <h4 lang="en">Q. Is a reservation required for day-trip bathing?</h4>
+            <p lang="ja">A. 施設により異なります。貸切風呂や夜のご利用などは事前に各施設へ直接確認・ご予約をおすすめします。</p>
+            <p lang="en">A. It varies by facility. Please contact each facility in advance, especially for private baths or night use.</p>
+        </div>
+        <div class="faq-item">
+            <h4 lang="ja">Q. タオルは持参した方がよいですか？</h4>
+            <h4 lang="en">Q. Should I bring my own towel?</h4>
+            <p lang="ja">A. 多くの施設で販売・レンタルがありますが、持参したほうがスムーズです。※当ホテルのタオルの持ち出しはご遠慮ください。</p>
+            <p lang="en">A. While many facilities sell towels, we recommend bringing your own. (Please do not take hotel towels.)</p>
+        </div>
+        <div class="faq-item">
+            <h4 lang="ja">Q. 硫黄泉の注意点はありますか？</h4>
+            <h4 lang="en">Q. Are there any precautions for sulfur springs?</h4>
+            <p lang="ja">A. 金属アクセサリーは真っ黒に変色するため必ず外してください。また、肌が弱い方は入浴後にシャワーで軽く流すことをおすすめします。</p>
+            <p lang="en">A. Metal jewelry will tarnish. Also, those with sensitive skin should rinse off after bathing.</p>
+        </div>
+    </div>
+
+    <!-- Tips -->
+    <div class="section">
+        <div class="tips-list">
+            <h3 lang="ja">💡 温泉めぐりのヒント</h3>
+            <h3 lang="en">💡 Tips for Hot Spring Touring</h3>
+            <ol lang="ja">
+                <li><strong>タイミング:</strong> 平日の午前中などが比較的空いています。</li>
+                <li><strong>タオル:</strong> 事前に持参するか、現地で購入する前提で計画を。</li>
+                <li><strong>水分補給:</strong> 入浴前後はしっかりと水分を取りましょう。</li>
+                <li><strong>営業時間:</strong> 季節や日付により変動するため、直前のご確認を。</li>
+                <li><strong>天候:</strong> 冬季は路面凍結や積雪にお気をつけください。</li>
+            </ol>
+            <ol lang="en">
+                <li><strong>Timing:</strong> Weekday mornings are generally less crowded.</li>
+                <li><strong>Towels:</strong> Bringing your own is recommended.</li>
+                <li><strong>Hydration:</strong> Drink plenty of water before and after bathing.</li>
+                <li><strong>Hours:</strong> Check in advance as hours may vary by season.</li>
+                <li><strong>Weather:</strong> Check road conditions during the winter.</li>
+            </ol>
+        </div>
+    </div>
+
+    <footer>
+        <p lang="ja">このガイドが、那須・塩原の素晴らしい温泉めぐりのお役に立てれば幸いです。<br>
+        お気をつけていってらっしゃいませ！</p>
+        <p lang="en">We hope this guide helps you with your Nasu/Shiobara hot spring tour.<br>
+        Enjoy a wonderful hot spring experience!</p>
+    </footer>
+</div> <!-- end container -->
+
+<div class="scroll-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
+    ▲
+</div>
+<script>
+        // 言語切り替え
+        function setLanguage(lang) {
+            if (lang === 'en') {
+                document.documentElement.classList.add('lang-en');
+            } else {
+                document.documentElement.classList.remove('lang-en');
+            }
+            
+            updateToggleButtons(lang);
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        function updateToggleButtons(lang) {
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                if ((lang === 'en' && btn.id === 'btn-en') || 
+                    (lang === 'ja' && btn.id === 'btn-ja')) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        // イベントリスナー登録
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('preferredLanguage');
+            const userLang = savedLang || (navigator.language.startsWith('ja') ? 'ja' : 'en');
+            setLanguage(userLang);
+
+            // スムーススクロール`
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+
+        // スクロールトップボタンの表示制御
+        window.addEventListener('scroll', function() {
+            const scrollTop = document.querySelector('.scroll-top');
+            if (window.pageYOffset > 300) {
+                scrollTop.style.display = 'flex';
+            } else {
+                scrollTop.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
