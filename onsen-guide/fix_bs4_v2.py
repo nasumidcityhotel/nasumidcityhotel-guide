@@ -31,7 +31,7 @@ translations = {
     
     # Header
     "Nasu Mid-City Hotel Nearby Day-Trip Hot Spring Guide": "♨️ 那須ミッドシティホテル 近隣日帰り温泉ガイド",
-    "From the Station Hotel to the Famous Waters of Nasu & Shiobara": "駅前ホテルから、那須・塩原の名湯めぐりへ。",
+    "From your base in Nasu to the famous hot springs of Nasu & Shiobara": "那須地域の拠点から、那須・塩原の名湯めぐりへ。",
     "Nasu Mid-City Hotel features in-room modular baths only, but we invite you to enjoy the variety of unique nearby day-trip hot springs instead. From new facilities just 5 minutes away by car, to 5-star premium springs, and historic hidden hot springs, we offer a diverse range of onsen experiences.": "那須ミッドシティホテルは客室ユニットバスのみですが、<br>その分周辺には多様な日帰り温泉が充実しております。<br>駅チカの施設から五ツ星源泉、風情ある秘湯まで、<br>お客様のスタイルに合ったお気に入りの温泉のご利用をおすすめします。",
     
     # 温泉エリア

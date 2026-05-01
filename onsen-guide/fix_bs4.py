@@ -25,7 +25,7 @@ translations = {
     
     # Header
     "♨️ Nasu Mid-City Hotel Nearby Day-Trip Hot Spring Guide": "♨️ 那須ミッドシティホテル 近隣日帰り温泉ガイド",
-    "✨From the Station Hotel to the Famous Waters of Nasu & Shiobara✨": "✨駅前ホテルから、那須・塩原の名湯めぐりへ。✨",
+    "✨From your base in Nasu to the famous hot springs of Nasu & Shiobara✨": "✨那須地域の拠点から、那須・塩原の名湯めぐりへ。✨",
     "Nasu Mid-City Hotel features in-room modular baths only, \n                    but we invite you to enjoy the variety of unique nearby day-trip hot springs instead. \n                    From new facilities just 5 minutes away by car, to 5-star premium springs, \n                    and historic hidden hot springs, we offer a diverse range of onsen experiences.": "那須ミッドシティホテルは全室ユニットバスですが、<br>その分周辺には多様な日帰り温泉が充実しております。<br>駅チカの施設から五ツ星源泉、風情ある秘湯まで、<br>お客様のスタイルに合ったお気に入りの温泉を見つけてください。",
     
     # 温泉エリア
@@ -264,7 +264,7 @@ translations = {
 
     # Emoji replacements
     "Nasu Mid-City Hotel Nearby Day-Trip Hot Spring Guide": "那須ミッドシティホテル 近隣日帰り温泉ガイド",
-    "From the Station Hotel to the Famous Waters of Nasu & Shiobara": "駅前ホテルから、那須・塩原の名湯めぐりへ。",
+    "From your base in Nasu to the famous hot springs of Nasu & Shiobara": "那須地域の拠点から、那須・塩原の名湯めぐりへ。",
     "A. Station Area (5-15 min drive)": "A. 駅周辺エリア (車5〜15分)",
     "B. Nasu Area (30-40 min drive)": "B. 那須エリア (車30〜40分)",
     "C. Shiobara Onsen Area (35-50 min drive)": "C. 塩原エリア (車35〜50分)",
