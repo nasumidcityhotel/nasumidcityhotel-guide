@@ -55,7 +55,7 @@ const TRANSLATIONS = {
     en: "Nasu Midcity Hotel | Nasu Region Tourism Guide"
   },
   subtitle: {
-    ja: "那須ミッドシティホテルを「那須地域のハブホテル」として使いやすくするため、那須高原方面・塩原温泉方面・大田原方面に分けて、信頼できる公式情報を中心に施設を探せる観光案内ページです。",
+    ja: "那須ミッドシティホテルを「那須地域の移動の拠点」として使いやすくするため、那須高原方面・塩原温泉方面・大田原方面に分けて、信頼できる公式情報を中心に施設を探せる観光案内ページです。",
     en: "To make Nasu Midcity Hotel a convenient 'hub hotel' for the Nasu region, this tourism guide page allows you to search for facilities divided into Nasu Plateau, Shiobara Onsen, and Otawara areas, focusing on reliable official information."
   },
   note: {
