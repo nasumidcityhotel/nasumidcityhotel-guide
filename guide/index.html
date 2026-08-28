@@ -287,7 +287,16 @@
                         <div class="menu-description" id="menu-7-d">よくあるご質問・チェックイン前後の荷物預かり等</div>
                     </div>
                 </a>
+                <div class="menu-item" style="border: 2px solid #4a90e2; background: #f0f7ff;">
+                <a href="concierge.html" class="menu-link">
+                    <div class="icon" style="background: #4a90e2; color: white;">🤖</div>
+                    <div class="menu-content">
+                        <div class="menu-title" id="menu-ai-t" style="color: #2b6cb0;">AIコンシェルジュ</div>
+                        <div class="menu-description" id="menu-ai-d">音声で観光案内・質問に答えます</div>
+                    </div>
+                </a>
             </div>
+        </div>
         </div>
 
         <div class="ai-info-section">
@@ -332,6 +341,8 @@
                 menu7d: "よくあるご質問・チェックイン前後の荷物預かり等",
                 menu8t: "那須地域情報",
                 menu8d: "那須地域の観光・施設情報",
+                menuAit: "AIコンシェルジュ（音声対話）",
+                menuAid: "AIが音声で観光案内やご質問にお答えします",
                 aiTitle: "那須ミッドシティホテル 宿泊者向け詳細情報",
                 aiContent: `
                     <p><strong>■夕食・朝食の変更について：</strong>１階の当レストランでは、季節に合わせたメニュー変更を行っております。最新のディナーおよび特別な卵かけごはん朝食、地産地消の朝食バイキング詳細は各メニューよりご確認ください。</p>
@@ -361,6 +372,8 @@
                 menu7d: "Frequently Asked Questions - Baggage Storage, etc.",
                 menu8t: "Nasu Area Information",
                 menu8d: "Tourism and facility information in the Nasu area",
+                menuAit: "AI Concierge (Voice Chat)",
+                menuAid: "AI answers your questions about sightseeing and hotel facilities",
                 aiTitle: "Nasu Mid-City Hotel Detailed Information",
                 aiContent: `
                     <p><strong>■Dining:</strong> Menus at our 1F restaurant change seasonally. Please check the latest breakfast and dinner details via the menu links.</p>
@@ -399,6 +412,8 @@
             document.getElementById('menu-7-d').textContent = t.menu7d;
             document.getElementById('menu-8-t').textContent = t.menu8t;
             document.getElementById('menu-8-d').textContent = t.menu8d;
+            document.getElementById('menu-ai-t').textContent = t.menuAit;
+            document.getElementById('menu-ai-d').textContent = t.menuAid;
             document.getElementById('ai-section-title').textContent = t.aiTitle;
             document.getElementById('ai-section-content').innerHTML = t.aiContent;
             document.getElementById('official-link').textContent = t.official;

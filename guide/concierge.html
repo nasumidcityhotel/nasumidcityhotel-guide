@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIコンシェルジュ | 那須ミッドシティホテル</title>
+    <style>
+        :root {
+            --primary-color: #2d3748;
+            --accent-color: #4a90e2;
+            --bg-gradient: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Yu Gothic', 'Meiryo', sans-serif;
+            background: var(--bg-gradient);
+            color: white;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* 右上の設定ボタン */
+        .settings-btn-fixed {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.4);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 15px;
+            z-index: 50;
+            backdrop-filter: blur(5px);
+        }
+        .settings-btn-fixed:hover { background: rgba(255,255,255,0.25); }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        /* AI Visualizer Area */
+        .ai-visualizer {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .pulse-circle {
+            width: 100px;
+            height: 100px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            box-shadow: 0 0 0 0 rgba(74, 144, 226, 0.7);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .pulse-circle.listening {
+            animation: pulse 1.5s infinite;
+            background: #e74c3c;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 30px rgba(231, 76, 60, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+        }
+
+        /* Chat Display */
+        .response-area {
+            min-height: 120px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 18px;
+            line-height: 1.6;
+            text-align: left;
+            overflow-y: auto;
+            max-height: 300px;
+        }
+
+        .status-text {
+            font-size: 14px;
+            opacity: 0.7;
+            margin-bottom: 10px;
+            height: 20px;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        button.sub-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button.sub-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* API Key Modal */
+        #api-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: #2d3748;
+            padding: 30px;
+            border-radius: 20px;
+            width: 80%;
+            max-width: 400px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border: none;
+            background: #1a202c;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        /* Back button */
+        .back-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            opacity: 0.7;
+        }
+
+        .back-link:hover { opacity: 1; }
+    </style>
+</head>
+
+<body>
+    <!-- 戻るボタン（左上固定） -->
+    <a href="index.html" class="back-link">✕ 閉じる</a>
+
+    <!-- 設定ボタン（右上固定） -->
+    <button class="settings-btn-fixed" onclick="showSettings()">⚙️ APIキー設定</button>
+
+    <div class="container">
+        <h1 id="page-title">AI コンシェルジュ</h1>
+
+        <!-- 言語切替 -->
+        <div style="display:flex; justify-content:center; gap:8px; margin-bottom:16px;">
+            <button id="lang-ja" onclick="setLang('ja')" style="background:#4a90e2; border:none; color:white; padding:8px 20px; border-radius:20px; cursor:pointer; font-size:14px; font-weight:bold;">🇯🇵 日本語</button>
+            <button id="lang-en" onclick="setLang('en')" style="background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.4); color:white; padding:8px 20px; border-radius:20px; cursor:pointer; font-size:14px;">🇺🇸 English</button>
+        </div>
+
+        <!-- APIキー入力エリア -->
+        <div id="api-key-bar" style="background: rgba(255,255,255,0.1); border-radius: 12px; padding: 12px 16px; margin-bottom: 20px; display: flex; gap: 10px; align-items: center; border: 1px solid rgba(255,255,255,0.2);">
+            <span style="font-size: 13px; white-space: nowrap;">🔑 API Key:</span>
+            <input type="password" id="api-key-inline" placeholder="AIza..." style="flex:1; background: rgba(0,0,0,0.3); border: none; border-radius: 8px; padding: 8px 12px; color: white; font-size: 13px;">
+            <button onclick="saveApiKeyInline()" style="background: #4a90e2; border: none; color: white; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 13px; white-space: nowrap;" id="btn-save">保存 / Save</button>
+        </div>
+
+        <div class="status-text" id="status">APIキーを入力して、ボタンを押して話しかけてください</div>
+
+        <div class="ai-visualizer">
+            <div class="pulse-circle" id="mic-btn" onclick="toggleListening()">🎙️</div>
+        </div>
+
+        <div class="response-area" id="response-text">
+            「本日はどのようなご用件でしょうか？<br>那須の観光スポット、近隣の温泉、館内の設備などについてお答えいたします。」
+        </div>
+
+        <div class="controls">
+            <button class="sub-btn" onclick="stopSpeaking()" id="btn-stop">⏹️ 音声を止める</button>
+            <button class="sub-btn" onclick="resetConversation()" id="btn-reset">🔄 会話リセット</button>
+        </div>
+
+        <!-- Gemini TTS 音声キャラクター選択 -->
+        <div style="margin-top: 16px; background: rgba(255,255,255,0.08); border-radius: 12px; padding: 12px 16px; border: 1px solid rgba(255,255,255,0.15);">
+            <div style="font-size: 12px; opacity: 0.7; margin-bottom: 8px;" id="lbl-voice">🔊 音声キャラクター選択 / Voice Character</div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div style="display: flex; gap: 8px; align-items: center;" id="voice-ja-container">
+                    <span style="font-size:12px; opacity:0.8; width: 40px; text-align: right;">🇯🇵 JP:</span>
+                    <select id="tts-voice-ja" style="flex:1; background: rgba(0,0,0,0.4); border: none; border-radius: 8px; padding: 8px 10px; color: white; font-size: 13px;" onchange="saveVoiceSettings()">
+                        <optgroup label="🏨 ホテルコンシェルジュ (最高品質・人間音声)">
+                            <option value="voicevox_46" selected>👩 女性コンシェルジュ A (落ち着いた大人の案内)</option>
+                            <option value="voicevox_29">👩 女性コンシェルジュ B (はっきりした案内)</option>
+                            <option value="voicevox_10">👩 女性コンシェルジュ C (優しく丁寧な声)</option>
+                            <option value="voicevox_13">👨 男性コンシェルジュ (渋く落ち着いた声)</option>
+                        </optgroup>
+                        <optgroup label="✨ Gemini AI Voices (高性能音声)">
+                            <option value="Kore">👩 Kore (女性・落ち着いた)</option>
+                            <option value="Aoede">👩 Aoede (女性・明るい)</option>
+                            <option value="Charon">👨 Charon (男性・落ち着いた)</option>
+                            <option value="Puck">👨 Puck (男性・明るい)</option>
+                            <option value="Fenrir">👨 Fenrir (男性・落ち着いた)</option>
+                            <option value="Leda">👩 Leda (女性・ソフト)</option>
+                        </optgroup>
+                        <optgroup label="💻 デバイス内蔵音声 (ブラウザ標準)">
+                            <option value="browser_default">⭐ システム標準の日本語</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div style="display: flex; gap: 8px; align-items: center;" id="voice-en-container">
+                    <span style="font-size:12px; opacity:0.8; width: 40px; text-align: right;">🇺🇸 EN:</span>
+                    <select id="tts-voice-en" style="flex:1; background: rgba(0,0,0,0.4); border: none; border-radius: 8px; padding: 8px 10px; color: white; font-size: 13px;" onchange="saveVoiceSettings()">
+                        <optgroup label="✨ Gemini AI Voices">
+                            <option value="Kore">👩 Kore (Female/Calm)</option>
+                            <option value="Aoede">👩 Aoede (Female/Bright)</option>
+                            <option value="Charon">👨 Charon (Male/Calm)</option>
+                            <option value="Puck" selected>👨 Puck (Male/Bright)</option>
+                            <option value="Fenrir">👨 Fenrir (Male/Calm)</option>
+                            <option value="Leda">👩 Leda (Female/Soft)</option>
+                        </optgroup>
+                        <optgroup label="💻 Device Voices (Browser)" id="browser-voices-en"></optgroup>
+                    </select>
+                </div>
+                <button onclick="testGeminiTTS()" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; margin-top: 4px;" id="btn-test">▶ 現在の言語で試聴き / Test Voice</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- APIキー設定用モーダル -->
+    <div id="api-modal">
+        <div class="modal-content">
+            <h3>Gemini API 設定</h3>
+            <p style="font-size: 12px; opacity: 0.8;">取得したAPIキーを入力してください。キーはブラウザ内にのみ保存されます。</p>
+            <input type="password" id="api-key-input" placeholder="AIキーを入力...">
+            <button class="sub-btn" style="width: 100%; background: var(--accent-color);" onclick="saveApiKey()">保存して閉じる</button>
+<script>
+        // ======== 言語設定 ========
+        // 保存された設定がなければ、ブラウザの言語設定を判定
+        let currentLang = localStorage.getItem('CONCIERGE_LANG');
+        if (!currentLang) {
+            const browserLang = (window.navigator.languages && window.navigator.languages[0]) || window.navigator.language || window.navigator.userLanguage || 'ja';
+            currentLang = browserLang.toLowerCase().startsWith('ja') ? 'ja' : 'en';
+        }
+
+        const langText = {
+            ja: {
+                status: 'ボタンを押して話しかけてください',
+                listening: '聞いています...',
+                thinking: '考え中...',
+                voiceReady: '音声を準備中...',
+                done: '完了。またお声がけください 🎙️',
+                stopped: '音声を停止しました。',
+                greeting: '本日はどのようなご用件でしょうか？<br>那須の観光スポット、近隣の温泉、館内の設備などについてお答えいたします。',
+                testSpeech: '那須ミッドシティホテルへようこそお越しくださいました。ご滞在中、何かご不明な点がございましたら、お気軽にお声がけください。',
+                btnStop: '⏹️ 音声を止める',
+                btnReset: '🔄 会話リセット',
+                btnTest: '▶ 試聴き',
+                lblVoice: '🔊 音声キャラクター選択（Gemini TTS）',
+                sysPrompt: `あなたは「那須ミッドシティホテル」の専属AIコンシェルジュです。
+【言葉遣い】自然で丁寧な日本語敬語を使う。「ようこそございます」等の誤った表現は禁止。正しい例：「ようこそお越しくださいました」「〜でございます」「〜はいかがでしょうか」
+【行動指針】
+1. 質問が漠然としている場合は深堀り質問を1〜2個する（例：お子様連れですか？屋内希望ですか？）
+2. 条件が揃ったら【提供データ】から2〜3件を提案する
+3. データにない情報は「申し訳ございませんが、その情報は持ち合わせておりません」と答える
+4. 回答は音声読み上げ用のため150文字以内。URLや記号は使わない
+5. 末尾は「他にご不明な点はございますか？」で締める`
+            },
+            en: {
+                status: 'Press the button and speak',
+                listening: 'Listening...',
+                thinking: 'Thinking...',
+                voiceReady: 'Preparing voice...',
+                done: 'Done. Feel free to ask more! 🎙️',
+                stopped: 'Voice stopped.',
+                greeting: 'Welcome to Nasu Mid City Hotel!<br>I can help with local sightseeing, hot springs, and hotel facilities.',
+                testSpeech: 'Welcome to Nasu Mid City Hotel. How may I assist you during your stay?',
+                btnStop: '⏹️ Stop Audio',
+                btnReset: '🔄 Reset',
+                btnTest: '▶ Test',
+                lblVoice: '🔊 Voice Character (Gemini TTS)',
+                sysPrompt: `You are the AI concierge of "Nasu Mid City Hotel" in Tochigi, Japan.
+【Rules】
+1. If the question is vague, ask 1-2 clarifying questions (e.g. "Are you with children?" "Do you prefer indoor activities?")
+2. Once conditions are clear, suggest 2-3 options from the provided data
+3. For information not in the data, say "I'm sorry, I don't have that information"
+4. Keep responses under 100 words for voice output. No URLs or symbols
+5. End with "Is there anything else I can help you with?"`
+            }
+        };
+
+        function setLang(lang) {
+            currentLang = lang;
+            localStorage.setItem('CONCIERGE_LANG', lang);
+            document.getElementById('lang-ja').style.background = lang === 'ja' ? '#4a90e2' : 'rgba(255,255,255,0.15)';
+            document.getElementById('lang-ja').style.border = lang === 'ja' ? 'none' : '1px solid rgba(255,255,255,0.4)';
+            document.getElementById('lang-en').style.background = lang === 'en' ? '#4a90e2' : 'rgba(255,255,255,0.15)';
+            document.getElementById('lang-en').style.border = lang === 'en' ? 'none' : '1px solid rgba(255,255,255,0.4)';
+            document.getElementById('status').innerText = langText[lang].status;
+            document.getElementById('response-text').innerHTML = langText[lang].greeting;
+            
+            // UIラベル更新
+            if(document.getElementById('btn-stop')) document.getElementById('btn-stop').innerText = langText[lang].btnStop;
+            if(document.getElementById('btn-reset')) document.getElementById('btn-reset').innerText = langText[lang].btnReset;
+            if(document.getElementById('btn-test')) document.getElementById('btn-test').innerText = langText[lang].btnTest;
+            if(document.getElementById('lbl-voice')) document.getElementById('lbl-voice').innerText = langText[lang].lblVoice;
+
+            resetConversation();
+            
+            // 音声認識の言語も更新
+            if(recognition) {
+                recognition.lang = currentLang === 'en' ? 'en-US' : 'ja-JP';
+            }
+        }
+
+        // デバイス内蔵音声（Browser TTS）を読み込んで追加
+        let browserVoicesList = [];
+        function populateBrowserVoices() {
+            browserVoicesList = window.speechSynthesis.getVoices();
+            const jaGroup = document.getElementById('browser-voices-ja');
+            const enGroup = document.getElementById('browser-voices-en');
+            if(!jaGroup || !enGroup) return;
+            
+            // デフォルトの option を残しつつクリア
+            const jaDefaultOpt = jaGroup.querySelector('option[value="browser_default"]');
+            jaGroup.innerHTML = '';
+            if (jaDefaultOpt) jaGroup.appendChild(jaDefaultOpt);
+            
+            enGroup.innerHTML = '';
+
+            browserVoicesList.forEach(voice => {
+                // 日本語・英語以外の関係ない音声（中国語など）は除外
+                if (!voice.lang.startsWith('ja') && !voice.lang.startsWith('en')) return;
+
+                const optJa = document.createElement('option');
+                optJa.value = 'browser_' + voice.name;
+                
+                // アイコンをつける
+                let icon = '💻 ';
+                if (voice.name.includes('Google')) icon = '☁️ ';
+                if (voice.name.includes('Nanami') || voice.name.includes('Kyoko') || voice.name.includes('Otoya') || voice.name.includes('Ichiro')) icon = '⭐ ';
+                
+                optJa.textContent = icon + voice.name;
+                const optEn = optJa.cloneNode(true);
+
+                // 日本語の声ならJPリストへ
+                if (voice.lang.startsWith('ja')) {
+                    jaGroup.appendChild(optJa);
+                } 
+                // 英語の声ならENリストへ
+                else if (voice.lang.startsWith('en')) {
+                    enGroup.appendChild(optEn);
+                }
+            });
+
+            // 設定を再度読み込み直して選択状態を復元
+            loadVoiceSettings();
+        }
+
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = populateBrowserVoices;
+        }
+
+        // 初期言語を適用
+        window.addEventListener('load', () => { 
+            populateBrowserVoices();
+            loadVoiceSettings();
+            setLang(currentLang); 
+        });
+
+        // ======== 知識ベース（ホテル・観光・温泉・FAQ全データ） ========
+        const KNOWLEDGE_BASE = `
+【ホテル基本情報】
+名前: 那須ミッドシティホテル / 住所: 栃木県那須塩原市方京1-1-10 / 公式: https://www.nasu-midcity.com/
+チェックイン14:00 / チェックアウト11:00 / フロント24時間 / 駐車場62台無料(満車時は隣接有料400-500円/日)
+支払: 現金,VISA,JCB,Amex,Diners,MasterCard / コンビニ: ホテル正面セブンイレブン(6:00-24:00)
+全室WiFi・有線LAN無料 / 全室シモンズベッド / 個別空調 / デスク幅2m以上 / 防音ペアガラス窓
+アメニティ: シャンプー,コンディショナー,ボディソープ,歯ブラシ,髭剃り,タオル,パジャマ,スリッパ
+貸出: 携帯充電器,アイロン,車イス(各フロント) / 1F: コインランドリー(有料),製氷機(無料),電子レンジ(無料)
+レストラン朝食6:45-9:30(宿泊者無料,4歳-小学生650円) / 昼食11:30-15:00 / 夕食17:30-20:30
+ロビーカフェ15:00-22:00,朝6:00-9:00(無料,部屋持込OK)
+添い寝: 小学生以下無料(タオル等持参) / マッサージ: 現在休業中
+
+【近隣日帰り温泉】
+1. 大鷹の湯(五ツ星源泉) 車10分 大人1000円 昼10:00-14:00/夜18:00-21:00 ナトリウム塩化物泉 源泉かけ流し 貸切風呂45分5000円 TEL:0287-36-6802 おすすめ
+2. 千本松温泉 車15分 平日700円/土日800円 13:00-23:00 アルカリ性美肌の湯 千本松牧場内 TEL:0287-36-1025 夜遅くまで営業
+3. 那須塩原駅前温泉 車5分 大人1000円 13:00-21:00 エメラルドグリーン源泉かけ流し 第3火曜休 TEL:0287-65-1126 最寄り温泉
+4. 板室温泉 車30分 500-1000円 下野の薬湯 国民保養温泉地 ぬるめの湯で長湯OK TEL:0287-69-0268
+5. 鹿の湯(那須温泉) 車45分 500円 8:00-18:00 開湯1380年以上 硫黄泉源泉かけ流し TEL:0287-76-3098
+6. 大丸温泉旅館 車55分 800円〜 10:00-14:00 川をせき止めた天然混浴露天風呂 秘湯 TEL:0287-76-3050
+7. 塩原温泉(湯めぐり) 車40分 500-1500円 11の温泉地 湯めぐり手形あり TEL:0287-32-4000
+
+【那須地域観光スポット】
+[遊ぶ/北/屋外] 那須ハイランドパーク 車35分 大人2200円〜 大型遊園地 TEL:0287-78-1500
+[遊ぶ/北/屋外] 那須サファリパーク 車30分 大人2500円〜 車で野生動物と出会える TEL:0287-78-0838
+[遊ぶ/北/屋外] りんどう湖レイクビューリゾート 車30分 大人1800円〜 牧場体験・ボート・バーベキュー 家族向け TEL:0287-76-3111
+[遊ぶ/北/屋外] 那須どうぶつ王国 車45分 大人2600円〜 カピバラ・スナネコ・バードショー 家族向け TEL:0287-77-1110
+[遊ぶ/北/屋内] 那須とりっくあーとぴあ 車25分 大人1300円 目の錯覚トリックアート美術館 雨天OK 写真映え TEL:0287-76-2389
+[遊ぶ/北/屋外] トレジャーストーンパーク 車30分 宝石探し 子供大人気 要予約 TEL:0287-73-8039
+[遊ぶ/北/屋外] 那須ワールドモンキーパーク 車35分 大人2100円 サル・ゾウライド TEL:0287-63-8855
+[遊ぶ/北/屋外] 那須フィッシュランド 車25分 渓流釣り堀+バーベキュー+温泉 TEL:0287-69-0009
+[遊ぶ/北/屋外] NOZARU空中アスレチック 車25分 大人4600円 日本最大級 要予約 TEL:0287-78-2900
+[遊ぶ/北/屋外] 那須バギーパーク 車30分 オフロードバギー TEL:0287-73-8304
+[遊ぶ/北/屋外] KPSパラグライダー 車45分 要予約 天候依存 TEL:0287-73-8260
+[遊ぶ/南/屋内] なかがわ水遊園 車40分 大人650円 栃木唯一の水族館 アマゾントンネル水槽 雨天OK TEL:0287-98-3055
+[遊ぶ/西/屋外] ハンターマウンテン塩原 車50分 スキー・紅葉ゴンドラ・ゆりパーク TEL:0287-32-4580
+[遊ぶ/西/屋外] 箱の森プレイパーク 車45分 入場無料 アスレチック・温泉 家族向け TEL:0287-32-3018
+[見る/北/屋内] テディベアミュージアム 車30分 大人1000円 5000体以上展示 フォトスポット 雨天OK TEL:0287-76-1711
+[見る/北/屋内] ステンドグラス美術館 車35分 大人1200円 ヨーロッパの教会ステンドグラス 幻想的 雨天OK TEL:0287-76-7111
+[見る/北/屋内] オルゴール美術館 車25分 大人1100円 アンティークオルゴール 演奏会あり 雨天OK TEL:0287-78-2733
+[見る/北/屋内] 藤城清治美術館 車35分 大人2000円 影絵アート 森の中 撮影禁止 雨天OK TEL:0287-74-2581
+[見る/北/屋内] クラシックカー博物館 車25分 大人1000円 希少クラシックカー 屋内 雨天OK TEL:0287-62-8787
+[見る/北/屋外] コピスガーデン 車25分 バラ・宿根草ガーデン カフェ併設 TEL:0287-62-8787
+[見る/北/屋外] 那須温泉神社 車45分 無料 パワースポット 那須与一ゆかり TEL:0287-76-2057
+[見る/北/屋外] 那須フラワーワールド 車35分 大人500円〜 季節の花 那須連山背景 冬季休業 TEL:0287-77-0400
+[見る/西/屋外] もみじ谷大吊橋 車35分 大人300円 全長320m 紅葉名所 恋人の聖地 TEL:0287-34-1037
+[見る/西/屋内] 塩原もの語り館 車40分 大人300円 歴史・文学資料館 カフェ併設 雨天OK TEL:0287-32-4000
+[見る/南/屋外] 雲巌寺 車60分 無料 松尾芭蕉も訪問 禅宗古刹 TEL:0287-54-1110
+[見る/南/屋外] 黒羽城址公園 車35分 無料 桜・紫陽花の名所
+[歩く/北/屋外] 那須岳(茶臼岳)登山 車50分 ロープウェイ往復1700円 初心者OK TEL:0287-76-2449
+[歩く/北/屋外] 殺生石 車45分 無料 九尾の狐伝説 硫黄の荒涼風景
+[歩く/北/屋外] 那須平成の森 車45分 入場無料 御用邸用地の森 ガイドウォーク TEL:0287-74-6808
+[歩く/西/屋外] 塩原渓谷歩道 車40分 無料 紅葉名所 箒川沿い TEL:0287-32-4000
+[歩く/西/屋外] 竜化の滝 車40分 無料 塩原最大級の滝 マイナスイオン
+[食べる/北] ペニーレイン 車35分 〜1500円 ビートルズテーマのパンカフェ TEL:0287-78-0099
+[食べる/北] チーズガーデン本店 車30分 御用邸チーズケーキ お土産人気 TEL:0287-64-4848
+[食べる/北] 南ヶ丘牧場 車30分 入場無料 ガーンジィ牛乳ジェラート 牧場体験 TEL:0287-76-2150
+[食べる/北] NASU SHOZO CAFE 車25分 〜1500円 超人気カフェ スコーン TEL:0287-78-3593
+[食べる/西] 千本松牧場 車20分 入場無料 ソフトクリーム ジンギスカン TEL:0287-36-1025
+[買う/北] 那須ガーデンアウトレット 車15分 入場無料 リゾート型ショッピングモール TEL:0287-65-4999
+[買う/北] 道の駅 友愛の森 車30分 地元野菜・特産品 TEL:0287-78-0711
+[買う/北] 道の駅 明治の森・黒磯 車10分 特産品・農産物 旧青木家別邸隣接 TEL:0287-63-0399
+[買う/北] アジアンオールドバザール 車30分 入場無料 アジア雑貨・料理 TEL:0287-76-7600
+
+【FAQ】
+Q: チェックアウトは? A: 11:00。延長はフロントへ(追加料金)
+Q: フロント連絡は? A: 部屋の電話で内線9番
+Q: WiFiは? A: 全室WiFi・有線LAN無料
+Q: アメニティは? A: パジャマ,タオル,ドライヤー,空気清浄機。追加枕・毛布・アイロンはフロント貸出
+Q: 製氷機・電子レンジは? A: 1Fフロア(自販機コーナー)に設置
+Q: 朝食は? A: 6:45-9:30(最終入場9:15) 1Fレストラン 宿泊者無料
+Q: 夕食は? A: 1Fレストラン 17:30-21:00(LO20:00) 満席の場合あり要確認
+Q: ロビーカフェは? A: 15:00-22:00, 朝6:00-9:00 無料 部屋持込OK
+Q: 大浴場は? A: なし。近隣に日帰り温泉施設あり(温泉ガイド参照)
+Q: コンビニは? A: ホテル正面すぐセブンイレブン
+Q: 荷物預かりは? A: チェックアウト後もフロントで無料預かり(当日中)
+Q: コインランドリーは? A: 1Fにドラム式洗濯乾燥機(有料) 洗剤フロント販売
+Q: 那須観光に便利? A: 那須塩原駅前で那須高原・塩原温泉・大田原の3方面に好アクセス。連泊の拠点に最適
+Q: 車なしで利用可能? A: 那須塩原駅西口から徒歩圏内。バス・タクシー・レンタカーも駅前で利用可能
+`;
+
+        // ======== 設定管理 ========
+        let API_KEY = localStorage.getItem('GEMINI_API_KEY') || '';
+
+        // ページ読み込み時にインライン入力欄にキーをセット
+        window.addEventListener('load', () => {
+            if (API_KEY) {
+                document.getElementById('api-key-inline').value = API_KEY;
+                document.getElementById('status').innerText = 'ボタンを押して話しかけてください';
+            }
+        });
+
+        // インライン入力から保存
+        function saveApiKeyInline() {
+            const key = document.getElementById('api-key-inline').value.trim();
+            if (!key) { alert('APIキーを入力してください。'); return; }
+            localStorage.setItem('GEMINI_API_KEY', key);
+            API_KEY = key;
+            document.getElementById('status').innerText = '✅ APIキーを保存しました。ボタンを押して話しかけてください！';
+        }
+
+        // モーダル（右上ボタン）からも保存可能
+        function showSettings() {
+            document.getElementById('api-modal').style.display = 'flex';
+            document.getElementById('api-key-input').value = API_KEY;
+        }
+
+        function saveApiKey() {
+            const key = document.getElementById('api-key-input').value.trim();
+            localStorage.setItem('GEMINI_API_KEY', key);
+            API_KEY = key;
+            document.getElementById('api-key-inline').value = key;
+            document.getElementById('api-modal').style.display = 'none';
+            document.getElementById('status').innerText = '✅ APIキーを保存しました。';
+        }
+
+        // 音声設定の保存・復元と動的メニュー生成
+        const voiceOptions = {
+            azure: {
+                ja: [
+                    {val: 'ja-JP-NanamiNeural', text: '👩 Nanami (落ち着いた・プロフェッショナル)'},
+                    {val: 'ja-JP-MayuNeural', text: '👩 Mayu (明るい・親しみやすい)'},
+                    {val: 'ja-JP-KeitaNeural', text: '👨 Keita (誠実・信頼感)'}
+                ],
+                en: [
+                    {val: 'en-US-JennyNeural', text: '👩 Jenny (Clear, Professional)'},
+                    {val: 'en-US-GuyNeural', text: '👨 Guy (Calm, Professional)'}
+                ]
+            },
+            gcp: {
+                ja: [
+                    {val: 'ja-JP-Neural2-B', text: '👩 Neural2-B (フォーマル・ホテル向け)'},
+                    {val: 'ja-JP-Neural2-A', text: '👩 Neural2-A (標準・明るい)'},
+                    {val: 'ja-JP-Neural2-C', text: '👨 Neural2-C (渋い・落ち着いた)'}
+                ],
+                en: [
+                    {val: 'en-US-Neural2-F', text: '👩 Neural2-F (Professional)'},
+                    {val: 'en-US-Neural2-D', text: '👨 Neural2-D (Formal)'}
+                ]
+            }
+        };
+
+        function updateVoiceOptions() {
+            const engine = document.getElementById('tts-engine-select').value;
+            const jaSel = document.getElementById('tts-voice-ja');
+            const enSel = document.getElementById('tts-voice-en');
+            
+            jaSel.innerHTML = '';
+            enSel.innerHTML = '';
+            
+            voiceOptions[engine].ja.forEach(opt => {
+                const o = document.createElement('option');
+                o.value = opt.val; o.textContent = opt.text;
+                jaSel.appendChild(o);
+            });
+            voiceOptions[engine].en.forEach(opt => {
+                const o = document.createElement('option');
+                o.value = opt.val; o.textContent = opt.text;
+                enSel.appendChild(o);
+            });
+        }
+
+        function saveVoiceSettings() {
+            localStorage.setItem('CONCIERGE_TTS_ENGINE', document.getElementById('tts-engine-select').value);
+            localStorage.setItem('CONCIERGE_VOICE_JA_CLOUD', document.getElementById('tts-voice-ja').value);
+            localStorage.setItem('CONCIERGE_VOICE_EN_CLOUD', document.getElementById('tts-voice-en').value);
+        }
+
+        function loadVoiceSettings() {
+            const engine = localStorage.getItem('CONCIERGE_TTS_ENGINE') || 'azure';
+            document.getElementById('tts-engine-select').value = engine;
+            
+            updateVoiceOptions(); // リスト生成
+            
+            const vJa = localStorage.getItem('CONCIERGE_VOICE_JA_CLOUD');
+            const vEn = localStorage.getItem('CONCIERGE_VOICE_EN_CLOUD');
+            if (vJa) document.getElementById('tts-voice-ja').value = vJa;
+            if (vEn) document.getElementById('tts-voice-en').value = vEn;
+        }
+
+        // ======== 音声認識 ========
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        let recognition = null;
+        let isListening = false;
+
+        if (SpeechRecognition) {
+            recognition = new SpeechRecognition();
+            recognition.lang = currentLang === 'en' ? 'en-US' : 'ja-JP';
+            recognition.interimResults = false;
+            recognition.continuous = false;
+
+            recognition.onstart = () => {
+                isListening = true;
+                document.getElementById('mic-btn').classList.add('listening');
+                document.getElementById('status').innerText = langText[currentLang].listening;
+            };
+
+            recognition.onend = () => {
+                isListening = false;
+                document.getElementById('mic-btn').classList.remove('listening');
+            };
+
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('status').innerText = langText[currentLang].thinking;
+                document.getElementById('response-text').innerHTML = `<strong>🙋:</strong> ${transcript}<br><br><span style="opacity:0.5">${langText[currentLang].thinking}</span>`;
+                askAI(transcript);
+            };
+
+            recognition.onerror = (event) => {
+                console.error('音声認識エラー:', event.error);
+                document.getElementById('status').innerText = currentLang === 'en' ? 'Microphone error. Please try again.' : 'マイクエラー。もう一度お試しください。';
+                isListening = false;
+                document.getElementById('mic-btn').classList.remove('listening');
+            };
+        }
+
+        function toggleListening() {
+            if (!recognition) {
+                alert('お使いのブラウザは音声認識に対応していません。Chrome または Edge をお使いください。');
+                return;
+            }
+            if (isListening) {
+                recognition.stop();
+            } else {
+                recognition.start();
+            }
+        }
+
+        // ======== 会話履歴の管理（多ターン対話） ========
+        let conversationHistory = [];
+
+        // 会話をリセット
+        function resetConversation() {
+            conversationHistory = [];
+            document.getElementById('response-text').innerHTML = langText[currentLang].greeting;
+            document.getElementById('status').innerText = langText[currentLang].status;
+        }
+
+        // ======== Gemini API 呼び出し（多ターン対話） ========
+        async function askAI(userText) {
+            if (!API_KEY) {
+                showSettings();
+                return;
+            }
+
+            const systemPrompt = langText[currentLang].sysPrompt + `
+
+【提供データ / Knowledge Base】
+${KNOWLEDGE_BASE}`;
+
+            // 会話履歴に今回の質問を追加
+            conversationHistory.push({
+                role: 'user',
+                parts: [{ text: userText }]
+            });
+
+            // チャット表示を更新
+            renderChat(userText, null);
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        system_instruction: {
+                            parts: [{ text: systemPrompt }]
+                        },
+                        contents: conversationHistory   // ← 全履歴を送信（多ターン対話）
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.error) {
+                    document.getElementById('response-text').innerHTML += `<br><br>⚠️ APIエラー: ${data.error.message}`;
+                    document.getElementById('status').innerText = 'エラーが発生しました';
+                    conversationHistory.pop(); // 失敗した場合は履歴から削除
+                    return;
+                }
+
+                if (!data.candidates || !data.candidates[0]) {
+                    document.getElementById('response-text').innerHTML += '<br><br>⚠️ 回答を生成できませんでした。';
+                    conversationHistory.pop();
+                    return;
+                }
+
+                const aiResponse = data.candidates[0].content.parts[0].text;
+
+                // AIの回答を履歴に追加
+                conversationHistory.push({
+                    role: 'model',
+                    parts: [{ text: aiResponse }]
+                });
+
+                // チャット表示を更新
+                renderChat(null, aiResponse);
+                document.getElementById('status').innerText = '音声で回答中...';
+                speak(aiResponse);
+
+            } catch (error) {
+                console.error('通信エラー:', error);
+                document.getElementById('response-text').innerHTML += `<br><br>⚠️ 通信エラー: ${error.message}`;
+                document.getElementById('status').innerText = 'エラー。設定を確認してください。';
+                conversationHistory.pop();
+            }
+        }
+
+        // チャット履歴を画面に描画
+        function renderChat(userText, aiText) {
+            const area = document.getElementById('response-text');
+
+            if (userText) {
+                // ユーザー発言を追加
+                area.innerHTML += `
+                    <div style="margin-bottom: 12px;">
+                        <span style="opacity:0.6; font-size:12px;">🙋 あなた</span><br>
+                        <span>${userText}</span>
+                    </div>`;
+            }
+
+            if (aiText) {
+                // AIの回答を追加（マークダウン簡易変換）
+                const formatted = aiText
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\n/g, '<br>');
+                area.innerHTML += `
+                    <div style="background: rgba(74,144,226,0.15); border-left: 3px solid #4a90e2; padding: 10px 14px; border-radius: 0 10px 10px 0; margin-bottom: 16px;">
+                        <span style="opacity:0.6; font-size:12px;">🤖 AIコンシェルジュ</span><br>
+                        <span>${formatted}</span>
+                    </div>`;
+            } else if (userText) {
+                // 「考え中」表示
+                area.innerHTML += `
+                    <div id="thinking" style="opacity:0.5; font-size:14px; margin-bottom:12px;">考え中...</div>`;
+            }
+
+            // 「考え中」を削除
+            if (aiText) {
+                const t = document.getElementById('thinking');
+                if (t) t.remove();
+            }
+
+            // 最新部分にスクロール
+            area.scrollTop = area.scrollHeight;
+        }
+
+
+
+        // ======== Gemini TTS 音声合成 ========
+        let currentAudioSource = null;
+        let audioContext = null;
+
+        // 漢字読み辞書（ホテル・観光・接客用語を網羅）
+        const kanjiDict = [
+            // 那須エリア地名
+            ['那須塩原市',   'なすしおばらし'],
+            ['那須塩原',     'なすしおばら'],
+            ['那須高原',     'なすこうげん'],
+            ['那須岳',       'なすだけ'],
+            ['茶臼岳',       'ちゃうすだけ'],
+            ['那須与一',     'なすのよいち'],
+            ['黒羽城',       'くろばねじょう'],
+            ['雲巌寺',       'うんがんじ'],
+            ['殺生石',       'せっしょうせき'],
+            ['箒川',         'ほうきがわ'],
+            ['竜化の滝',     'りゅうかのたき'],
+            ['源三窟',       'げんざんくつ'],
+            ['もみじ谷',     'もみじだに'],
+            // 温泉施設
+            ['大鷹の湯',     'おおたかのゆ'],
+            ['千本松温泉',   'せんぼんまつおんせん'],
+            ['千本松',       'せんぼんまつ'],
+            ['板室温泉',     'いたむろおんせん'],
+            ['板室',         'いたむろ'],
+            ['鹿の湯',       'しかのゆ'],
+            ['大丸温泉',     'だいまるおんせん'],
+            ['塩原温泉',     'しおばらおんせん'],
+            ['塩原渓谷',     'しおばらけいこく'],
+            ['那須',         'なす'],
+            ['塩原',         'しおばら'],
+            // 温泉用語
+            ['源泉かけ流し', 'げんせんかけながし'],
+            ['源泉',         'げんせん'],
+            ['日帰り温泉',   'ひがえりおんせん'],
+            ['日帰り',       'ひがえり'],
+            ['露天風呂',     'ろてんぶろ'],
+            ['貸切風呂',     'かしきりふろ'],
+            ['大浴場',       'だいよくじょう'],
+            ['内湯',         'うちゆ'],
+            ['泉質',         'せんしつ'],
+            ['硫黄泉',       'いおうせん'],
+            ['単純泉',       'たんじゅんせん'],
+            ['炭酸泉',       'たんさんせん'],
+            ['美肌効果',     'びはだこうか'],
+            ['効能',         'こうのう'],
+            ['入浴料',       'にゅうよくりょう'],
+            ['入浴',         'にゅうよく'],
+            // ホテル設備
+            ['大浴場',       'だいよくじょう'],
+            ['客室',         'きゃくしつ'],
+            ['和室',         'わしつ'],
+            ['洋室',         'ようしつ'],
+            ['禁煙',         'きんえん'],
+            ['喫煙',         'きつえん'],
+            ['宴会場',       'えんかいじょう'],
+            ['製氷機',       'せいひょうき'],
+            ['電子レンジ',   'でんしれんじ'],
+            ['自動販売機',   'じどうはんばいき'],
+            ['空気清浄機',   'くうきせいじょうき'],
+            ['コインランドリー', 'こいんらんどりー'],
+            ['駐車場',       'ちゅうしゃじょう'],
+            ['送迎',         'そうげい'],
+            // 食事
+            ['朝食',         'ちょうしょく'],
+            ['昼食',         'ちゅうしょく'],
+            ['夕食',         'ゆうしょく'],
+            ['会席料理',     'かいせきりょうり'],
+            ['バイキング',   'ばいきんぐ'],
+            // 観光
+            ['牧場',         'ぼくじょう'],
+            ['登山',         'とざん'],
+            ['渓谷',         'けいこく'],
+            ['博物館',       'はくぶつかん'],
+            ['美術館',       'びじゅつかん'],
+            ['遊園地',       'ゆうえんち'],
+            ['体験',         'たいけん'],
+            ['国立公園',     'こくりつこうえん'],
+            ['BBQ',          'ばーべきゅー'],
+            // 接客・フロント用語
+            ['お申し付けください', 'おもうしつけください'],
+            ['申し付け',     'もうしつけ'],
+            ['お声がけ',     'おこえがけ'],
+            ['ご滞在',       'ごたいざい'],
+            ['ご宿泊',       'ごしゅくはく'],
+            ['ご利用',       'ごりよう'],
+            ['ご案内',       'ごあんない'],
+            ['ご不明',       'ごふめい'],
+            ['ご要望',       'ごようぼう'],
+            ['ご予約',       'ごよやく'],
+            ['素泊まり',     'すどまり'],
+            ['宿泊',         'しゅくはく'],
+            ['延泊',         'えんぱく'],
+            ['精算',         'せいさん'],
+            ['領収書',       'りょうしゅうしょ'],
+            ['フロント',     'ふろんと'],
+            ['チェックイン', 'ちぇっくいん'],
+            ['チェックアウト','ちぇっくあうと'],
+            ['浴衣',         'ゆかた'],
+            ['羽毛布団',     'うもうふとん'],
+            ['金庫',         'きんこ'],
+            ['館内',         'かんない'],
+            ['施設',         'しせつ'],
+            ['設備',         'せつび'],
+            ['所要時間',     'しょようじかん'],
+            ['定休日',       'ていきゅうび'],
+            ['営業時間',     'えいぎょうじかん'],
+            ['五ツ星',       'いつつぼし'],
+            ['公式',         'こうしき'],
+        ];
+
+        function convertForSpeech(text) {
+            let result = text
+                .replace(/\*\*?(.*?)\*\*?/g, '$1')
+                .replace(/https?:\/\/\S+/g, '')
+                .replace(/[#\[\]]/g, '')
+                .replace(/【.*?】/g, '')
+                .trim();
+            for (const [k, y] of kanjiDict) result = result.replaceAll(k, y);
+            return result;
+        }
+
+        // Gemini または ブラウザ内蔵TTS で読み上げ
+        async function speak(text) {
+            stopSpeaking();
+            const cleanText = convertForSpeech(text);
+            
+            // 日本語・英語でそれぞれの音声キャラクターを使用する
+            const voiceName = currentLang === 'en' 
+                ? document.getElementById('tts-voice-en').value 
+                : document.getElementById('tts-voice-ja').value;
+
+            document.getElementById('status').innerText = langText[currentLang].voiceReady;
+
+            // VOICEVOX APIが選択されている場合 (日本語のみ)
+            if (voiceName.startsWith('voicevox_')) {
+                const speakerId = voiceName.replace('voicevox_', '');
+                try {
+                    const res = await fetch(`https://api.tts.quest/v3/voicevox/synthesis?text=${encodeURIComponent(cleanText)}&speaker=${speakerId}`);
+                    const data = await res.json();
+                    
+                    if (data.success && data.mp3StreamingUrl) {
+                        const audio = new Audio(data.mp3StreamingUrl);
+                        currentAudioSource = audio;
+                        
+                        audio.onplay = () => { document.getElementById('status').innerText = langText[currentLang].done; };
+                        audio.onended = () => { currentAudioSource = null; };
+                        audio.play();
+                        return;
+                    } else {
+                        console.warn('Voicevox API Failed:', data);
+                    }
+                } catch (err) {
+                    console.warn('Voicevox API Error, falling back to Browser TTS:', err);
+                }
+                
+                // 失敗した場合はBrowser TTSにフォールバック
+                const statusEl = document.getElementById('status');
+                statusEl.innerText = '⚠️ サーバー混雑のため標準音声で代用中';
+                statusEl.style.color = '#ff9800'; // オレンジ色で目立たせる
+                statusEl.style.fontWeight = 'bold';
+                
+                const uttr = new SpeechSynthesisUtterance(cleanText);
+                uttr.lang = 'ja-JP';
+                uttr.onend = () => { 
+                    statusEl.innerText = langText[currentLang].done; 
+                    statusEl.style.color = ''; // 色を元に戻す
+                    statusEl.style.fontWeight = 'normal';
+                };
+                window.speechSynthesis.speak(uttr);
+                return;
+            }
+
+            // Gemini TTS APIが選択されている場合
+            if (voiceName.startsWith('browser_')) {
+                const realVoiceName = voiceName.replace('browser_', '');
+                const uttr = new SpeechSynthesisUtterance(cleanText);
+                uttr.lang = currentLang === 'en' ? 'en-US' : 'ja-JP';
+                uttr.rate = 1.0;
+
+                if (realVoiceName !== 'default') {
+                    const targetVoice = browserVoicesList.find(v => v.name === realVoiceName);
+                    if (targetVoice) uttr.voice = targetVoice;
+                } else {
+                    // 自動選択: なるべく高品質な日本語ネイティブ音声を探す
+                    // EdgeのNatural音声を最優先、次にKyoko(Mac)
+                    const bestVoice = browserVoicesList.find(v => 
+                        v.lang.startsWith('ja') && 
+                        (v.name.includes('Natural') || v.name.includes('Nanami') || v.name.includes('Kyoko'))
+                    );
+                    const defaultJaVoice = browserVoicesList.find(v => v.lang.startsWith('ja'));
+                    
+                    if (bestVoice) {
+                        uttr.voice = bestVoice;
+                    } else if (defaultJaVoice) {
+                        uttr.voice = defaultJaVoice;
+                    }
+                }
+                
+                uttr.onend = () => { document.getElementById('status').innerText = langText[currentLang].done; };
+                
+                window.speechSynthesis.speak(uttr);
+                return;
+            }
+
+            // Gemini TTS APIが選択されている場合
+            try {
+
+                const res = await fetch(
+                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${API_KEY}`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: cleanText }] }],
+                            generationConfig: {
+                                responseModalities: ['AUDIO'],
+                                speechConfig: {
+                                    voiceConfig: {
+                                        prebuiltVoiceConfig: {
+                                            voiceName: voiceName
+                                        }
+                                    }
+                                }
+                            }
+                        })
+                    }
+                );
+
+                const data = await res.json();
+                if (data.error) throw new Error(data.error.message);
+
+                const b64 = data.candidates[0].content.parts[0].inlineData.data;
+                await playPcmAudio(b64);
+
+            } catch (err) {
+                console.warn('Gemini TTS失敗（制限等）、ブラウザTTSにフォールバックします:', err.message);
+                
+                const statusEl = document.getElementById('status');
+                statusEl.innerText = '⚠️ API制限のため標準音声で代用中';
+                statusEl.style.color = '#ff9800'; // オレンジ色で目立たせる
+                statusEl.style.fontWeight = 'bold';
+                
+                const uttr = new SpeechSynthesisUtterance(cleanText);
+                uttr.lang = currentLang === 'en' ? 'en-US' : 'ja-JP';
+                uttr.rate = 1.0;
+                uttr.onend = () => { 
+                    statusEl.innerText = langText[currentLang].done; 
+                    statusEl.style.color = '';
+                    statusEl.style.fontWeight = 'normal';
+                };
+                window.speechSynthesis.speak(uttr);
+            }
+        }
+
+        // PCM音声データをWeb Audio APIで再生
+        async function playPcmAudio(base64Data) {
+            const raw = atob(base64Data);
+            const bytes = new Uint8Array(raw.length);
+            for (let i = 0; i < raw.length; i++) bytes[i] = raw.charCodeAt(i);
+
+            if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioContext.state === 'suspended') await audioContext.resume();
+
+            // Gemini TTSは16bit PCM, 24kHz, モノラルで出力
+            const sampleRate = 24000;
+            const numSamples = bytes.length / 2;
+            const audioBuffer = audioContext.createBuffer(1, numSamples, sampleRate);
+            const channelData = audioBuffer.getChannelData(0);
+            const view = new DataView(bytes.buffer);
+            for (let i = 0; i < numSamples; i++) {
+                channelData[i] = view.getInt16(i * 2, true) / 32768.0;
+            }
+
+            if (currentAudioSource) { currentAudioSource.stop(); currentAudioSource = null; }
+
+            const source = audioContext.createBufferSource();
+            source.buffer = audioBuffer;
+            source.connect(audioContext.destination);
+            source.start();
+            currentAudioSource = source;
+
+            source.onended = () => {
+                currentAudioSource = null;
+                document.getElementById('status').innerText = langText[currentLang].done;
+            };
+        }
+
+        // 試聴き
+        function testGeminiTTS() {
+            speak(langText[currentLang].testSpeech);
+        }
+
+        function stopSpeaking() {
+            if (currentAudioSource) {
+                try { 
+                    if (currentAudioSource.stop) currentAudioSource.stop(); // Web Audio API
+                    if (currentAudioSource.pause) { currentAudioSource.pause(); currentAudioSource.currentTime = 0; } // HTML Audio element
+                } catch(e) {}
+                currentAudioSource = null;
+            }
+            // ブラウザTTS停止
+            window.speechSynthesis.cancel();
+            document.getElementById('status').innerText = langText[currentLang].stopped;
+        }
+    </script>
+</body>
+</html>
